@@ -132,7 +132,9 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
   <summary><h3>Struct và Union</h3></summary>
 
 - Về mặt ý nghĩa, struct và union cơ bản giống nhau. Tuy nhiên, về mặt lưu trữ trong bộ nhớ, chúng có sự khác biệt rõ rệt như sau:
+
 	**struct:** Dữ liệu của các thành viên của struct được lưu trữ ở những vùng nhớ khác nhau. Do đó kích thước của 1 struct tối thiểu bằng kích thước các thành viên cộng lại tại vì còn phụ thuộc vào bộ nhớ đệm (struct padding).
+
 	**Struct padding :** Chèn thêm các vùng nhớ trống giữa các member để đảm bảo việc dữ liệu trong struct được natually aligned(các thao tác đọc ghi trong bộ nhớ nhanh hơn )
 	> Ví dụ:
 	![Struct_Padding](./Struct_Padding.PNG)
@@ -140,8 +142,10 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 	- Như vậy đối với struct B kích thước của nó sẽ là 16 bytes, trong đó có 14 bytes được sử dụng và 2 bytes bị padding. Chúng ta thấy rằng việc sắp xếp thứ tự các phần tử của struct có thể giúp cho việc xử dụng tài nguyên RAM trở lên hiệu quả hơn, tránh bị tốn quá nhiều bytes cho quá trình padding.
 	**Sử dụng Struct khi bạn muốn lưu trữ nhiều thông tin có liên quan với nhau:**
 		- Ví dụ: Một hồ sơ người dùng có tên, tuổi, địa chỉ, v.v.
+
 	**Khi bạn muốn lưu trữ dữ liệu với các loại dữ liệu khác nhau:**
-		- Ví dụ: Một khối dữ liệu đại diện cho một ngày gồm ngày,   tháng, năm là các kiểu dữ liệu khác nhau.
+		- Ví dụ: Một khối dữ liệu đại diện cho một ngày gồm ngày,  tháng, năm là các kiểu dữ liệu khác nhau.
+		
 	**Khi bạn muốn có một cấu trúc dữ liệu linh hoạt, mà mỗi thành phần có thể được truy cập một cách dễ dàng:**
 		- Ví dụ: Các thành phần của một hình học như điểm, đường, v.v.
 
