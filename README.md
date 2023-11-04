@@ -140,23 +140,27 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 	![Struct_Padding](./Struct_Padding.PNG)
 	![Struct_Padding](./Struct_Padding(2).PNG)
 	- Như vậy đối với struct B kích thước của nó sẽ là 16 bytes, trong đó có 14 bytes được sử dụng và 2 bytes bị padding. Chúng ta thấy rằng việc sắp xếp thứ tự các phần tử của struct có thể giúp cho việc xử dụng tài nguyên RAM trở lên hiệu quả hơn, tránh bị tốn quá nhiều bytes cho quá trình padding.
+
 	**Sử dụng Struct khi bạn muốn lưu trữ nhiều thông tin có liên quan với nhau:**
-		- Ví dụ: Một hồ sơ người dùng có tên, tuổi, địa chỉ, v.v.
+
+	- Ví dụ: Một hồ sơ người dùng có tên, tuổi, địa chỉ, v.v.
 
 	**Khi bạn muốn lưu trữ dữ liệu với các loại dữ liệu khác nhau:**
-		- Ví dụ: Một khối dữ liệu đại diện cho một ngày gồm ngày,  tháng, năm là các kiểu dữ liệu khác nhau.
-		
+	- Ví dụ: Một khối dữ liệu đại diện cho một ngày gồm ngày,  tháng, năm là các kiểu dữ liệu khác nhau.
+
 	**Khi bạn muốn có một cấu trúc dữ liệu linh hoạt, mà mỗi thành phần có thể được truy cập một cách dễ dàng:**
-		- Ví dụ: Các thành phần của một hình học như điểm, đường, v.v.
+	- Ví dụ: Các thành phần của một hình học như điểm, đường, v.v.
 
 	**Union :** Dữ liệu các thành viên sẽ dùng chung 1 vùng nhớ. Kích thước của union được tính là kích thước lớn nhất của kiểu dữ liệu trong union. Việc thay đổi nội dung của 1 thành viên sẽ dẫn đến thay đổi nội dung của các thành viên khác.
 
 	**Sử dụng Union khi bạn muốn tiết kiệm bộ nhớ và chỉ lưu trữ một giá trị tại một thời điểm:**
 
 	- Ví dụ:Union lưu trữ các thành viên trong cùng một vị trí bộ nhớ. Khi bạn gán một thành viên, các giá trị của các thành viên khác sẽ thay đổi.
+
 	**Khi bạn chỉ cần một phần nào đó của dữ liệu mà không cần toàn bộ:**
 
 	- Ví dụ: Một biến có thể đóng vai trò là số nguyên hoặc số thực, nhưng không phải cả hai cùng một lúc.
+
 	**Khi không cần truy cập đồng thời đến tất cả các thành viên:**
 
 	- Liên hợp cho phép bạn chỉ truy cập thành viên mà bạn cần tại một thời điểm.
