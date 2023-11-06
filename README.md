@@ -166,3 +166,146 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 	- Liên hợp cho phép bạn chỉ truy cập thành viên mà bạn cần tại một thời điểm.
 
 </details>
+ <summary><h3>Macro, Inline, Function</h3></summary>
+
+ **Macro là gì?**
+
+ - Marco là 1 tên bất kì (do lập trình viên đặt tên) trỏ tới 1 khối lệnh thực hiện một chức năng nào đó.
+
+ - Được xử lý bởi preprocessor
+
+ - Định nghĩa macro bằng lệnh #define
+
+ - VD: Preprocessor khi gặp bất kỳ lời gọi SUM(first+last) nào thì thay ngay bằng
+
+ 	```C
+    #define SUM(a,b)     (a+b)
+    ```
+
+
+
+ **Inline** Được xử lý bởi compiler
+
+  - Được khai báo với từ khóa inline
+  - Khi compiler thấy bất kỳ chỗ nào xuất hiện inline function, nó sẽ thay thế chỗ đó bởi định nghĩa của hàm đã được compile tương ứng. –> Phần được thay thế không phải code mà là đoạn code đã được compile
+
+  **Hàm là gì?** 
+  - Function là 1 khối lệnh thực hiện một chức năng nào đó.
+
+  ### So sánh Macro, Inline, Function:
+- Macro đơn giản là chỉ thay thế đoạn code macro vào chỗ được gọi trước khi được biên dịch
+- Inline thay thế đoạn mã code đã được biên dịch vào chỗ được gọi
+- Giả sử macro được gọi 20 lần trong chương trình, 20 dòng code sẽ được chèn vào chương trình trong quá trình tiền xử lí. Điều này làm cho kích thước của chương trình (.EXE, .DLL, .LIB,…) phình to ra.>> tốn kich thước nhưng time xử lý ngắn hơn
+- Hàm inline cũng khiến code dài hơn, tuy nhiên nó làm giảm thời gian chạy chương trình
+- Giả sử 1 hàm được gọi 20 lần, sẽ chỉ có 1 bản copy của hàm trong chương trình. Kích thước chương trình nhỏ hơn sử dụng macro, nhưng tốn time hơn (- Hàm bình thường phải mất time dịch từ vùng nhớ hàm được lưu trữ sang vùng nhớ goi hàm.)
+
+</details>
+ <summary><h3>Con trỏ(pointer)</h3></summary>
+
+	- Trong ngôn ngữ C/C++, con trỏ (pointer) là những biến lưu trữ địa chỉ bộ nhớ của những biến khác.
+	- Kích thước của các biến con trỏ có khác nhau không? Con trỏ chỉ lưu địa chỉ nên kích thước của mọi con trỏ là như nhau. Kích thước này phụ thuộc vào môi trường hệ thống máy tính:
+		- `Môi trường Windows 32 bit: 4 bytes`
+        - `Môi trường Windows 64 bit: 8 bytes`
+### Các loại con trỏ:
+- ***Con trỏ NULL:*** Con trỏ NULL là con trỏ lưu địa chỉ 0x00000000. Tức địa chỉ bộ nhớ 0, có ý nghĩa đặc biệt, cho biết con trỏ không trỏ vào đâu cả.
+	```c
+	int *p2; //con trỏ chưa khởi tạo, vẫn trỏ đến một vùng nhớ nào đó không xác định
+	int *p3 = NULL; //con trỏ null không trỏ đến vùng nhớ nào
+	int *p4 = null; // Lỗi "null" phải viết in hoa
+	```
+- ***Con trỏ đến con trỏ(pointer to pointer):*** Con trỏ này dùng để lưu địa chỉ của con trỏ khác.
+	```c
+	int x = 10;
+    int *p1 = &x;     // Con trỏ p1 trỏ đến biến x và giá trị của p1 chỉnh là địa chỉ của biến x
+    int **p2 = &p1;	 // Con trỏ p2 trỏ đến con trỏ p1 và lưu địa chỉ của con trỏ p1 vào p2  
+
+    printf("Giá trị của x: %d\n", *p1); //Giá trị của x: 10
+    printf("Địa chỉ của x: %p\n", p1); //Địa chỉ của x: 0x7ffee2a697a8 
+    printf("Giá trị của x: %d\n", **p2); //Giá trị của x: 10
+    printf("Địa chỉ của p1: %p\n", p2); //Địa chỉ của p1: 0x7ffee2a697a0
+	```
+- ***Con trỏ hằng (Constant Pointers):*** Không thể thay đổi giá trị mà nó trỏ tới, nhưng có thể thay đổi địa chỉ mà nó trỏ tới.
+	```c
+	int num = 10; 
+	const int *ptr = &num; //thay đổi được địa chỉ của num nhưng không thay đổi được giá trị '10' của num
+	```
+- ***Con trỏ void (Void Pointers):*** Con trỏ void có thể trỏ tới bất kỳ kiểu dữ liệu nào, nhưng khi xuất ra giá trị thì phải ép kiểu.
+	```c
+	int num = 10;
+	float f = 3.14;
+	void *ptr;
+	ptr = &num;
+	printf("num = %d\n",(int*)ptr);
+	ptr = &f;
+	printf("f = %f\n",(float*)ptr);
+	```
+- ***Con trỏ hàm (Function Pointers):*** Dùng để lưu trữ và gọi các hàm thông qua con trỏ.
+	```c
+	int add(int a, int b) {
+		return a + b;
+	}
+	int subtract(int a, int b) {
+		return a - b;
+	}
+
+	int main() {
+	
+		int (*operation)(int, int) = add;
+		int result = operation(5, 3);
+		printf("Result: %d\n", result);
+
+		operation = subtract;
+		result = operation(5, 3);
+		printf("Result: %d\n", result);
+
+		return 0;
+	}
+
+	```
+- ***Con trỏ vào hàm (Pointers to Functions):*** Lưu trữ địa chỉ của một hàm cụ thể để gọi hàm thông qua con trỏ.
+	```c
+	int add(int a, int b) {
+		return a + b;
+	}
+	int subtract(int a, int b) {
+		return a - b;
+	}
+
+	void performOperation(int a, int b, int (*operation)(int, int)) {
+		int result = operation(a, b);
+		printf("Result: %d\n", result);
+	}
+
+	int main() {
+		int a = 5, b = 3;
+
+		performOperation(a, b, add);
+		performOperation(a, b, subtract);
+
+		return 0;
+	}
+
+	```
+- ***Con trỏ hàm parameter (Function Pointer Parameters):*** Truyền một hàm như một tham số cho một hàm khác.
+	```c
+	void greet() {
+		printf("Hello, World!\n");
+	}
+
+	void performAction(void (*action)()) {
+		action();
+	}
+
+	int main() {
+		performAction(greet);
+
+		return 0;
+	}
+
+	```
+### Lưu ý khi sử dụng con trỏ
+- Khi khởi tạo con trỏ NULL: Chữ NULL phải viết hoa, viết thường null sẽ bị lỗi.
+- Không nên sử dụng con trỏ khi chưa được khởi tạo: Kết quả tính toán có thể sẽ phát sinh những lỗi không lường trước được nếu chưa khởi tạo con trỏ.
+- Sử dụng biến con trỏ sai cách.
+
+</details>
