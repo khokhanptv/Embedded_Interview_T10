@@ -125,6 +125,7 @@ Quy trình biên dịch là quá trình chuyển đổi từ ngôn ngữ bậc c
 vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 - Biến static toàn cục: Biến toàn cục static sẽ chỉ có thể được truy cập và sử dụng trong File khai báo nó, các File khác không có cách nào truy cập được. 
 - Biến cục bộ: Biến cục bộ sẽ được lưu vào vùng nhớ stack, thu hồi khi kết thúc hàm cục bộ. 
+
 </details>
 
 
@@ -166,7 +167,10 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 	- Liên hợp cho phép bạn chỉ truy cập thành viên mà bạn cần tại một thời điểm.
 
 </details>
- <summary><h3>Macro, Inline, Function</h3></summary>
+
+
+<details>
+  <summary><h3>Macro, Inline, Function</h3></summary>
 
  **Macro là gì?**
 
@@ -182,11 +186,11 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
     #define SUM(a,b)     (a+b)
     ```
 
-
-
- **Inline** Được xử lý bởi compiler
+ **Inline ** 
+  - Được xử lý bởi compiler
 
   - Được khai báo với từ khóa inline
+
   - Khi compiler thấy bất kỳ chỗ nào xuất hiện inline function, nó sẽ thay thế chỗ đó bởi định nghĩa của hàm đã được compile tương ứng. –> Phần được thay thế không phải code mà là đoạn code đã được compile
 
   **Hàm là gì?** 
@@ -199,13 +203,19 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 - Hàm inline cũng khiến code dài hơn, tuy nhiên nó làm giảm thời gian chạy chương trình
 - Giả sử 1 hàm được gọi 20 lần, sẽ chỉ có 1 bản copy của hàm trong chương trình. Kích thước chương trình nhỏ hơn sử dụng macro, nhưng tốn time hơn (- Hàm bình thường phải mất time dịch từ vùng nhớ hàm được lưu trữ sang vùng nhớ goi hàm.)
 
-</details>
- <summary><h3>Con trỏ(pointer)</h3></summary>
 
-	- Trong ngôn ngữ C/C++, con trỏ (pointer) là những biến lưu trữ địa chỉ bộ nhớ của những biến khác.
-	- Kích thước của các biến con trỏ có khác nhau không? Con trỏ chỉ lưu địa chỉ nên kích thước của mọi con trỏ là như nhau. Kích thước này phụ thuộc vào môi trường hệ thống máy tính:
+</details>
+
+
+<details>
+  <summary><h3>Con trỏ(pointer)</h3></summary>
+
+
+- Trong ngôn ngữ C/C++, con trỏ (pointer) là những biến lưu trữ địa chỉ bộ nhớ của những biến khác.
+- Kích thước của các biến con trỏ có khác nhau không? Con trỏ chỉ lưu địa chỉ nên kích thước của mọi con trỏ là như nhau. Kích thước này phụ thuộc vào môi trường hệ thống máy tính:
 		- `Môi trường Windows 32 bit: 4 bytes`
         - `Môi trường Windows 64 bit: 8 bytes`
+
 ### Các loại con trỏ:
 - ***Con trỏ NULL:*** Con trỏ NULL là con trỏ lưu địa chỉ 0x00000000. Tức địa chỉ bộ nhớ 0, có ý nghĩa đặc biệt, cho biết con trỏ không trỏ vào đâu cả.
 	```c
@@ -308,4 +318,19 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 - Không nên sử dụng con trỏ khi chưa được khởi tạo: Kết quả tính toán có thể sẽ phát sinh những lỗi không lường trước được nếu chưa khởi tạo con trỏ.
 - Sử dụng biến con trỏ sai cách.
 
+### Tác dụng của con trỏ
+
+- Chúng ta có thể sử dụng con trỏ để thay đổi giá trị vùng con trỏ trỏ đến.
+- Giả sử mình khởi tạo 1 biến số c.
+```c
+int c = 22; // khởi tạo giá trị ban đầu của c = 22
+```
+- Vậy chúng ta có bao nhiêu cách để thay đổi giá trị biến c.
+- Cách 1: thay đổi trực tiếp
+`c = 11;`
+- Cách 2: thay đổi gián tiếp qua 1 con trỏ
+```c
+int *pc = &c;    // trỏ con trỏ pc tới vùng nhớ của biến c
+*pc = 11;        // *pc tương đương với giá trị của biến c 
+```
 </details>
