@@ -10,11 +10,10 @@
   <summary><h3> IDE,Text Editor,Compiler</h3></summary>
   
   - **_IDE (Integrated Development Environment)_**
-   Là môi trường tích hợp dùng để viết code để phát triển ứng dụng. Ngoài ra IDE tích hợp sẵn các tool hỗ trợ khác như trình biên dịch (Compiler), trình thông dịch (Interpreter), kiểm tra lỗi (Debugger), định dạng hoặc highlight code, tổ chức thư mục code, tìm kiếm code…
+   Là môi trường để viết code. Ngoài ra IDE tích hợp sẵn các tool hỗ trợ khác như trình biên dịch (Compiler), trình thông dịch (Interpreter), kiểm tra lỗi (Debugger), highlight code,tìm kiếm code…
 
 **_Text Editor_**
- 	là một trình soạn thảo, không tích hợp sẵn trình biên dịch hoặc trình thông dịch bên trong nó, nghĩa là muốn chạy được ứng dụng, bạn phải dùng riêng compiler bên ngoài. Những Text Editor này thường dùng cho phát triển ứng dụng web, tiêu biểu như Sublime text, Atom, Bracket, Notepad++, VScode…v.v.
-
+ 	là một trình soạn thảo, không tích hợp sẵn trình biên dịch hoặc trình thông dịch
 **_Compiler_** 
 	hay còn gọi là Trình biên dịch, là một chương trình có nhiệm vụ dịch các các code của một ngôn ngữ lập trình tương ứng thành một chương trình tương đương của ngôn ngữ cấp thấp hơn (thường là ngôn ngữ máy).
 
@@ -23,7 +22,150 @@
 
   ![kieu du lieu](./Kieu_Dulieu(1).PNG)
   ![kieu du lieu](./Kieu_Dulieu(2).PNG)
-  
+
+<details>
+  <summary><h3>Lệnh điều kiện trong C</h3></summary>
+
+  **_Câu lệnh If_**
+  - Đây là 1 câu lệnh điều kiện để kiểm tra 1 điều kiện nào có được thỏa mãn không. Nếu điều kiện được thỏa mãn thì sẽ thực thi đoạn code bên trong nó.
+  `if (điều kiện){
+    Khối lệnh sẽ được thực hiện nếu <điều kiện> đúng.
+}`
+ - Ví dụ:
+```C
+#include <stdio.h>
+int main(){
+   int a;
+   printf(“Nhap a = “); scanf(“%d”, &a);
+ 
+   if (a % 2 == 0) // a chia hết cho 2
+   {
+       printf(“%d la so chan”, a);
+   }
+   printf(“\nXong!”);
+} 
+```
+ - Câu lệnh If else
+ ```C
+ if (condition)
+ {
+   // statement1
+   // khối lệnh sẽ thực hiện nếu điều kiện đúng
+}else
+{
+   // statement2
+   // khối lệnh sẽ thực hiện nếu điều kiện sai
+}
+```
+- Ví dụ
+```C
+#include <stdio.h>
+ 
+int main(){
+   int a;
+   printf(“Nhap a = “); scanf(“%d”, &a);
+   if (a % 2 == 0) // a chia hết cho 2
+   {
+       printf(“%d la so chan”, a);
+   }else{
+       printf(« %d la so le », a) ;
+   }
+} 
+```
+
+ - Câu lệnh if … else if … else:
+
+```C
+	 if (test expression1) 
+	{
+	// statement(1)
+	}
+	else if(test expression2) 
+	{
+	// statement(2)
+	}
+	else if (test expression3) 
+	{
+	// statement(3)
+	}
+	…
+	else 
+	{
+	// statement(n)
+	}
+```
+
+**_switch case_**
+
+ - Lệnh switch case là một cấu trúc điều khiển & rẽ nhánh hoàn toàn có thể được thay thế bằng cấu trúc if else. Tuy nhiên, việc sử dụng switch case sẽ giúp code của chúng ta dễ viết và dễ đọc hơn. Một điều nữa là sử dụng switch case có vẻ như cho hiệu năng tốt hơn so với sử dụng if else trong trường hợp có nhiều điều kiện có thể xảy ra.
+```C
+switch (expression)// tham số đầu vào 
+​{
+   case constant1:// điều kiện
+     // statements(khối lệnh)
+     break;
+   case constant2:
+     // statements
+     break;
+   default:
+     // default statements
+}
+```
+ - expression phải bắt buộc là giá trị hằng, có thể là biểu thức nhưng kết quả cần là hằng số. Trong đó, expression sẽ được so sánh với các giá trị của các case.
+ - Nếu có 1 case nào đó khớp giá trị, các khối lệnh tương ứng sau case đó sẽ được thực hiện cho tới khi gặp lệnh break. Do đó, nếu chúng ta không sử dụng break thì tất cả các case kể từ case khớp giá trị đều được thực hiện.
+ - Case default sẽ được thực hiện nếu không có case nào khớp giá trị với expression. 
+ - Ví dụ:
+
+```C
+#include <stdio.h>
+
+   int main(void) {
+   int thang =1 ;
+   switch ( thang){
+   case 1:
+      printf("30 ngay\n");
+      break;
+   case 12:
+      printf("28 ngay\n");
+      break;
+    default:
+      printf("khong hop le\n");
+    }
+  return 0;
+  }
+	//Tổng bằng 8
+```
+ - Nếu không break ở cuối mỗi case thì chương trình sẽ chạy tiếp xuống các case ngay bên dưới dẫn đến chương trình có thể sai ý đồ.
+ - Nhưng cố ý không break,có thể hiển thị nhiều điện kiện với 1 nội dung
+
+```C
+	int main(void) {
+  	day = Mon; 
+    switch (day) {
+    case Mon:
+    case Tue:
+    case Wed:
+    case Thu:
+    case Fri:
+        printf("Ngày trong tuần\n");
+        break;
+    case Sat:
+    case Sun:
+        printf("Ngày lễ\n");
+        break;
+    default:
+       printf("Không tồn tại\n");
+  }
+  return 0;
+  }
+```
+**_if và switch :_**
+ - Lệnh switch case có hạn chế là biểu thức điều kiện phải là số nguyên. Đối với lệnh if else, biểu thức điều kiện là true hoặc false. Do vậy, một số trường hợp, bắt buộc phải sử dụng lệnh if else thay vì switch case.
+ - Switch sẽ so sánh các tính năng khác nhau,mã sạch sẽ hơn và dễ đọc.
+
+
+
+
 
 <details>
   <summary><h3>Các biến trong C</h3></summary>
@@ -347,7 +489,7 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 
 	```
 - ***Con trỏ vào hàm (Pointers to Functions):*** Lưu trữ địa chỉ của một hàm cụ thể để gọi hàm thông qua con trỏ.
-	```c
+	```C
 	int add(int a, int b) {
 		return a + b;
 	}
@@ -371,7 +513,7 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 
 	```
 - ***Con trỏ hàm parameter (Function Pointer Parameters):*** Truyền một hàm như một tham số cho một hàm khác.
-	```c
+	```C
 	void greet() {
 		printf("Hello, World!\n");
 	}
