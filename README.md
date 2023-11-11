@@ -6,6 +6,7 @@
   <summary><h3>C trong ngành nhúng và IoT có gì khác nhau ?</h3></summary>
   Các lập trình viên nghành IT đều viết các chương trình để chạy trên các thiết bị có cấu hình rất mạng ví dụ như máy tính, laptop, cloud… Trong khi đặc thù của nghành nhúng là lập trình cho những con chip, máy tính nhúng có bộ nhớ RAM, ROM và tài nguyên vô cùng hạn chế. Vì vậy phải tính toán và tiết kiệm từng phần tài nguyên nhỏ. Bất cứ một thao tác sử dụng quá nhiều tài nguyên cũng có thể gây ra các lỗi Hard Fault, Stack overflow…
 
+</details>
 <details>
   <summary><h3> IDE,Text Editor,Compiler</h3></summary>
   
@@ -16,6 +17,7 @@
  	là một trình soạn thảo, không tích hợp sẵn trình biên dịch hoặc trình thông dịch
 **_Compiler_** 
 	hay còn gọi là Trình biên dịch, là một chương trình có nhiệm vụ dịch các các code của một ngôn ngữ lập trình tương ứng thành một chương trình tương đương của ngôn ngữ cấp thấp hơn (thường là ngôn ngữ máy).
+</details>	
 
 <details>
   <summary><h3>Kiểu dữ liệu</h3></summary>
@@ -23,6 +25,7 @@
   ![kieu du lieu](./Kieu_Dulieu(1).PNG)
   ![kieu du lieu](./Kieu_Dulieu(2).PNG)
 
+</details>
 <details>
   <summary><h3>Lệnh điều kiện trong C</h3></summary>
 
@@ -76,7 +79,7 @@ int main(){
  - Câu lệnh if … else if … else:
 
 ```C
-	 if (test expression1) 
+	if (test expression1) 
 	{
 	// statement(1)
 	}
@@ -119,45 +122,45 @@ switch (expression)// tham số đầu vào
 ```C
 #include <stdio.h>
 
-   int main(void) {
-   int thang =1 ;
-   switch ( thang){
-   case 1:
-      printf("30 ngay\n");
-      break;
-   case 12:
-      printf("28 ngay\n");
-      break;
-    default:
-      printf("khong hop le\n");
-    }
-  return 0;
-  }
+int main(void) {
+int thang =1 ;
+switch ( thang){
+case 1:
+	printf("30 ngay\n");
+	break;
+case 12:
+	printf("28 ngay\n");
+	break;
+	default:
+	printf("khong hop le\n");
+	}
+return 0;
+}
 	//Tổng bằng 8
 ```
  - Nếu không break ở cuối mỗi case thì chương trình sẽ chạy tiếp xuống các case ngay bên dưới dẫn đến chương trình có thể sai ý đồ.
  - Nhưng cố ý không break,có thể hiển thị nhiều điện kiện với 1 nội dung
 
 ```C
-	int main(void) {
-  	day = Mon; 
-    switch (day) {
-    case Mon:
-    case Tue:
-    case Wed:
-    case Thu:
-    case Fri:
-        printf("Ngày trong tuần\n");
-        break;
-    case Sat:
-    case Sun:
-        printf("Ngày lễ\n");
-        break;
-    default:
-       printf("Không tồn tại\n");
-  }
-  return 0;
-  }
+int main(void) {
+day = Mon; 
+switch (day) {
+case Mon:
+case Tue:
+case Wed:
+case Thu:
+case Fri:
+	printf("Ngày trong tuần\n");
+	break;
+case Sat:
+case Sun:
+	printf("Ngày lễ\n");
+	break;
+default:
+	printf("Không tồn tại\n");
+}
+return 0;
+}
 ```
 **_if và switch :_**
  - Lệnh switch case có hạn chế là biểu thức điều kiện phải là số nguyên. Đối với lệnh if else, biểu thức điều kiện là true hoặc false. Do vậy, một số trường hợp, bắt buộc phải sử dụng lệnh if else thay vì switch case.
@@ -166,7 +169,7 @@ switch (expression)// tham số đầu vào
 
 
 
-
+</details>
 <details>
   <summary><h3>Các biến trong C</h3></summary>
 
