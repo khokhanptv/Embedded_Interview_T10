@@ -450,9 +450,10 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 		getch();
   }
   ```
-- Khác với VD1 , các giá trị dược gọi lần lượt , cứ mỗi lần kết thúc giá trị sẽ có 1 giá trị mới được ghi đè vào
+- Khác với VD1 ,các giá trị được gọi lần lượt , cứ mỗi lần kết thúc giá trị sẽ có 1 giá trị mới được ghi đè vào
+
 **Sử dụng Union khi bạn muốn tiết kiệm bộ nhớ và chỉ lưu trữ một giá trị tại một thời điểm:**
-- Ví dụ:Union lưu trữ các thành viên trong cùng một vị trí bộ nhớ. Khi bạn gán một thành viên, các giá trị của các thành viên khác sẽ thay đổi.
+- Khi bạn gán một thành viên, các giá trị của các thành viên khác sẽ thay đổi.
 
 </details>
 <details>
