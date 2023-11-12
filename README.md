@@ -150,14 +150,14 @@ case Tue:
 case Wed:
 case Thu:
 case Fri:
-	printf("Ngày trong tuần\n");
-	break;
+ 	printf("Ngày trong tuần\n");
+ break;
 case Sat:
 case Sun:
-	printf("Ngày lễ\n");
-	break;
+ 	printf("Ngày lễ\n");
+ break;
 default:
-	printf("Không tồn tại\n");
+ 	printf("Không tồn tại\n");
 }
 return 0;
 }
@@ -244,7 +244,7 @@ return 0;
 	} Person;
 	Person p1; 
 	```
-
+</details>
 <details>
   <summary><h3>Quá trình biên dịch</h3></summary>
 	
@@ -265,9 +265,6 @@ Quy trình biên dịch là quá trình chuyển đổi từ ngôn ngữ bậc c
 - Để chạy file code C trên `terminal` dùng lệnh `gcc -o filename filename.c` đẻ tạo ra tệp thực thi, sau đó dùng lệnh `./filename` để chạy tệp thực thi đó.
 
 </details>
-
-
-
 <details>
   <summary><h3>Phân vùng bộ nhớ trên RAM, cấp phát bộ nhớ động</h3></summary>
 	
@@ -346,8 +343,6 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 - Biến cục bộ: Biến cục bộ sẽ được lưu vào vùng nhớ stack, thu hồi khi kết thúc hàm cục bộ. 
 
 </details>
-
-
 <details>
   <summary><h3>Struct và Union</h3></summary>
 
@@ -386,8 +381,6 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 	- Liên hợp cho phép bạn chỉ truy cập thành viên mà bạn cần tại một thời điểm.
 
 </details>
-
-
 <details>
   <summary><h3>Macro, Inline, Function</h3></summary>
 
