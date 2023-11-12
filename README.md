@@ -346,39 +346,113 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 <details>
   <summary><h3>Struct và Union</h3></summary>
 
-- Về mặt ý nghĩa, struct và union cơ bản giống nhau. Tuy nhiên, về mặt lưu trữ trong bộ nhớ, chúng có sự khác biệt rõ rệt như sau:
+- Struct và Union là 2 cấu trúc dữ liệu do lập trình viên định nghĩa bao gồm các biến với kiểu dữ liệu khác nhau.Tuy nhiên, về mặt lưu trữ trong bộ nhớ, chúng có sự khác biệt rõ rệt như sau:
 
 	**struct:** Dữ liệu của các thành viên của struct được lưu trữ ở những vùng nhớ khác nhau. Do đó kích thước của 1 struct tối thiểu bằng kích thước các thành viên cộng lại tại vì còn phụ thuộc vào bộ nhớ đệm (struct padding).
+- Ví dụ:
+  ```C 
+  #include <stdio.h>
+  #include <conio.h>
+  struct date
+	{
+		int d;
+		int m;
+		long y;
+	};
+  void main()
+	{
+		date dat = {4, 4, 2016};
+		printf("\nSize of struct: %d", sizeof(date));//size 12
+	
+		printf("\ndate = %d", dat.d);//date=4
+		printf("\nmonth = %d", dat.m);//month =4
+		printf("\nyear = %d", dat.y);//year=2016
+	
+		getch();
+	
+	} 
+	```
 
-	**Struct padding :** Chèn thêm các vùng nhớ trống giữa các member để đảm bảo việc dữ liệu trong struct được natually aligned(các thao tác đọc ghi trong bộ nhớ nhanh hơn )
-	> Ví dụ:
-	![Struct_Padding](./Struct_Padding.PNG)
-	![Struct_Padding](./Struct_Padding(2).PNG)
-	- Như vậy đối với struct B kích thước của nó sẽ là 16 bytes, trong đó có 14 bytes được sử dụng và 2 bytes bị padding. Chúng ta thấy rằng việc sắp xếp thứ tự các phần tử của struct có thể giúp cho việc xử dụng tài nguyên RAM trở lên hiệu quả hơn, tránh bị tốn quá nhiều bytes cho quá trình padding.
+**Tại cùng 1 thời điểm run-time, có thể truy cập vào tất cả các thành phần của struct**
+
+**Struct padding :** Chèn thêm các vùng nhớ trống giữa các member để đảm bảo việc dữ liệu trong struct được natually aligned(các thao tác đọc ghi trong bộ nhớ nhanh hơn )
+> Ví dụ:
+![Struct_Padding](./Struct_Padding.PNG)
+![Struct_Padding](./Struct_Padding(2).PNG)
+- Như vậy đối với struct B kích thước của nó sẽ là 16 bytes, trong đó có 14 bytes được sử dụng và 2 bytes bị padding. Chúng ta thấy rằng việc sắp xếp thứ tự các phần tử của struct có thể giúp cho việc xử dụng tài nguyên RAM trở lên hiệu quả hơn, tránh bị tốn quá nhiều bytes cho quá trình padding.
 
 	**Sử dụng Struct khi bạn muốn lưu trữ nhiều thông tin có liên quan với nhau:**
 
 	- Ví dụ: Một hồ sơ người dùng có tên, tuổi, địa chỉ, v.v.
 
 	**Khi bạn muốn lưu trữ dữ liệu với các loại dữ liệu khác nhau:**
-	- Ví dụ: Một khối dữ liệu đại diện cho một ngày gồm ngày,  tháng, năm là các kiểu dữ liệu khác nhau.
+	- Ví dụ: Một khối dữ liệu đại diện cho một ngày gồm ngày, tháng, năm là các kiểu dữ liệu khác nhau.
 
 	**Khi bạn muốn có một cấu trúc dữ liệu linh hoạt, mà mỗi thành phần có thể được truy cập một cách dễ dàng:**
 	- Ví dụ: Các thành phần của một hình học như điểm, đường, v.v.
 
-	**Union :** Dữ liệu các thành viên sẽ dùng chung 1 vùng nhớ. Kích thước của union được tính là kích thước lớn nhất của kiểu dữ liệu trong union. Việc thay đổi nội dung của 1 thành viên sẽ dẫn đến thay đổi nội dung của các thành viên khác.
-
-	**Sử dụng Union khi bạn muốn tiết kiệm bộ nhớ và chỉ lưu trữ một giá trị tại một thời điểm:**
-
-	- Ví dụ:Union lưu trữ các thành viên trong cùng một vị trí bộ nhớ. Khi bạn gán một thành viên, các giá trị của các thành viên khác sẽ thay đổi.
-
-	**Khi bạn chỉ cần một phần nào đó của dữ liệu mà không cần toàn bộ:**
-
-	- Ví dụ: Một biến có thể đóng vai trò là số nguyên hoặc số thực, nhưng không phải cả hai cùng một lúc.
-
-	**Khi không cần truy cập đồng thời đến tất cả các thành viên:**
-
-	- Liên hợp cho phép bạn chỉ truy cập thành viên mà bạn cần tại một thời điểm.
+	**Union :** Dữ liệu các thành viên sẽ dùng chung 1 vùng nhớ. Kích thước của union được tính là size lớn nhất của kiểu dữ liệu trong union.
+	- ví dụ 1:
+	```C
+	#include <stdio.h>
+	#include <conio.h>
+ 
+	union date
+	{
+		int d;
+		int m;
+		int y;
+	};
+ 
+	void main()
+	{
+		date dat;
+	
+		printf("\nSize of union: %d", sizeof(date));//4
+		dat.d = 24;
+		dat.m = 9;
+		dat.y = 2014;
+	
+		printf("\ndate = %d", dat.d);//2014
+		printf("\nmonth = %d", dat.m);//2014
+		printf("\nyear = %d", dat.y);/2014
+	
+		getch();
+	}
+	```
+ - Vùng nhớ dành cho union date là 4 byte. Vùng nhớ này sẽ chứa giá trị 24 khi dat.d = 24 được thực hiện. Tiếp đó, 9 sẽ được copy đè vào vùng nhớ này khi dat.m = 9 được thực hiện. Cuối cùng, 2014 được copy đè vào vùng nhớ khi dat.y = 2014 được thực hiện.
+- ví dụ 2:
+  ```C
+  #include <stdio.h>
+  #include <conio.h>
+  union date
+  {
+    int d;
+    int m;
+    int y;
+  };
+ 
+  void main()
+  {
+		date dat;
+	
+		printf("\nSize of union: %d", sizeof(date));//4
+		
+		dat.d = 24;
+		printf("\ndate = %d", dat.d);//24
+	
+		dat.m = 9;
+		printf("\nmonth = %d", dat.m);//9
+	
+		dat.y = 2014;
+		printf("\nyear = %d", dat.y);//2014
+	
+		getch();
+  }
+  ```
+- Khác với VD1 , các giá trị dược gọi lần lượt , cứ mỗi lần kết thúc giá trị sẽ có 1 giá trị mới được ghi đè vào
+**Sử dụng Union khi bạn muốn tiết kiệm bộ nhớ và chỉ lưu trữ một giá trị tại một thời điểm:**
+- Ví dụ:Union lưu trữ các thành viên trong cùng một vị trí bộ nhớ. Khi bạn gán một thành viên, các giá trị của các thành viên khác sẽ thay đổi.
 
 </details>
 <details>
@@ -417,8 +491,6 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 
 
 </details>
-
-
 <details>
   <summary><h3>Con trỏ(pointer)</h3></summary>
 
