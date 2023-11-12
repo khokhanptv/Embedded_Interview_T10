@@ -346,9 +346,8 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 <details>
   <summary><h3>Struct và Union</h3></summary>
 
-- Struct và Union là 2 cấu trúc dữ liệu do lập trình viên định nghĩa bao gồm các biến với kiểu dữ liệu khác nhau.Tuy nhiên, về mặt lưu trữ trong bộ nhớ, chúng có sự khác biệt rõ rệt như sau:
-
-	**struct:** Dữ liệu của các thành viên của struct được lưu trữ ở những vùng nhớ khác nhau. Do đó kích thước của 1 struct tối thiểu bằng kích thước các thành viên cộng lại tại vì còn phụ thuộc vào bộ nhớ đệm (struct padding).
+**Struct và Union là 2 cấu trúc dữ liệu do lập trình viên định nghĩa bao gồm các biến với kiểu dữ liệu khác nhau.Tuy nhiên, về mặt lưu trữ trong bộ nhớ, chúng có sự khác biệt rõ rệt như sau:**
+**struct:** Dữ liệu của các thành viên của struct được lưu trữ ở những vùng nhớ khác nhau. Do đó kích thước của 1 struct tối thiểu bằng kích thước các thành viên cộng lại tại vì còn phụ thuộc vào bộ nhớ đệm (struct padding).
 - Ví dụ:
   ```C 
   #include <stdio.h>
@@ -374,7 +373,6 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 	```
 
 **Tại cùng 1 thời điểm run-time, có thể truy cập vào tất cả các thành phần của struct**
-
 **Struct padding :** Chèn thêm các vùng nhớ trống giữa các member để đảm bảo việc dữ liệu trong struct được natually aligned(các thao tác đọc ghi trong bộ nhớ nhanh hơn )
 > Ví dụ:
 ![Struct_Padding](./Struct_Padding.PNG)
@@ -391,7 +389,8 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 	**Khi bạn muốn có một cấu trúc dữ liệu linh hoạt, mà mỗi thành phần có thể được truy cập một cách dễ dàng:**
 	- Ví dụ: Các thành phần của một hình học như điểm, đường, v.v.
 
-	**Union :** Dữ liệu các thành viên sẽ dùng chung 1 vùng nhớ. Kích thước của union được tính là size lớn nhất của kiểu dữ liệu trong union.
+	**Union : Dữ liệu các thành viên sẽ dùng chung 1 vùng nhớ. Kích thước của union được tính là size lớn nhất của kiểu dữ liệu trong union.**
+	 
 	- ví dụ 1:
 	```C
 	#include <stdio.h>
@@ -421,6 +420,7 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 	}
 	```
  - Vùng nhớ dành cho union date là 4 byte. Vùng nhớ này sẽ chứa giá trị 24 khi dat.d = 24 được thực hiện. Tiếp đó, 9 sẽ được copy đè vào vùng nhớ này khi dat.m = 9 được thực hiện. Cuối cùng, 2014 được copy đè vào vùng nhớ khi dat.y = 2014 được thực hiện.
+ **Tại cùng 1 thời điểm run-time, chỉ có thể truy cập 1 thành phần của union**
 - ví dụ 2:
   ```C
   #include <stdio.h>
