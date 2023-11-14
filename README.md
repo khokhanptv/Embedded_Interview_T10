@@ -156,7 +156,9 @@ return 0;
 ```
 **_if và switch :_**
  - Lệnh switch case có hạn chế là biểu thức điều kiện phải là số nguyên. Đối với lệnh if else, biểu thức điều kiện là true hoặc false. Do vậy, một số trường hợp, bắt buộc phải sử dụng lệnh if else thay vì switch case.
+ - Nên sử dụng if else trong bài toán ít trường hợp, các biểu thức điều kiện đơn giản
  - Switch sẽ so sánh các tính năng khác nhau,mã sạch sẽ hơn và dễ đọc.
+ - Nên sử dụng switch case trong bài toán mul-ti choice, biểu thức điều kiện tính toán phức tạp nhưng phải có giá trị nguyên.
 
 
 
