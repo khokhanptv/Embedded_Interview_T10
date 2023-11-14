@@ -449,38 +449,46 @@ vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 
 </details>
 <details>
-  <summary><h3>Macro, Inline, Function</h3></summary>
+  <summary><h3>Macro,Function</h3></summary>
 
  **Macro là gì?**
 
- - Marco là 1 tên bất kì (do lập trình viên đặt tên) trỏ tới 1 khối lệnh thực hiện một chức năng nào đó.
+ - Marco là 1 định nghĩa (do lập trình viên đặt tên) trỏ tới 1 khối lệnh thực hiện một chức năng nào đó.
 
- - Được xử lý bởi preprocessor
+ - Được xử lý bởi preprocessor(tiền xử lý)
 
  - Định nghĩa macro bằng lệnh #define
 
  - VD: Preprocessor khi gặp bất kỳ lời gọi SUM(first+last) nào thì thay ngay bằng
-
  	```C
     #define SUM(a,b)     (a+b)
+	int main(){
+		printf("tong a,b la %d\n",sum(1,2));
+		return 0;
+	}
     ```
 
- **Inline ** 
-  - Được xử lý bởi compiler
+**Hàm là gì?**
+ - Function là 1 khối lệnh thực hiện một chức năng nào đó.
+   ```C
+   int SUM(int a,int b) {//0xc1 >>0XC7
+		return a+b;
+   }
+	     
+   int main(){
+		//OX00>>0X04
+		printf("tong a,b la %d\n",sum(1,2));//OXO5  //stack pointer:0X05
+		printf("tong a,b la %d\n",sum(2,2));//0XO7  //program counter 0xc1
+		return 0;
+   }
+   ```
+    
 
-  - Được khai báo với từ khóa inline
-
-  - Khi compiler thấy bất kỳ chỗ nào xuất hiện inline function, nó sẽ thay thế chỗ đó bởi định nghĩa của hàm đã được compile tương ứng. –> Phần được thay thế không phải code mà là đoạn code đã được compile
-
-  **Hàm là gì?** 
-  - Function là 1 khối lệnh thực hiện một chức năng nào đó.
-
-  ### So sánh Macro, Inline, Function:
+### So sánh Macro, Function:
 - Macro đơn giản là chỉ thay thế đoạn code macro vào chỗ được gọi trước khi được biên dịch
-- Inline thay thế đoạn mã code đã được biên dịch vào chỗ được gọi
-- Giả sử macro được gọi 20 lần trong chương trình, 20 dòng code sẽ được chèn vào chương trình trong quá trình tiền xử lí. Điều này làm cho kích thước của chương trình (.EXE, .DLL, .LIB,…) phình to ra.>> tốn kich thước nhưng time xử lý ngắn hơn
-- Hàm inline cũng khiến code dài hơn, tuy nhiên nó làm giảm thời gian chạy chương trình
-- Giả sử 1 hàm được gọi 20 lần, sẽ chỉ có 1 bản copy của hàm trong chương trình. Kích thước chương trình nhỏ hơn sử dụng macro, nhưng tốn time hơn (- Hàm bình thường phải mất time dịch từ vùng nhớ hàm được lưu trữ sang vùng nhớ goi hàm.)
+- Giả sử 1 macro là 1 byte được gọi 20 lần >> 20 byte trong hàm main ,20 dòng code sẽ được chèn vào  trong quá trình tiền xử lí. Điều này làm cho kích thước của chương trình  to ra >> tốn kich thước nhưng time xử lý ngắn hơn
+
+- khi khởi tạo hàm ,RAM chỉ tốn 1 bộ nhớ cố định để lưu , Giả sử hàm được gọi 20 lần, cũng sẽ chỉ tốn 1 bộ nhớ như vậy. Nhưng khi gọi hàm sẽ mất thời gian để lưu địa chỉ vào stack pointer và program counter trỏ tới địa chỉ hàm khởi tạo để chạy
 
 
 </details>
