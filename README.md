@@ -3,18 +3,10 @@
 
 
 <details>
-  <summary><h3>C trong ngành nhúng và IoT có gì khác nhau ?</h3></summary>
-  Các lập trình viên nghành IT đều viết các chương trình để chạy trên các thiết bị có cấu hình rất mạng ví dụ như máy tính, laptop, cloud… Trong khi đặc thù của nghành nhúng là lập trình cho những con chip, máy tính nhúng có bộ nhớ RAM, ROM và tài nguyên vô cùng hạn chế. Vì vậy phải tính toán và tiết kiệm từng phần tài nguyên nhỏ. Bất cứ một thao tác sử dụng quá nhiều tài nguyên cũng có thể gây ra các lỗi Hard Fault, Stack overflow…
-
-</details>
-<details>
   <summary><h3> IDE,Text Editor,Compiler</h3></summary>
   
   - **_IDE (Integrated Development Environment)_**
    Là môi trường để viết code. Ngoài ra IDE tích hợp sẵn các tool hỗ trợ khác như trình biên dịch (Compiler), trình thông dịch (Interpreter), kiểm tra lỗi (Debugger), highlight code,tìm kiếm code…
-
-**_Text Editor_**
- 	là một trình soạn thảo, không tích hợp sẵn trình biên dịch hoặc trình thông dịch
 **_Compiler_** 
 	hay còn gọi là Trình biên dịch, là một chương trình có nhiệm vụ dịch các các code của một ngôn ngữ lập trình tương ứng thành một chương trình tương đương của ngôn ngữ cấp thấp hơn (thường là ngôn ngữ máy).
 </details>	
