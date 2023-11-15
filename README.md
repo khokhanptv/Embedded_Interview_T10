@@ -245,14 +245,15 @@ return 0;
 Quy trình biên dịch là quá trình chuyển đổi từ ngôn ngữ bậc cao (NNBC) (C/C++, Pascal, Java, C#…) sang ngôn ngữ đích (ngôn ngữ máy) để máy tính có thể hiểu và thực thi.
 ### Quá trình biên dịch bao gồm 4 giai đoạn:
 	
-- **_Pre-processor (Giai đoạn tiền xử lý):_** Nhận mã nguồn và xóa bỏ các dòng comments, xử lý các chỉ thị tiền xử lý có bắt đầu bằng kí hiệu `#`. Như `#include` , `#define` (thay thế bằng giá trị cụ thể tại mỗi nơi sử dụng trong chương trình).
+- **_Pre-processor (Giai đoạn tiền xử lý):_** Nhận mã nguồn và xóa bỏ các dòng comments, xử lý các chỉ thị tiền xử lý có bắt đầu bằng kí hiệu `#`. Như `#include` , `#define` .
 	- `#include` được sử dụng để chèn nội dung của một tệp (thường là một tệp tiêu đề), `ví dụ :header.h` vào trong mã nguồn.
 	-  Khi chương trình được biên dịch, nội dung của `header.h ` sẽ được chèn vào vị trí của `#include`.
+	-  Khi chương trình được biên dịch, các định nghĩa ` #define` sẽ thay bằng giá trị cụ thể  vào mã nguồn.Giống như việc bạn thay thế tất cả các thể hiện của PI bằng giá trị 3.14159 
 	-  Sau khi qua quá trình tiền xử lý thì file code lúc này sẽ có dạng `.i`.
 	-  Dùng lệnh `gcc -E filename.c -o filename.i` hoặc `gcc -E filename.c` để xem code sau khi qua quá trình preprocessor.
 - **_Compiler (Giai đoạn dịch NNBC sang ngôn ngữ Assembly):_** Kiểm tra các kiểu dữ liệu có lỗi hay không, phân tích cú pháp (syntax) của mã nguồn NNBC và tối ưu code.
 	-  Quá trình này sẽ biên dịch từ code `.i` sang ngôn ngữ assembly `.s`.
-	-  Dùng lệnh `gcc -S -o filename.s filename.c` để có thể xem code sau quá tình compiler.
+	-  Dùng lệnh `gcc -S -o filename.s filename.c` để có thể xem code sau 	quá tình compiler.
 - **_Assembler (Giai đoạn dịch ngôn ngữ Assembly sang ngôn ngữ máy):_** Biên dịch ngôn ngữ Assembly sang ngôn ngữ máy (0 và 1). Và tạo ra tệp tin Object `.o` or `.obj`.
 	-  Dùng lệnh `gcc -c filename.c -o filename.o` để tạo ra file ".o" và dùng lệnh `objdump -d -Mintel filename.o` để xem code.
 - **_Linker (Giải đoạn liên kết):_** Trong giai đoạn này mã máy của một chương trình `.o` dịch từ nhiều nguồn (file .c hoặc file thư viện .lib) được liên kết lại với nhau để tạo thành chương trình đích nhất. Mã máy của các hàm thư viện gọi trong chương trình cũng được đưa vào chương trình cuối trong giai đoạn này. Chính vì vậy mà các lỗi liên quan đến việc gọi hàm hay sử dụng biến tổng thể mà không tồn tại sẽ bị phát hiện. Kể cả lỗi viết chương trình chính không có hàm main() cũng được phát hiện trong liên kết.
@@ -333,9 +334,29 @@ Quy trình biên dịch là quá trình chuyển đổi từ ngôn ngữ bậc c
 	void free(void* ptr);
 	```
 	### Khác nhau của static cục bộ và static toàn cục:
-- Biến static cục bộ: Khi 1 biến cục bộ được khai báo với từ khóa static. Biến sẽ chỉ được khởi tạo 1 lần duy nhất và tồn tại suốt thời gian chạy chương trình. Giá trị của nó không bị mất đi ngay cả khi kết thúc hàm. Tuy nhiên khác với biến toàn cục có thể gọi trong tất cả mọi nơi trong chương trình, thì biến cục bộ static chỉ có thể được gọi trong nội bộ hàm khởi tạo ra nó. Mỗi lần hàm được gọi, giá trị của biến chính bằng giá trị tại lần gần nhất hàm được gọi.Biến static sẽ lưu vào
-vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
-- Biến static toàn cục: Biến toàn cục static sẽ chỉ có thể được truy cập và sử dụng trong File khai báo nó, các File khác không có cách nào truy cập được. 
+- Biến static cục bộ: Khi 1 biến cục bộ được khai báo với từ khóa 		static. Biến sẽ chỉ được khởi tạo 1 lần duy nhất và tồn tại suốt thời gian chạy chương trình. Giá trị của nó không bị mất đi ngay cả khi kết thúc hàm. Tuy nhiên khác với biến toàn cục có thể gọi trong tất cả mọi nơi trong chương trình, thì biến cục bộ static chỉ có thể được gọi trong nội bộ hàm khởi tạo ra nó. Mỗi lần hàm được gọi, giá trị của biến chính bằng giá trị tại lần gần nhất hàm được gọi.Biến static sẽ lưu vào vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
+
+- Ví dụ:
+  ```C
+ 	#include <stdio.h>
+	void printMessage() {
+    static int count = 0;
+    // Tăng giá trị biến mỗi lần hàm được gọi
+    count++;
+    printf("Count: %d\n", count);
+	}
+
+	int main() {
+    // Gọi hàm có sử dụng biến static
+    printMessage();//
+    printMessage();
+
+    return 0;
+	}// KQ:Count: 1,Count: 2
+
+  ```
+
+- Biến static toàn cục: Biến toàn cục static sẽ chỉ có thể được truy cập và sử dụng trong File khai báo nó, các File khác không có cách nào truy cập được.globalStaticVar được khai báo là static và nằm trong file "File1.c". Do đó, bạn không thể trực tiếp truy cập nó từ file "File2.c". Nếu bạn thử uncomment dòng extern int globalStaticVar; trong "File2.c", chương trình sẽ không biên dịch được và thông báo lỗi.
 - Biến cục bộ: Biến cục bộ sẽ được lưu vào vùng nhớ stack, thu hồi khi kết thúc hàm cục bộ. 
 
 </details>
