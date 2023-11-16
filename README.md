@@ -167,77 +167,85 @@ return 0;
 <details>
   <summary><h3>Các biến trong C</h3></summary>
 
-- Con trỏ (Pointer Variables): Lưu trữ địa chỉ của một biến hoặc vùng nhớ.
-	`int* ptr = NULL;`
-- Biến mảng (Array Variables): Lưu trữ nhiều giá trị trong một biến duy nhất.
-	`int numbers[] = {1, 2, 3, 4, 5};`
-- Biến kích thước (Size Variables): Lưu trữ giá trị kích thước của các đối tượng trong bộ nhớ.
-    ```size_t length = 10;```
-- Biến không đổi (Constant Variables): Lưu trữ giá trị không thay đổi trong suốt thời gian chương trình chạy.
+**Biến không đổi (Constant Variables):** 
+- Lưu trữ giá trị không thay đổi trong suốt thời gian chương trình chạy.Biến này sẽ lưu vào vùng nhớ TEXT
     ```const int MAX_VALUE = 100;```
-- Biến từ xa (Extern Variables):Khai báo một biến đã được định nghĩa trong một tệp tin khác.
-    ```extern int globalVar;```
-- Biến có phạm vi tĩnh (Static Scope Variables): Lưu trữ giá trị trong suốt vòng đời của biến và chỉ có thể truy cập trong phạm vi của một hàm hoặc tệp tin.
-    ```static int count = 0;```
-- Biến vô kiểu (Void Variables): Lưu trữ một địa chỉ bất kỳ và có thể chuyển đổi thành bất kỳ kiểu con trỏ nào.
-	`void* ptr;`
-- Biến trình tự (Sequence Variables): Chỉ định rằng một biến thường được truy cập nhanh chóng và thường xuyên.
+**Biến Extern:**
+- Từ khóa extern được sử dụng để khai báo một biến mà đã được định nghĩa bên ngoài chương trình hoặc tệp tin.
+- Biến extern không tạo ra bộ nhớ mới cho biến.Biến được tham chiếu phải được khai báo toàn cục. 
+- Lưu ý: khi sử dụng extern, không được khai báo giá trị ban đầu cho biến
+- File 1 ta khai báo
+```C
+int GlobalVariable = 0; // implicit definition 
+void SomeFunction(); // function prototype (declaration) 
+int main() 
+{ 
+  GlobalVariable = 1; 
+  SomeFunction(); 
+  return 0; 
+}
+```
+- File 2, chúng ta extern biến đó để sử dụng
+
+```C
+extern int GlobalVariable; // implicit definition 
+void SomeFunction(); // function prototype (declaration) 
+int main() 
+{ 
+  GlobalVariable = 1; 
+  SomeFunction(); 
+  return 0; 
+}; 
+```
+
+**Biến register:** Từ khóa register để báo cho chương trình biết một biến sẽ đc lưu trữ trong thanh ghi (register) của CPU để tối ưu hiệu suất.Mục đích để tính toán nhanh .
     `register int counter = 0;`
-- Biến quyền (Qualifier Variables): Đánh dấu biến có thể thay đổi mà không cần thông báo và không nên tối ưu hóa.
+- Giải thích :Nếu khai báo biến thông thường để tính toán không có từ khóa register , thực hiện một phép tính thì cần có 3 bước.
+	- Ví dụ: `int a = 6.Ví dụ :a có địa chỉ là 0X01,  a=a+4`
+	- B1:Lưu địa chỉ và giá trị của biến vào bộ nhớ RAM : `0X01=6;` 
+	- B2:Sau đó chuyển từ Ram qua thanh ghi(register)
+	- B3:Từ register chuyển qua ALU (Arithmetic Logic Unit) ,để tính toán.Sau khi tính toán xong thì lại chuyển ngược về register>> về RAM
+
+- Khi thêm từ khóa register để khai báo biến, biến sẽ được lưu vào register thay vào RAM >> tốc độ xử lý sẽ nhanh hơn
+- Hạn chế dùng register vì thanh ghi có giới hạn (32 bit là 4 byte , 64 bit là 8 byte ) >> chỉ lưu những biến quan trọng , cần tính toán nhanh
+
+**Biến volatile:** Đánh dấu biến có thể thay đổi mà không cần thông báo và không nên tối ưu hóa.
    	`volatile int status;`
-- Biến tĩnh (Static Variables): Lưu trữ giá trị trong suốt vòng đời của chương trình và giá trị được duy trì ngay cả khi hàm hoặc khối lệnh kết thúc.
-	```static int count = 0;```
-- Biến tĩnh cục bộ (Local Static Variables): Lưu trữ giá trị trong suốt vòng đời của biến, nhưng chỉ có thể truy cập trong phạm vi của một hàm.
-    ```C
-    void function() {
-        static int count = 0;
-        // ...
-    }
-    ```
-- Biến cấu trúc (Structure Variables): Lưu trữ các thành phần có liên quan vào một biến.
-    ```
+
+**Biến cấu trúc (Structure Variables):** Lưu trữ các thành phần có liên quan vào một biến.
+
+ ```C
     struct Person {
         char name[20];
         int age;
     };
-    struct Person p1;
-	```
-- Biến cấu trúc mở rộng (Extended Structure Variables): Lưu trữ các thành phần có liên quan vào một biến và mở rộng chức năng của cấu trúc.
-    ```C
-    struct Person {
-        char name[20];
-        int age;
-    } p1;
-    ```
-- Biến liên kết (Union Variables): Lưu trữ giá trị của một thành phần trong một thời điểm.
-    ```
-    union Data {
-        int x;
-        float y;
-    };
-    union Data data;
-    ```
-- Biến liệt kê (Enumeration Variables): Lưu trữ một trong các giá trị được xác định trước từ một tập hợp các giá trị có tên.
-    ```
-    enum Color {
+ ```
+**Biến liệt kê (Enum Variables):** Lưu trữ một trong các giá trị được xác định trước từ một tập hợp các giá trị có tên.
+ ```C
+	 enum Color {
         RED,
         GREEN,
         BLUE
     };
 	enum Color c = BLUE;
-- Biến kiểu định danh (Typedef Variables): Tạo ra một tên mới cho một kiểu dữ liệu đã tồn tại để sử dụng dễ dàng hơn.
-    ```C
+ ```
+
+**Biến kiểu định danh (Typedef Variables):** Tạo ra một tên mới cho một kiểu dữ liệu đã tồn tại để sử dụng dễ dàng hơn.
+```C
     typedef int Integer;
     Integer number = 42;
-	```
-- Biến kiểu dữ liệu do người dùng định nghĩa (User-defined Data Type Variables): Định nghĩa và sử dụng kiểu dữ liệu tùy chỉnh trong ngôn ngữ C.
-	```C
+```
+
+**Biến kiểu dữ liệu do người dùng định nghĩa (User-defined Data Type Variables):** Định nghĩa và sử dụng kiểu dữ liệu tùy chỉnh trong ngôn ngữ C.
+```C
 	typedef struct {
     	char name[20];
     	int age;
 	} Person;
 	Person p1; 
-	```
+```
+
+
 </details>
 <details>
   <summary><h3>Quá trình biên dịch</h3></summary>
@@ -511,10 +519,13 @@ Quy trình biên dịch là quá trình chuyển đổi từ ngôn ngữ bậc c
     
 
 ### So sánh Macro, Function:
-- Macro đơn giản là chỉ thay thế đoạn code macro vào chỗ được gọi trước khi được biên dịch
-- Giả sử 1 macro là 1 byte được gọi 20 lần >> 20 byte trong hàm main ,20 dòng code sẽ được chèn vào  trong quá trình tiền xử lí. Điều này làm cho kích thước của chương trình  to ra >> tốn kich thước nhưng time xử lý ngắn hơn
+**Giống nhau** : Cả hai được sử dụng để thực hiện một chức năng nào đó và có thể nhận tham số đầu vào
+**Khác nhau**:
+- Macro không cần quan tâm kiểu dữ liệu của tham số đầu vào
+- Function phải chỉ rõ kiểu dữ liệu của tham số đầu vào
+- Macro đơn giản là chỉ thay thế đoạn code macro vào chỗ được gọi trước khi được biên dịch .Giả sử 1 macro là 1 byte được gọi 20 lần >> 20 byte trong hàm main ,20 dòng code sẽ được chèn vào trong quá trình tiền xử lí. Điều này làm tốn kich thước nhưng time xử lý ngắn hơn( chỉ copy -paste vào chương trình) .
 
-- khi khởi tạo hàm ,RAM chỉ tốn 1 bộ nhớ cố định để lưu , Giả sử hàm được gọi 20 lần, cũng sẽ chỉ tốn 1 bộ nhớ như vậy. Nhưng khi gọi hàm sẽ mất thời gian để compiler lưu con trỏ chương trình PC hiện tại vào stack; chuyển PC tới hàm được gọi, thực hiện hàm đó xong và lấy kết quả trả về; sau đó quay lại vị trí ban đầu trong stack trước khi gọi hàm và tiếp tục thực hiện chương trình.
+- khi khởi tạo hàm ,RAM chỉ tốn 1 bộ nhớ cố định để lưu , Giả sử hàm được gọi 20 lần, cũng sẽ chỉ tốn 1 bộ nhớ như vậy. Nhưng khi gọi hàm sẽ mất thời gian để compiler lưu con trỏ chương trình PC hiện tại vào stack pointer; chuyển PC tới hàm được gọi, thực hiện hàm đó xong và lấy kết quả trả về; sau đó quay lại vị trí ban đầu trong stack pointer trước khi gọi hàm và tiếp tục thực hiện chương trình.
 
 
 
