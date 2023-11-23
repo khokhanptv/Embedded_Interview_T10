@@ -236,6 +236,7 @@ while ( điều kiện lặp đúng );
 **Biến không đổi (Constant Variables):** 
 - Lưu trữ giá trị không thay đổi trong suốt thời gian chương trình chạy.Biến này sẽ lưu vào vùng nhớ TEXT
     ```const int MAX_VALUE = 100;```
+	
 **Biến Extern:**
 - Từ khóa extern được sử dụng để khai báo một biến mà đã được định nghĩa bên ngoài chương trình hoặc tệp tin.
 - Biến extern không tạo ra bộ nhớ mới cho biến.Biến được tham chiếu phải được khai báo toàn cục. 
