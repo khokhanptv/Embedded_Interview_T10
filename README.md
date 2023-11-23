@@ -1,16 +1,6 @@
  <details>
   <summary><h2>▶ C programming language</h2></summary>
 
-
-<details>
-  <summary><h3> IDE,Text Editor,Compiler</h3></summary>
-  
-  - **_IDE (Integrated Development Environment)_**
-   Là môi trường để viết code. Ngoài ra IDE tích hợp sẵn các tool hỗ trợ khác như trình biên dịch (Compiler), trình thông dịch (Interpreter), kiểm tra lỗi (Debugger), highlight code,tìm kiếm code…
-**_Compiler_** 
-	hay còn gọi là Trình biên dịch, là một chương trình có nhiệm vụ dịch các các code của một ngôn ngữ lập trình tương ứng thành một chương trình tương đương của ngôn ngữ cấp thấp hơn (thường là ngôn ngữ máy).
-</details>	
-
 <details>
   <summary><h3>Kiểu dữ liệu</h3></summary>
 
@@ -155,17 +145,93 @@ return 0;
 }
 ```
 **_if và switch :_**
- - Lệnh switch case có hạn chế là biểu thức điều kiện phải là số nguyên. Đối với lệnh if else, biểu thức điều kiện là true hoặc false. Do vậy, một số trường hợp, bắt buộc phải sử dụng lệnh if else thay vì switch case.
+ - Lệnh switch case có hạn chế là biểu thức điều kiện phải là số nguyên. 
+ - Đối với lệnh if else, biểu thức điều kiện là true hoặc false. Do vậy, một số trường hợp, bắt buộc phải sử dụng lệnh if else thay vì switch case.
  - Nên sử dụng if else trong bài toán ít trường hợp, các biểu thức điều kiện đơn giản
  - Switch sẽ so sánh các tính năng khác nhau,mã sạch sẽ hơn và dễ đọc.
  - Nên sử dụng switch case trong bài toán mul-ti choice, biểu thức điều kiện tính toán phức tạp nhưng phải có giá trị nguyên.
 
+</details>
+<details>
+  <summary><h3>Vòng lặp</h3></summary>
 
+**Vòng lặp for:** 
+- Cú pháp:
+```C
+for ( giá trị ban đầu; điều kiện lặp; thuật toán   )
+{
+   // các lệnh cần lặp
+}
+```
+- Ví dụ:
+```C
+for (int i =0; i<100; i=i+2 )
+{
+   printf("test:%d\n",i);
+   if(i==50){
+	break;// i chạy tới 50 sẽ thoát ra khỏi vòng for
+   }
+}
+```
+```C
+for (int i =0; i<100; i=i+2 )
+{
+   
+   if(i==50){
+	continue;// khi i tới 50 , sẽ bỏ qua 50 , chạy tới giá trị i=52
+   }
+   printf("test:%d\n",i);
+}
+```
+- Vòng lặp for vô hạn:
+```C
+int i=0;
+for (;; )
+{
+   i++;
+   printf("test:%d\n",i);
+   if(i==50){
+	beak;// nếu không có break thì vòng lặp chạy vô hạn
+   }
+   
+}
+```
 
+**Vòng lặp while:**
+- Cú pháp:
+```C
+while ( điều kiện lặp đúng )
+{
+   // các lệnh cần lặp
+}
+```
+- Ví dụ:
+```C
+int i =0;
+while ( i <10 )
+{
+   printf("test:%d\n",i);
+   i++;   
+}
+```
+- While được sử dụng khi
+**Vòng lặp do-while:**
+- Cú pháp:
+```C
+do{
+	// các lệnh cần lặp
+}
+while ( điều kiện lặp đúng );
+ 
+```
+ 
+- do-while :Lệnh làm trước sau đó mới so sánh điều kiện 
+
+  
 
 </details>
 <details>
-  <summary><h3>Các biến trong C</h3></summary>
+  <summary><h3>Kiểu dữ liệu</h3></summary>
 
 **Biến không đổi (Constant Variables):** 
 - Lưu trữ giá trị không thay đổi trong suốt thời gian chương trình chạy.Biến này sẽ lưu vào vùng nhớ TEXT
@@ -212,37 +278,104 @@ int main()
 **Biến volatile:** Đánh dấu biến có thể thay đổi mà không cần thông báo và không nên tối ưu hóa.
    	`volatile int status;`
 
-**Biến cấu trúc (Structure Variables):** Lưu trữ các thành phần có liên quan vào một biến.
-
- ```C
-    struct Person {
-        char name[20];
-        int age;
-    };
- ```
-**Biến liệt kê (Enum Variables):** Lưu trữ một trong các giá trị được xác định trước từ một tập hợp các giá trị có tên.
- ```C
-	 enum Color {
-        RED,
-        GREEN,
-        BLUE
-    };
-	enum Color c = BLUE;
- ```
-
 **Biến kiểu định danh (Typedef Variables):** Tạo ra một tên mới cho một kiểu dữ liệu đã tồn tại để sử dụng dễ dàng hơn.
 ```C
     typedef int Integer;
     Integer number = 42;
 ```
 
-**Biến kiểu dữ liệu do người dùng định nghĩa (User-defined Data Type Variables):** Định nghĩa và sử dụng kiểu dữ liệu tùy chỉnh trong ngôn ngữ C.
+
+
+**Biến liệt kê (Enum Variables):** Lưu trữ một trong các giá trị được xác định trước từ một tập hợp các giá trị có tên.
+- Cú pháp:
+```C
+	enum Color {
+        RED,//NẾU KHÔNG GÁN GÌ THÌ, MEMBER KẾ TIẾP SẼ TĂNG 1 ĐƠN VỊ, BẮT ĐẦU =0
+        GREEN,
+        BLUE
+    };
+	 
+	int main(){
+		printf("%d",RED); // ,IN RA LÀ 0,1,2
+		printf("%d",GREEN);
+		printf("%d",BLUE);
+		return 0;
+	}
+
+```
+- Dùng typedef định nghĩa lại enum:
+- Cú pháp:
+```C
+	typedef enum {
+        RED,//NẾU KHÔNG GÁN GÌ THÌ, MEMBER KẾ TIẾP SẼ TĂNG 1 ĐƠN VỊ, BẮT ĐẦU =0
+        GREEN,
+        BLUE
+    } color;
+		
+	int main(){
+		color=RED;
+		printf("%d",color); // ,IN RA LÀ 0,1,2
+		printf("%d",GREEN);
+		printf("%d",BLUE);
+		return 0;
+	}
+
+```
+- Enum sẽ đi cùng Switch Case:
+```C
+	typedef enum {
+        RED, 
+        GREEN,
+        BLUE
+    } color;
+	void hienthi(color mau)
+	{
+		switch (mau){
+			case RED:
+			printf("mau do");
+			break;
+			case BLUE:
+			printf("mau xanh");
+			break;
+
+
+		}
+
+	}
+		
+	int main(){
+		color mau;
+		mau = red;
+		hienthi(mau);
+	 
+		return 0;
+	}
+
+```
+
+
+
+**Biến cấu trúc (Structure Variables):** Lưu trữ các thành phần có liên quan vào một biến.:** Định nghĩa và sử dụng kiểu dữ liệu tùy chỉnh trong ngôn ngữ C.
 ```C
 	typedef struct {
-    	char name[20];
-    	int age;
-	} Person;
-	Person p1; 
+    	float x1;
+    	float x2;
+	} nghiem;// chỗ này định danh lại 
+	 
+	nghiem ptbac2(int a , int b , int c){
+		nghiem test;//nghiem là kiểu dữ liệu , test là biến
+		test.x1 =20.3;
+		test.x2 =14.2;
+		return test;
+
+	}
+	int main(){
+		nghiem phuongtrinh = ptbac2(2,3,4);
+		printf("x1:%f",phuongtrinh.x1);
+		printf("x2:%f",phuongtrinh.x2);
+	 
+		return 0;
+	}
 ```
 
 
@@ -345,7 +478,8 @@ Quy trình biên dịch là quá trình chuyển đổi từ ngôn ngữ bậc c
 - Biến static cục bộ: Khi 1 biến cục bộ được khai báo với từ khóa 		static. Biến sẽ chỉ được khởi tạo 1 lần duy nhất và tồn tại suốt thời gian chạy chương trình. Giá trị của nó không bị mất đi ngay cả khi kết thúc hàm. Tuy nhiên khác với biến toàn cục có thể gọi trong tất cả mọi nơi trong chương trình, thì biến cục bộ static chỉ có thể được gọi trong nội bộ hàm khởi tạo ra nó. Mỗi lần hàm được gọi, giá trị của biến chính bằng giá trị tại lần gần nhất hàm được gọi.Biến static sẽ lưu vào vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 
 - Ví dụ:
-  ```C
+
+```C
  	#include <stdio.h>
 	void printMessage() {
     static int count = 0;
@@ -362,7 +496,7 @@ Quy trình biên dịch là quá trình chuyển đổi từ ngôn ngữ bậc c
     return 0;
 	}// KQ:Count: 1,Count: 2
 
-  ```
+```
 
 - Biến static toàn cục: Biến toàn cục static sẽ chỉ có thể được truy cập và sử dụng trong File khai báo nó, các File khác không có cách nào truy cập được.
 - Ví dụ:globalStaticVar được khai báo là static và nằm trong file "File1.c". Do đó, bạn không thể trực tiếp truy cập nó từ file "File2.c", bằng extern int globalStaticVar; trong File2.c, chương trình sẽ không biên dịch được và thông báo lỗi.
@@ -533,6 +667,33 @@ Quy trình biên dịch là quá trình chuyển đổi từ ngôn ngữ bậc c
 <details>
   <summary><h3>Con trỏ(pointer)</h3></summary>
 
+- Nếu không dùng con trỏ thì giá trị a,btrong hàm cục bộ sẽ bị thu hồi ,
+và giá trị x,y không thay đổi được.
+- Ví dụ bài toán hoán vị:
+```C
+	int swap(int *a, int *b) {
+		int temp;
+		temp=*a;
+		*a=*b;
+		*b=temp;
+		printf("dia chi cua a la : %p\n",a);
+		printf("gia tri cua a la : %d\n",*a);
+	}
+	int subtract(int a, int b) {
+		return a - b;
+	}
+
+	int main() {
+	
+		int x,y;
+		x=20;y=15;
+		swap(&x,&y);
+		printf("%d,%d",x,y);
+
+		return 0;
+	}
+```
+
 
 - Trong ngôn ngữ C/C++, con trỏ (pointer) là những biến lưu trữ địa chỉ bộ nhớ của những biến khác.
 - Kích thước của các biến con trỏ có khác nhau không? Con trỏ chỉ lưu địa chỉ nên kích thước của mọi con trỏ là như nhau. Kích thước này phụ thuộc vào môi trường hệ thống máy tính:
@@ -657,3 +818,63 @@ int *pc = &c;    // trỏ con trỏ pc tới vùng nhớ của biến c
 *pc = 11;        // *pc tương đương với giá trị của biến c 
 ```
 </details>
+ 
+<details>
+  <summary><h3>Mảng</h3></summary>
+
+**Mảng:**
+
+- Mảng (array) là các phần tử có kiểu dữ liệu đồng nhất. Các phần tử của mảng được lưu trong các vùng nhớ liên tiếp
+- Khai báo:
+```- Kiểu dữ liệu tên mảng[]={};```
+- Ví dụ :
+
+ ```C
+	 uint8_t mang[]={1,2,3,4,5};// kieu du lieu 8 bit >> 1 byte ,2 phan tu cach nhau 1 byte, mảng là 1 dãy địa chỉ 
+
+	int main() {
+		uint8_t *ptr=mang;// địa chỉ ô nhớ đầu tiên
+		printf("gia tri:%d\n",*ptr);// in ra =1
+		uint8_t *ptr=mang +1;
+		printf("gia tri:%d\n",*ptr);// in ra =2
+		
+	
+		 for(int i=0;i<5;i++){
+			printf("Dia chi cua mang[%d]=%p, gia tri:%d",i,&mang[i],*i);
+		 }
+		// Thông qua con trỏ để biểu diễn mảng
+		 for(int i=0;i<5;i++){
+			printf("Dia chi cua mang[%d]=%p, gia tri:%d",i,ptr+i,*(ptr+i);
+		 }
+		return 0;
+	}
+```
+**Chuỗi:**
+
+- Chuỗi là một tập hợp các ký tự (char) được lưu trữ trên các ô nhớ liên tiếp và luôn luôn có 1 ký tự null là \0 báo hiệu kết thúc chuỗi.
+- Chú ý : Khi khai báo không để số trong[] , hãy để compiler tự làm
+```C
+char c[5] = "abcde"; // sai
+```
+
+- ví dụ:
+ ```C
+ 	char arr[]="hello word"; 
+	void doc_mang(char text[]){
+		text[0]='a';
+		text[1]='b';
+	}
+// vì chuỗi là 1 dãy địa chỉ , nếu ta làm như trên, nó sẽ thay đôi 
+	
+
+	int main() {
+		doc_mang(arr);
+		 for(int i=0;i<16;i++){
+			printf("ky tu :%c, ma hex :0x%x, ",arr[i],arr[i] );
+		 }
+
+	// in ra la "abllo word"
+		 
+		return 0;
+	}
+```
