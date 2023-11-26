@@ -236,7 +236,7 @@ while ( điều kiện lặp đúng );
 **Biến không đổi (Constant Variables):** 
 - Lưu trữ giá trị không thay đổi trong suốt thời gian chương trình chạy.Biến này sẽ lưu vào vùng nhớ TEXT
     ```const int MAX_VALUE = 100;```
-	
+
 **Biến Extern:**
 - Từ khóa extern được sử dụng để khai báo một biến mà đã được định nghĩa bên ngoài chương trình hoặc tệp tin.
 - Biến extern không tạo ra bộ nhớ mới cho biến.Biến được tham chiếu phải được khai báo toàn cục. 
@@ -276,8 +276,25 @@ int main()
 - Khi thêm từ khóa register để khai báo biến, biến sẽ được lưu vào register thay vào RAM >> tốc độ xử lý sẽ nhanh hơn
 - Hạn chế dùng register vì thanh ghi có giới hạn (32 bit là 4 byte , 64 bit là 8 byte ) >> chỉ lưu những biến quan trọng , cần tính toán nhanh
 
-**Biến volatile:** Đánh dấu biến có thể thay đổi mà không cần thông báo và không nên tối ưu hóa.
-   	`volatile int status;`
+**Biến volatile:** Thông báo cho trình biên dịch rằng giá trị của biến có thể thay đổi bất kỳ lúc nào, do đó trình biên dịch không nên tối ưu hóa.
+- Ví dụ:
+```C
+   	int main() {
+    volatile int sensorValue;
+
+    while (1) {
+        // Đọc giá trị từ cảm biến (sensor)
+        sensorValue = readSensor();
+
+        // Xử lý giá trị cảm biến
+        processSensorValue(sensorValue);
+    }
+
+    return 0;
+}
+```
+- Cảm biến thay đổi liên tục, giá trị có thể giống nhau. Tuy nhiên,nếu không có volatile tính năng tối ưu code của compiler, nó sẽ hiểu rằng các biến như vậy dường như không thay đổi giá trị nên compiler có xu hướng loại bỏ để có thể tối ưu kích cỡ file code .
+- Trong hệ thống nhúng, một thanh ghi có thể bị thay đổi giá trị do những điều kiện bên ngoài. Ví dụ như mức điện áp không vượt quá ngưỡng, làm cho giá trị 0 thành 1, 1 thành 0. Hoặc, khi cổng UART nhận được đầy buffer thì thanh ghi BUFFER_READY tự động chuyển 0 thành 1… Bằng cách sử dụng biến volatile, chương trình C được compiler biên dịch sẽ đảm bảo luôn luôn đọc lại giá trị của thanh ghi,tránh mọi tối ưu của compiler.
 
 **Biến kiểu định danh (Typedef Variables):** Tạo ra một tên mới cho một kiểu dữ liệu đã tồn tại để sử dụng dễ dàng hơn.
 ```C
@@ -879,3 +896,463 @@ char c[5] = "abcde"; // sai
 		return 0;
 	}
 ```
+
+</details>
+</details>
+
+
+<details>
+  <summary><h2>▶ C++ programming language</h2></summary>
+
+<details>
+  <summary><h3>C++ cơ bản</h3></summary>
+
+ ```C++
+	#include <iosteam>// thư viện c++
+ 	using namespace std;
+ 
+	
+
+	int main() {
+		int x;
+		cout<<"nhap vao x:";// nhập dữ liệu
+		cin>>x;// xuất dữ liệu
+		 
+		return 0;
+	}
+```
+</details>
+<details>
+  <summary><h3>Class</h3></summary>
+	
+### Class là gì?
+- Class là 1 kiểu dữ liệu do người dùng định nghĩa
+- Ví dụ:
+```C++
+class sinhvien {
+	puplic:
+	string ten;
+	int tuoi;
+	int mssv;
+	int lop;
+};
+
+void display(sinhvien sv){
+	count<<"ten:"<<sv.ten<<endl;
+	count<<"tuoi:"<<sv.tuoi<<endl;
+	count<<"mssv:"<<sv.lop<<endl;
+
+}
+int main(){
+	sinhvien sv1;
+	sv1.ten ="hoang";
+	sv1.tuoi=19;
+	display(sv1);
+
+	return 0;
+
+}
+```
+
+- Biến trong class gọi là `PROPERTY`.
+- sv1.tuoi... trong ví dụ gọi là `OBJECT` thuộc class sinhvien.
+- Hàm trong class gọi là `METHOD`.
+- Class có thể định nghĩa cả hàm , struct thì không:
+- Biến static trong class
+- Khi định nghĩa static trong class thì phải khởi tạo lần đầu ở ngoài.
+- Khi khởi tạo thì địa chỉ của nó tồn tại trong suốt chương trình nên member static này của các object sẽ đều có cùng 1 địa chỉ.
+```C++
+class sinhvien {
+	puplic:// phạm vi truy cập
+	string ten;//PROPERTY
+	int tuoi;
+	int mssv;
+	void display(){//METHOD
+	count<<"ten:"<<ten<<endl;
+	count<<"tuoi:"<<tuoi<<endl;
+	count<<"mssv:"<<mssv<<endl;
+
+}
+};
+
+int main(){
+	sinhvien sv1;
+	sv1.ten ="hoang";//OBJECT thuộc class sinh viên
+	sv1.tuoi=19;
+	sv1.mssv =123123;
+	sv1.display();// in ra 
+
+	return 0;
+
+}
+
+```
+- Class có thể khởi tạo giá trị ban đầu:
+```C++
+class sinhvien {
+	puplic:// phạm vi truy cập
+	sinhvien(string l_ten , int l_tuoi,string l_lop, int l_ngay){// gia tri ban đầu có tham số đầu vào
+		static int  s_mssv;
+		mssv=s_mssv;
+		s_mssv ++;
+		tuoi =l_tuoi;
+		ten=l_ten;
+		lop=l_lop;
+		ngay =l_ngay;
+	}
+	string ten;//PROPERTY
+	stactic int ngay; // static trong class phải khởi tạo giá trị ban đầu 
+	int tuoi;
+	int mssv;
+	string lop;
+	string ten;
+	void display();//METHOD
+	
+	//director là 1 cơ chế tự động 
+	~sinhvien(){
+		count<<"Huy object co ten:"<<ten>>endl;
+	}
+};
+
+int sinhvien::ngay;// khởi tạo gia trị ban đầu cho static
+
+void sinhvien::display{
+	count<<"ten:"<<ten<<endl;
+	count<<"tuoi:"<<tuoi<<endl;
+	count<<"mssv:"<<mssv<<endl;
+	ount<<"lop:"<<mssv<<endl;
+
+}
+void test1(){
+	sinhvien sv1("thai",19,"CDEE"),sv2("tha",20,"fhsjd",14);//sv1 là OBJECT thuộc class sinhvien
+	printf("dia chi sv1.mssv: %p\n",&(sv1.mssv));//khác địa chỉ
+	printf("dia chi sv2.mssv: %p\n",&(sv2.mssv));//khác địa chỉ
+	printf("--------------");
+	printf("dia chi sv1.ngay: %p\n",&(sv1.ngay));//cung  địa chỉ
+	printf("dia chi sv2.ngay: %p\n",&(sv2.ngay));//cung địa chỉ
+	// Khi khởi tạo thì địa chỉ của nó tồn tại trong suốt chương trình nên member static này của các object sẽ đều có cùng 1 địa chỉ.
+	sv1.display();
+	sv2.display();	
+}
+
+int main(){
+	test1();
+	return 0;
+	// sẽ in ra là ten,tuoi,mssv,lop,Huy object co ten thai
+}
+```
+
+</details>
+<details>
+  <summary><h3>namespace</h3></summary>
+
+**`namespace` tạo những vùng nhớ khác nhau ,mỗi namespace là 1 chương trình riêng ,với 2 namespace khác nhau có thể tạo các biến trùng tên. Nhưng trong 1 namespace không thể có 2 biến cùng tên.**
+
+- Ví dụ:
+```C++
+#include<iostream>
+using namespace std;
+
+namespace onga{
+	int teo =10;
+	voi test(){
+		printf("test onga");
+	}
+	class sinhvien{
+		puplic:
+		void hienthi(){
+
+			printf("sinhvien");
+		}
+	};
+}
+
+namespace ongb{
+	int teo =20;
+	int arr[]={1,3,4,5};
+}
+
+int main(){
+	cout<<"con ong a: teo="<<onga::teo<<endl;//con ong a: teo=10
+	cout<<"con ong b: teo="<<onga::teo<<endl;//con ong b: teo=20
+	return 0;
+	/ 
+}
+```
+**Dùng using namespace tên, có thể rút gọn code**
+- Ví dụ:
+```C++
+using namespace onga;
+int main(){
+	cout<<"con ong a: teo"<<teo<<endl;
+	return 0;
+	
+}
+```
+</details>
+<details>
+  <summary><h3>Hướng đối tượng </h3></summary>
+
+### Đặc tính của lập trình hướng đối tượng:
+**Phạm vi truy cập:**
+- Public:Member nào trong Public thì object có thể trỏ trực tiếp được và nội tại trong class cũng sử dụng được .
+- protected:Member trong protected thì Class con có thể trỏ tới được
+- private: Chỉ có nội tại trong class mới sử dụng được.Lý do đặt PROPERTY trong private, để chắc chắn object không trỏ tới được.
+
+**Encapsulation (Tính đóng gói):**
+- Object không được phép truy cập PROPERTY từ phạm vi public
+- PROPERTY nằm ở private hoặc protected.
+- Để truy cập PROPERTY phải thông qua method.
+- Lý do phức tạo vì nếu không thông qua method để tránh lỗi tùy trường hợp mà coder quy ước (xử lý tham số nhập vào, lấy dữ liệu ra...)
+- Ví dụ:
+
+```C++
+#include<iostream>
+#include<string>
+using namespace std;
+class doituong{
+	private:
+	int tuoi;//PROPERTY
+	string ten;
+
+	public:
+	void hienthi(){//hienthi() method
+	    cout<<"ten: "<<ten<<endl;
+		cout<<"tuoi: "<<tuoi<<endl;
+	}
+	void setten(int name){
+		ten=name;
+	}
+	void settuoi(int old){
+		tuoi=old;
+	}
+	int gettuoi(){
+		return tuoi;
+
+	}
+	string getten(){
+		return ten;
+
+	}
+	
+
+}
+int main(){
+	doituong dt;//dt là object thuộc class doituong
+	dt.hienthi();
+	return 0;
+ }
+```
+
+**Inheritance (Tính kế thừa ):**
+- Một class có thể kế thừa các thuộc tính của một class khác đã tồn tại trước đó.
+Khi một class con được tạo ra bởi việc kế thừa thuộc tính của class cha thì chúng ta sẽ gọi class con đó là subclass trong C++, và class cha chính là superclass trongC++.
+- ví dụ:
+```C++
+using namespace std;
+
+class doituong{
+
+	protected:
+	int namsinh;
+	string ten;
+	int tuoi;
+	public:
+	void nhapthongtin(string name,int old,int year){ 
+	    	ten=name;
+			tuoi=old;
+			namsinh=year;
+	}
+	void hienthi(){//hienthi() method cha
+	    	cout<<"ten: "<<ten<<endl;
+			cout<<"tuoi: "<<tuoi<<endl;
+			cout<<"namsinh: "<<namsinh<<endl;
+	}
+
+};
+
+class sinhvien : public doituong{
+    protected:
+	int MSSV;
+	public:
+	void setMSSV(int mssv){
+		MSSV=mssv;
+	}
+	void hienthi(){// là method con từ cha và sửa nó thì được gọi là override(ghi đè)
+		cout<<"MSSV: "<<MSSV<<endl;
+		cout<<"ten: "<<ten<<endl;
+		cout<<"tuoi: "<<tuoi<<endl;
+		cout<<"namsinh: "<<namsinh<<endl;
+		
+
+	}
+
+};
+
+
+class HS : public sinhvien{
+    private:
+	int HS;
+	public:
+	void setHS(int hs){
+		HS=hs;
+	}
+	void hienthi();
+
+};
+//thằng HS sẽ kế thừa thằng gần nhất >> hienthi(), sẽ kế thừa hienthi() của sinhvien chứ không phải doituong
+int main(void){
+    doituong dt;
+	sinhvien sv;
+	dt.nhapthongtin("hung",24,1883);
+	dt.hienthi();
+	printf("-----------\n");
+	sv.nhapthongtin("thai",25,1992);
+	sv.hienthi();
+
+    return 0;
+}
+//ten: hung
+//tuoi: 24
+//namsinh: 1883
+-----------
+//MSSV: 0
+//ten: thai
+//tuoi: 25
+//namsinh: 1992
+
+```
+- Các kiểu kế thừa: public,private và protected .Thì private là không  dùng vì class con kế thừa private sẽ đưa tất cả property từ class cha vào private. Làm cho các class tiếp theo không thể truy cập vào được( private chỉ cho phép nội tại class trỏ tới)
+- ví du:
+```C++
+class doituong{
+	protected:
+	int namsinh;
+	string ten;
+	int tuoi;
+	public:
+	void nhapthongtin(string name,int old,int year){ 
+	    	ten=name;
+			tuoi=old;
+			namsinh=year;
+	}
+
+};
+
+class sinhvien : private doituong{	
+	// tất cả property  của doituong sẽ chuyển vào private của sinhvien
+ 
+
+};
+
+class hs : private sinhvien{
+ // lỗi vì thằng private không kế thừa và sử dụng được từ class con
+};
+
+```
+**Polymorphism (Tính đa hình):**
+- Các method có thể trùng tên với nhau , nhưng phải khác các input parameter
+- Ví dụ:
+```C++
+using namespace std;
+
+class toanhoc{
+
+	protected:
+	int namsinh;
+	void tong(int a,int b ){ 
+	    	printf("tong a+b :%d\n",a+b);
+	}
+	void hienthi(int a,int b ,int c){ 
+		printf("tong a+b+c :%d\n",a+b+c);
+	}
+	int hienthi(int a,double b){ 		
+		return a +(int)b;
+	}
+};
+
+int main(void){
+	toanhoc th;
+	th.tong(7,4);
+	th.tong(5,3,5);
+	printf("tong:%d\n",th.tong(5,6.7));
+
+}
+```
+**Template trong C++ là gì?**
+- Là một kiểu dữ liệu trừu tượng tổng quát hóa cho các kiểu dữ liệu int, float, double, bool...
+- Ví dụ:
+
+```C++	
+void hienthi(int a,int b ,int c){ 
+		printf("tong a+b+c :%d\n",a+b+c);
+}
+int hienthi(int a,double b){ 		
+		return a +(int)b;
+}
+//thay vì dài như vậy ta có thể dùng Template do C++ hỗ trợ
+//Code viết lại:
+template <typename test>
+test tong(test a,test b){
+	return test(a +b);
+}
+int main(void){
+	tong("tong a va b: %d\n",tong(6,4));
+	tong("tong a va b: %f\n",tong(6.5,4.4));
+} 
+```
+
+**Abstraction (Tính trừu tượng):**
+- Những thành phần bị ẩn đi trong quá trình tạo ra kết quả .
+- Về cơ bản tính trừu tượng khác tính đóng gói :
+ - Tính đóng gói: property được khai báo ở private .
+ - Tính trừu tượng : Các thành phần khác được khai báo ở private.
+- Ví dụ:
+```C++
+using namespace std;
+typedef struct{
+	float X1;
+	float X2;
+}nghiem;
+
+class ptbac2{
+
+	private:
+		int A;// tính đóng gói
+		int B;
+		int C;
+		float delta ( ) {// tính trừu tượng
+			return B*B -4A*C;
+		}
+	public:
+		void input(int a, int b , int c){
+			A=a;
+			B=b;
+			C=c;
+		}
+		nghiem ketqua()
+		{	
+			if delta()>0 {
+				//câu lệnh
+			}
+			else{
+				//câu lênh;
+			}
+
+		}
+ 
+};
+
+int main(void){
+	ptbac2 pt;
+	pt.input();
+	pt.ketqua();
+	 
+
+}
+```
+
+
+
+
+
