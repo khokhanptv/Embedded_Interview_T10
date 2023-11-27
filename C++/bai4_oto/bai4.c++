@@ -3,17 +3,19 @@
 
 using namespace std;
 
+typedef enum {
+        RED,
+        GREEN,
+        BLUE
+} mausac;
+
 class car{
     private:
     int speed;
-    string color;
+    mausac color;
     float fuelCapacity;
     public:
-    void nhapthonngtin(int vt, string mau, int xang){
-        speed = vt;
-        color = mau;
-        fuelCapacity = xang;
-    }
+    car (int vt, mausac mau, float xang) : speed(vt),color(mau),fuelCapacity(xang) {}
 
     void accelerate(int tang){
         speed = speed + tang;
@@ -26,19 +28,35 @@ class car{
     }
     void displayInfo(){
         cout<<"speed: "<<speed<<endl;
-        cout<<"color: "<<color<<endl;
+        cout<<"color: ";
+        switch (color){
+            case RED:
+                cout<<"red\n";
+                break;
+            case GREEN:
+                cout<<"green\n";
+                break;
+            case BLUE:
+            cout<<"blue\n";
+            break;
+        
+        default:
+            cout<<"unknow";
+            break;
+        }
+        
         cout<<"fuelCapacity: "<<fuelCapacity<<endl;
     }
 };
 
 int main(void){
-    car oto;
-    oto.nhapthonngtin(40,"xanh",4.2);
+    car oto(40,RED,4.2);
+
     oto.displayInfo();
-    printf("---------"); 
+    cout<<"-----------\n"; 
     oto.accelerate(10);
     oto.displayInfo();
-    printf("---------");
+    cout<<"-----------\n"; 
     oto.brake(5);
     oto.displayInfo();
 

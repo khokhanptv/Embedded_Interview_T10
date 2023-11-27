@@ -305,41 +305,8 @@ int main()
 
 
 **Biến liệt kê (Enum Variables):** Lưu trữ một trong các giá trị được xác định trước từ một tập hợp các giá trị có tên.
+- Thông thường enum đi chung với typedef và switch-case
 - Cú pháp:
-```C
-	enum Color {
-        RED,//NẾU KHÔNG GÁN GÌ THÌ, MEMBER KẾ TIẾP SẼ TĂNG 1 ĐƠN VỊ, BẮT ĐẦU =0
-        GREEN,
-        BLUE
-    };
-	 
-	int main(){
-		printf("%d",RED); // ,IN RA LÀ 0,1,2
-		printf("%d",GREEN);
-		printf("%d",BLUE);
-		return 0;
-	}
-
-```
-- Dùng typedef định nghĩa lại enum:
-- Cú pháp:
-```C
-	typedef enum {
-        RED,//NẾU KHÔNG GÁN GÌ THÌ, MEMBER KẾ TIẾP SẼ TĂNG 1 ĐƠN VỊ, BẮT ĐẦU =0
-        GREEN,
-        BLUE
-    } color;
-		
-	int main(){
-		color=RED;
-		printf("%d",color); // ,IN RA LÀ 0,1,2
-		printf("%d",GREEN);
-		printf("%d",BLUE);
-		return 0;
-	}
-
-```
-- Enum sẽ đi cùng Switch Case:
 ```C
 	typedef enum {
         RED, 
@@ -373,7 +340,9 @@ int main()
 
 
 
-**Biến cấu trúc (Structure Variables):** Lưu trữ các thành phần có liên quan vào một biến.:** Định nghĩa và sử dụng kiểu dữ liệu tùy chỉnh trong ngôn ngữ C.
+**Biến cấu trúc (Structure Variables):** 
+- Lưu trữ các thành phần có liên quan vào một biến:
+
 ```C
 	typedef struct {
     	float x1;

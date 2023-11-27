@@ -3,27 +3,20 @@
 using namespace std;
 
 class Shape {
-protected:
-    int canh;
-    int chieucao;
+
+public:
+    virtual void calculateArea() = 0;
+
+    virtual void calculatePerimeter() = 0;
+ 
+};
+
+class Circle : public Shape {
+private:
+    int bankinh;
     float dientich;
     float chuvi;
 
-public:
-    virtual void calculateArea() {
-        dientich = 0; 
-        cout << "Diện tích: " << dientich << endl;
-    }
-
-    virtual void calculatePerimeter() {
-        chuvi = 0; 
-        cout << "Chu vi: " << chuvi << endl;
-    }
-};
-
-class Circle : protected Shape {
-protected:
-    int bankinh;
 
 public:
     Circle(int r) : bankinh(r) {}
@@ -39,10 +32,12 @@ public:
     }
 };
 
-class Rectangle  : protected Shape {
+class Rectangle  : public Shape {
 protected:
     int chieudai;
     int chieurong;
+    int dientich;
+    int chuvi;
 
 public:
     Rectangle(int a,int b) : chieudai(a), chieurong(b) {}

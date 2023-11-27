@@ -9,13 +9,9 @@ class Student{
     int old;
     float score;
     public:
-    void setthongtin(string ten,int tuoi,float diem ){
-        name = ten;
-        old = tuoi;
-        score = diem;
-    }
-
-    void hienthi(){
+    Student(string ten,int tuoi,float diem ) : name(ten),old(tuoi),score(diem){}
+   
+    void displayInfo(){
         cout<<"ten: "<<name<<endl;
         cout<<"tuoi: "<<old<<endl;
         cout<<"diem: "<<score<<endl;
@@ -24,9 +20,9 @@ class Student{
 };
 
 int main(void){
-    Student st;
-    st.setthongtin("thai",30,9.9);
-    st.hienthi();
+    
+    Student st("thai",30,9.9);
+    st.displayInfo();
 
     return 0;
 
