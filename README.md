@@ -1046,9 +1046,11 @@ int main(){
 <details>
   <summary><h3>namespace</h3></summary>
 
-**`namespace` tạo những vùng nhớ khác nhau ,mỗi namespace là 1 chương trình riêng ,với 2 namespace khác nhau có thể tạo các biến trùng tên. Nhưng trong 1 namespace không thể có 2 biến cùng tên.**
+**Namespace: tạo những vùng nhớ khác nhau ,mỗi namespace là 1 chương trình riêng ,với 2 namespace khác nhau có thể tạo các biến trùng tên. Nhưng trong 1 namespace không thể có 2 biến cùng tên.**
 
-- Ví dụ:
+<details>
+<summary>Ví dụ:</summary>
+
 ```C++
 #include<iostream>
 using namespace std;
@@ -1090,6 +1092,8 @@ int main(){
 }
 ```
 </details>
+
+</details>
 <details>
   <summary><h3>Hướng đối tượng </h3></summary>
 
@@ -1104,7 +1108,9 @@ int main(){
 - PROPERTY nằm ở private hoặc protected.
 - Để truy cập PROPERTY phải thông qua method.
 - Lý do phức tạo vì nếu không thông qua method để tránh lỗi tùy trường hợp mà coder quy ước (xử lý tham số nhập vào, lấy dữ liệu ra...)
-- Ví dụ:
+
+<details>
+<summary>Ví dụ:</summary>
 
 ```C++
 #include<iostream>
@@ -1143,11 +1149,15 @@ int main(){
 	return 0;
  }
 ```
+</details>
 
 **Inheritance (Tính kế thừa ):**
 - Một class có thể kế thừa các thuộc tính của một class khác đã tồn tại trước đó.
 Khi một class con được tạo ra bởi việc kế thừa thuộc tính của class cha thì chúng ta sẽ gọi class con đó là subclass trong C++, và class cha chính là superclass trongC++.
-- ví dụ:
+
+<details>
+<summary>Ví dụ:</summary>
+
 ```C++
 using namespace std;
 
@@ -1222,8 +1232,12 @@ int main(void){
 //namsinh: 1992
 
 ```
+</details>
+
 - Các kiểu kế thừa: public,private và protected .Thì private là không  dùng vì class con kế thừa private sẽ đưa tất cả property từ class cha vào private. Làm cho các class tiếp theo không thể truy cập vào được( private chỉ cho phép nội tại class trỏ tới)
-- ví du:
+<details>
+<summary>Ví dụ:</summary>
+
 ```C++
 class doituong{
 	protected:
@@ -1250,9 +1264,13 @@ class hs : private sinhvien{
 };
 
 ```
+
+</details>
 **Polymorphism (Tính đa hình):**
 - Các method có thể trùng tên với nhau , nhưng phải khác các input parameter
-- Ví dụ:
+<details>
+<summary>Ví dụ:</summary>
+
 ```C++
 using namespace std;
 
@@ -1279,9 +1297,13 @@ int main(void){
 
 }
 ```
+</details>
+
 **Template trong C++ là gì?**
 - Là một kiểu dữ liệu trừu tượng tổng quát hóa cho các kiểu dữ liệu int, float, double, bool...
-- Ví dụ:
+
+<details>
+<summary>Ví dụ</summary>
 
 ```C++	
 void hienthi(int a,int b ,int c){ 
@@ -1301,13 +1323,16 @@ int main(void){
 	tong("tong a va b: %f\n",tong(6.5,4.4));
 } 
 ```
+</details>
 
 **Abstraction (Tính trừu tượng):**
 - Những thành phần bị ẩn đi trong quá trình tạo ra kết quả .
 - Về cơ bản tính trừu tượng khác tính đóng gói :
  - Tính đóng gói: property được khai báo ở private .
  - Tính trừu tượng : Các thành phần khác được khai báo ở private.
-- Ví dụ:
+<details>
+<summary>Ví dụ</summary>
+
 ```C++
 using namespace std;
 typedef struct{
@@ -1351,7 +1376,87 @@ int main(void){
 
 }
 ```
+</details>
 
+**Virtual trong C++ là gì?**
+- Được sử dụng để tạo hàm ảo. Hàm ảo cho phép lớp con ghi đè hàm của lớp cơ sở, tạo ra tính đa hình. 
+- Khi gọi hàm từ con trỏ hoặc tham chiếu đối tượng cơ sở, chương trình sẽ chọn hàm của lớp con nếu nó đã được định nghĩa. 
+
+<details>
+<summary>Ví dụ</summary>
+
+```C++
+using namespace std;
+
+class Shape {
+protected:
+    int canh;
+    int chieucao;
+    float dientich;
+    float chuvi;
+
+public:
+    virtual void calculateArea() {
+        dientich = 0; 
+        cout << "Diện tích: " << dientich << endl;
+    }
+
+    virtual void calculatePerimeter() {
+        chuvi = 0; 
+        cout << "Chu vi: " << chuvi << endl;
+    }
+};
+
+class Circle : protected Shape {
+protected:
+    int bankinh;
+
+public:
+    Circle(int r) : bankinh(r) {}
+    //tương đương:  Circle(int r) {
+       //bankinh = r;}
+    void calculateArea() override {
+        dientich = 3.14 * bankinh * bankinh;
+        cout << "Dien tich " << dientich << endl;
+    }
+
+    void calculatePerimeter() override {
+        chuvi = 2 * 3.14 * bankinh;
+        cout << "Chu vi: " << chuvi << endl;
+    }
+};
+class Rectangle  : protected Shape {
+protected:
+    int chieudai;
+    int chieurong;
+
+public:
+    Rectangle(int a,int b) : chieudai(a), chieurong(b) {}
+
+    void calculateArea() override {
+        dientich = chieudai * chieurong;
+        cout << "Dien tich " << dientich << endl;
+    }
+
+    void calculatePerimeter() override {
+        chuvi = 2 * (chieudai+chieurong);
+        cout << "Chu vi: " << chuvi << endl;
+    }
+};
+
+int main(void) {
+    Circle tron(5);
+    Rectangle dai(4,5);
+    tron.calculateArea();
+    tron.calculatePerimeter();
+    cout<<"------------"<<endl;
+    dai.calculateArea();
+    dai.calculatePerimeter();
+    return 0;
+}
+
+```
+</details>
 
 
 
