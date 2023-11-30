@@ -16,7 +16,10 @@
   `if (điều kiện){
     Khối lệnh sẽ được thực hiện nếu <điều kiện> đúng.
 }`
- - Ví dụ:
+
+<details>
+<summary>Ví dụ</summary>
+
 ```C
 #include <stdio.h>
 int main(){
@@ -79,10 +82,11 @@ int main(){
 	// statement(n)
 	}
 ```
+</details>
 
 **_switch case_**
 
- - Lệnh switch case là một cấu trúc điều khiển & rẽ nhánh hoàn toàn có thể được thay thế bằng cấu trúc if else. Tuy nhiên, việc sử dụng switch case sẽ giúp code của chúng ta dễ viết và dễ đọc hơn. Một điều nữa là sử dụng switch case có vẻ như cho hiệu năng tốt hơn so với sử dụng if else trong trường hợp có nhiều điều kiện có thể xảy ra.
+ - Lệnh switch case là một cấu trúc điều khiển & rẽ nhánh hoàn toàn có thể được thay thế bằng cấu trúc if else. Tuy nhiên, việc sử dụng switch case sẽ giúp code của chúng ta dễ viết và dễ đọc hơn.
 ```C
 switch (expression)// tham số đầu vào 
 ​{
@@ -96,10 +100,10 @@ switch (expression)// tham số đầu vào
      // default statements
 }
 ```
- - expression phải bắt buộc là giá trị hằng, có thể là biểu thức nhưng kết quả cần là hằng số. Trong đó, expression sẽ được so sánh với các giá trị của các case.
- - Nếu có 1 case nào đó khớp giá trị, các khối lệnh tương ứng sau case đó sẽ được thực hiện cho tới khi gặp lệnh break. Do đó, nếu chúng ta không sử dụng break thì tất cả các case kể từ case khớp giá trị đều được thực hiện.
- - Case default sẽ được thực hiện nếu không có case nào khớp giá trị với expression. 
- - Ví dụ:
+ - Case default sẽ được thực hiện nếu không có case nào khớp giá trị  
+
+ <details>
+<summary>Ví dụ</summary>
 
 ```C
 #include <stdio.h>
@@ -144,8 +148,12 @@ default:
 return 0;
 }
 ```
+
+</details>
+
+
+
 **_if và switch :_**
- - Lệnh switch case có hạn chế là biểu thức điều kiện phải là số nguyên. 
  - Đối với lệnh if else, biểu thức điều kiện là true hoặc false. Do vậy, một số trường hợp, bắt buộc phải sử dụng lệnh if else thay vì switch case.
  - Nên sử dụng if else trong bài toán ít trường hợp, các biểu thức điều kiện đơn giản
  - Switch sẽ so sánh các tính năng khác nhau,mã sạch sẽ hơn và dễ đọc.
@@ -163,7 +171,10 @@ for ( giá trị ban đầu; điều kiện lặp; thuật toán   )
    // các lệnh cần lặp
 }
 ```
-- Ví dụ:
+
+ <details>
+<summary>Ví dụ</summary>
+
 ```C
 for (int i =0; i<100; i=i+2 )
 {
@@ -196,6 +207,8 @@ for (;; )
    
 }
 ```
+ </details>
+
 
 **Vòng lặp while:**
 - Cú pháp:
@@ -241,6 +254,9 @@ while ( điều kiện lặp đúng );
 - Từ khóa extern được sử dụng để khai báo một biến mà đã được định nghĩa bên ngoài chương trình hoặc tệp tin.
 - Biến extern không tạo ra bộ nhớ mới cho biến.Biến được tham chiếu phải được khai báo toàn cục. 
 - Lưu ý: khi sử dụng extern, không được khai báo giá trị ban đầu cho biến
+
+ <details>
+<summary>Ví dụ</summary>
 - File 1 ta khai báo
 ```C
 int GlobalVariable = 0; // implicit definition 
@@ -264,8 +280,11 @@ int main()
   return 0; 
 }; 
 ```
+ </details>
 
-**Biến register:** Từ khóa register để báo cho chương trình biết một biến sẽ đc lưu trữ trong thanh ghi (register) của CPU để tối ưu hiệu suất.Mục đích để tính toán nhanh .
+
+**Biến register:**
+- Trong các yêu cầu tính toán quan trọng.  Từ khóa register để báo cho chương trình biết một biến sẽ đc lưu trữ trong thanh ghi (register) của CPU để tối ưu hiệu suất, giảm thời gian xử lý.
     `register int counter = 0;`
 - Giải thích :Nếu khai báo biến thông thường để tính toán không có từ khóa register , thực hiện một phép tính thì cần có 3 bước.
 	- Ví dụ: `int a = 6.Ví dụ :a có địa chỉ là 0X01,  a=a+4`
@@ -276,7 +295,7 @@ int main()
 - Khi thêm từ khóa register để khai báo biến, biến sẽ được lưu vào register thay vào RAM >> tốc độ xử lý sẽ nhanh hơn
 - Hạn chế dùng register vì thanh ghi có giới hạn (32 bit là 4 byte , 64 bit là 8 byte ) >> chỉ lưu những biến quan trọng , cần tính toán nhanh
 
-**Biến volatile:** Thông báo cho trình biên dịch rằng giá trị của biến có thể thay đổi bất kỳ lúc nào, do đó trình biên dịch không nên tối ưu hóa.
+**Biến volatile:** Thông báo cho trình biên dịch rằng giá trị của biến này không tối ưu , nếu tối ưu thì sẽ không đúng kết quả của người code
 - Ví dụ:
 ```C
    	int main() {
@@ -294,8 +313,7 @@ int main()
 }
 ```
 - Cảm biến thay đổi liên tục, giá trị có thể giống nhau. Tuy nhiên,nếu không có volatile tính năng tối ưu code của compiler, nó sẽ hiểu rằng các biến như vậy dường như không thay đổi giá trị nên compiler có xu hướng loại bỏ để có thể tối ưu kích cỡ file code .
-- Trong hệ thống nhúng, một thanh ghi có thể bị thay đổi giá trị do những điều kiện bên ngoài. Ví dụ như mức điện áp không vượt quá ngưỡng, làm cho giá trị 0 thành 1, 1 thành 0. Hoặc, khi cổng UART nhận được đầy buffer thì thanh ghi BUFFER_READY tự động chuyển 0 thành 1… Bằng cách sử dụng biến volatile, chương trình C được compiler biên dịch sẽ đảm bảo luôn luôn đọc lại giá trị của thanh ghi,tránh mọi tối ưu của compiler.
-
+ 
 **Biến kiểu định danh (Typedef Variables):** Tạo ra một tên mới cho một kiểu dữ liệu đã tồn tại để sử dụng dễ dàng hơn.
 ```C
     typedef int Integer;
@@ -1348,7 +1366,7 @@ int main(void){
 </details>
 
 **Virtual trong C++ là gì?**
-- Được sử dụng để tạo hàm ảo. Hàm ảo cho phép lớp con ghi đè hàm của lớp cơ sở, tạo ra tính đa hình. 
+- Được sử dụng để tạo hàm ảo. Hàm ảo cho phép lớp con ghi đè hàm của lớp cha  . 
 - Khi gọi hàm từ con trỏ hoặc tham chiếu đối tượng cơ sở, chương trình sẽ chọn hàm của lớp con nếu nó đã được định nghĩa. 
 
 <details>
@@ -1426,6 +1444,47 @@ int main(void) {
 
 ```
 </details>
+
+
+</details>
+<details>
+  <summary><h3>Vector </h3></summary>
+
+**Vector trong C++ là gì?**
+- Thư viện #include <vector>
+- Là 1 mảng được hỗ trợ bới nhiều method 
+- Cú pháp:
+
+```C++
+	vector <int>mang ={1,4,5,2,5,3}; 
+	mang.insert(mang.begin()+1,788);// vị trí thứ 1
+	mang.erase(mang.begin()+4);
+	mang.clear();// thu hồi hết
+	for(int i = 0;i<mang.size();i++){
+		cout<<"i= "<<mang[i]<<endl;
+	}
+	return 0;
+
+
+```
+1. push_back(): Hàm đẩy một phần tử vào vị trí sau cùng của vector. Nếu kiểu của
+đối tượng được truyền dưới dạng tham số trong push_back() không giống với kiểu
+của vector thì sẽ bị ném ra.
+ten-vector.push_back(ten-cua-phan-tu);
+2. assign(): Nó gán một giá trị mới cho các phần tử vector bằng cách thay thế các
+giá trị cũ.
+ten-vector.assign(int size, int value);
+3. pop_back(): Hàm pop_back () được sử dụng để xóa đi phần tử cuối cùng một
+vector.
+4. insert(): Hàm này chèn các phần tử mới vào trước phần tử trước vị trí được trỏ
+bởi vòng lặp. Chúng ta cũng có thể chuyển một số đối số thứ ba, đếm số lần phần tử
+được chèn vào trước vị trí được trỏ.5. erase(): Hàm được sử dụng để xóa các phần tử tùy theo vị trí vùng chứa
+6. emplace(): Nó mở rộng vùng chứa bằng cách chèn phần tử mới vào
+7. emplace_back(): Nó được sử dụng để chèn một phần tử mới vào vùng chứa
+vector, phần tử mới sẽ được thêm vào cuối vector
+8. swap(): Hàm được sử dụng để hoán đổi nội dung của một vector này với một
+vector khác cùng kiểu. Kích thước có thể khác nhau.
+9. clear(): Hàm được sử dụng để loại bỏ tất cả các phần tử của vùng chứa vector
 
 
 
