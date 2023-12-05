@@ -1,7 +1,18 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
+
+#define in 0
+#define intb 1
+#define add 2
+#define del 3
+#define fix 4
+#define rs 5
+#define out 6
+
+
+ 
+
 using namespace std;
 
 class sinhvien {
@@ -24,146 +35,157 @@ public:
         cout << "Nhap ten sinh vien: ";
         cin.ignore();
         getline(cin, tensv);
-        
+
         cout << "Nhap tuoi sinh vien: ";
         cin >> tuoisv;
 
-        cout << "Nhap ID sinh vien: ";
-        cin >> idsv;
-
-        cout << "Nhap diem toan sinh vien: ";
+        do {
+        cout << "Nhap diem toan sinh vien (0>>10): ";
         cin >> diemtoansv;
+        } while (diemtoansv < 0 || diemtoansv >10 );
+        
+       
 
-        cout << "Nhap diem ly sinh vien: ";
-        cin >> diemlysv;
+        do {
+            cout << "Nhap diem ly sinh vien (0>>10): ";
+            cin >> diemlysv;
+        } while (diemlysv < 0 || diemlysv > 10);
 
-        cout << "Nhap diem hoa sinh vien: ";
-        cin >> diemhoasv;
+        do {
+            cout << "Nhap diem hoa sinh vien (0>>10): ";
+            cin >> diemhoasv;
+        } while (diemhoasv < 0 || diemhoasv > 10);
     }
 
-    void diemtrungbinh() {
-          diemtrungbinhsv = (diemtoansv + diemlysv + diemhoasv) / 3;
+    float diemtrungbinh() {
+        diemtrungbinhsv = (diemtoansv + diemlysv + diemhoasv) / 3;
+        return diemtrungbinhsv;
     }
 
-    string layXepLoai() const {
-        if (diemtrungbinhsv > 8) {
+    string layXepLoai()  {
+        float dtb = diemtrungbinh();
+        if (dtb > 8) {
             return "Gioi";
-        } else if (diemtrungbinhsv >= 6.5 && diemtrungbinhsv < 8) {
+        } else if (dtb >= 6.5 && dtb < 8) {
             return "Kha";
         } else {
             return "TB";
         }
     }
 
-    string layThongTin() const {
+    string layThongTin()  {
         return "Ten: " + tensv + "\nTuoi: " + to_string(tuoisv) + "\nID: " + to_string(idsv) +
                "\nDiem Toan: " + to_string(diemtoansv) + "\nDiem Ly: " + to_string(diemlysv) +
                "\nDiem Hoa: " + to_string(diemhoasv) + "\nDiem Trung Binh: " + to_string(diemtrungbinhsv) +
                "\nXep loai: " + layXepLoai();
     }
 
-    int layIdSV() const {
+    int layIdSV()  {
         return idsv;
     }
+    void setIdSV(int newId) {
+        idsv = newId;
+    }
+ 
 };
 
 class danhsachSV {
 private:
     vector<sinhvien> danhsachsinhvien;
-
-    vector<sinhvien>::iterator timSinhVienTheoID(int id) {
-        return find_if(danhsachsinhvien.begin(), danhsachsinhvien.end(),
-                       [id]( sinhvien sv) { return sv.layIdSV() == id; });
-    }
-
-    bool kiemTraTrungID(int id) {
-    return find_if(danhsachsinhvien.begin(), danhsachsinhvien.end(),
-                       [id]( sinhvien sv) { return sv.layIdSV() == id; }) != danhsachsinhvien.end();
-    }
+    static int maxId ;
+    
 
 public:
+   
     void xoasv(int id) {
-        auto it = timSinhVienTheoID(id);
-        if (it != danhsachsinhvien.end()) {
-            danhsachsinhvien.erase(it);
-            cout << "Da xoa sinh vien co ID " << id << endl;
-        } else {
-            cout << "Khong tim thay sinh vien co ID " << id << endl;
+        int n = danhsachsinhvien.size();
+        bool found = false;
+        for (int i = 0; i < n; i++) {
+            if (danhsachsinhvien[i].layIdSV() == id) {
+                found = true;
+                // Xóa sinh viên tại vị trí i
+                danhsachsinhvien.erase(danhsachsinhvien.begin() + i);
+                cout << "Da xoa sinh vien co ID " << id << endl;
+
+            break;  
+            }   
+        }  
+        if (!found) {
+        cout << "Khong tim thay sinh vien co ID " << id << endl;   
         }
+
     }
 
-    // Sửa thông tin của sinh viên
     void suaThongTinSV(int id) {
-        auto it = timSinhVienTheoID(id);
+        int n = danhsachsinhvien.size();
+        bool found = false;
 
-        if (it != danhsachsinhvien.end()) {
-            // Nếu tìm thấy sinh viên theo ID
-            cout << "Nhap thong tin moi cho sinh vien:\n";
-            sinhvien svMoi;
-            svMoi.nhapthongtinsv();
-            svMoi.diemtrungbinh();
+        for (int i = 0; i < n; i++) {
+            if (danhsachsinhvien[i].layIdSV() == id) {
+                found = true;
+                cout << "Nhap thong tin moi cho sinh vien:\n";
+                sinhvien svMoi;
+                svMoi.nhapthongtinsv();
+                svMoi.diemtrungbinh();
+                danhsachsinhvien[i] = svMoi;
+                cout << "Da cap nhat thong tin cho sinh vien co ID " << id << endl;
 
-            // Cập nhật thông tin cho sinh viên
-            *it = svMoi;
-            cout << "Da cap nhat thong tin cho sinh vien co ID " << id << endl;
-        } else {
-            // Nếu không tìm thấy sinh viên
+                break;  
+            }
+        }
+
+        if (!found) {
             cout << "Khong tim thay sinh vien co ID " << id << endl;
         }
     }
 
-    // Sắp xếp sinh viên theo tên
-    void sapXepTheoTen() {
-        sort(danhsachsinhvien.begin(), danhsachsinhvien.end(),
-             []( sinhvien sv1,  sinhvien sv2) { return sv1.layThongTin() < sv2.layThongTin(); });
-    }
 
-    // Sắp xếp sinh viên theo điểm trung bình
-        void sapXepTheoDiemTB() {
-            sort(danhsachsinhvien.begin(), danhsachsinhvien.end(),
-                []( sinhvien sv1,  sinhvien sv2) { return sv1.layXepLoai() > sv2.layXepLoai(); });
+    void sapXepTheoDiemTB() {
+        int n = danhsachsinhvien.size();
+        
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                 
+                if (danhsachsinhvien[j].diemtrungbinh() > danhsachsinhvien[j + 1].diemtrungbinh()) {                  
+                    sinhvien temp = danhsachsinhvien[j];
+                    danhsachsinhvien[j] = danhsachsinhvien[j + 1];
+                    danhsachsinhvien[j + 1] = temp;
+                }
+            }
         }
+    }
 
     void inThongTinDanhSach() const {
-        for ( auto  sv : danhsachsinhvien) {
+        for (auto sv : danhsachsinhvien) {
             cout << sv.layThongTin() << endl;
             cout << "-------------" << endl;
         }
     }
+
     void nhapThemSV() {
-    int id;
-    bool trungID;
-
-    do {
         sinhvien sv;
-        trungID = false;
+        maxId++;
+        sv.setIdSV(maxId);
         sv.nhapthongtinsv();
-        id = sv.layIdSV();
-
-        if (kiemTraTrungID(id)) {
-            cout << "ID da ton tai. Vui long nhap lai.\n";
-            trungID = true;
-        } else {  
-            sv.diemtrungbinh();          
-            danhsachsinhvien.push_back(sv);
-            
-           
-            
-        }
-    } while (trungID);
+        sv.diemtrungbinh();
+        danhsachsinhvien.push_back(sv);
     }
+    
+    void reset(){
+        danhsachsinhvien.clear();
 
-
-
+    }
 };
+
+int danhsachSV::maxId = 0;
 
 int main() {
     danhsachSV dssv;
-
-    int addsv = 0;
-    int xoasv = 0;
-    int suaThongTin = 0;
+    int nhapkey;
+    int i_id;
+    
     int soluongsv;
+
     do {
         cout << "Nhap so luong sinh vien (khong duoc am): ";
         cin >> soluongsv;
@@ -171,41 +193,65 @@ int main() {
 
     for (int i = 0; i < soluongsv; i++) {
         dssv.nhapThemSV();
-       
     }
+    do {
+        cout << "Vui long lam theo huong dan: "<< endl;
+        cout << "Nhap 0:In ra danh sach sinh vien "<< endl;
+        cout << "Nhap 1:In ra danh sach sinh vien theo diem TB"<< endl;
+        cout << "Nhap 2:them sinh vien va in ra theo diem TB"<< endl;
+        cout << "Nhap 3:xoa sinh vien va in ra theo diem TB"<< endl;
+        cout << "Nhap 4:sua sinh vien va in ra theo diem TB"<< endl;
+        cout << "Nhap 5:reset chuong trinh"<< endl;
+        cout << "Nhap 6:thoat chuong trinh"<< endl;
+    
+    
+        cin >> nhapkey;
+        switch (nhapkey)
+        {
+        case  in:
+            cout << "Danh sach sinh vien:"<< endl;;
+            dssv.inThongTinDanhSach();
+            break;
 
-    cout << "Ban co muon them sv khong? co nhan phim 1, khong nhan phim 0: ";
-    cin >> addsv;
-    if (addsv == 1) {
-        dssv.nhapThemSV();
+        case  intb:
+            dssv.sapXepTheoDiemTB();
+            cout << "Danh sach sinh vien sau khi sap xep theo diem trung binh:"<< endl;;
+            dssv.inThongTinDanhSach();
+            break;
+
+        case add:
+            dssv.nhapThemSV(); 
+            dssv.inThongTinDanhSach();  
+            break;
+
+        case del:
+            cout << "vui long nhap id sinh vien can xoa:"<< endl;;
+            cin >> i_id;
+            dssv.xoasv(i_id);
+            dssv.inThongTinDanhSach();  
+            break;
+
+        case fix:
+            cout << "vui long nhap id sinh vien can sua:"<< endl;;
+            cin >> i_id;
+            dssv.suaThongTinSV(i_id); 
+            dssv.inThongTinDanhSach();  
+            break;
+        case rs:
+            cout << "reset tat ca du lieu" << endl;
+            dssv.reset();
+            break;
+        case out:
+            cout << "Thoat chuong trinh" << endl;
+            break;
+        
+        default:
+            cout << "Lua chon khong hop le. Vui long nhap lai"<< endl;
+            break;
+        }
     }
-
-    cout << "Ban co muon xoa sv khong? co nhan phim 1, khong nhan phim 0: ";
-    cin >> xoasv;
-    if (xoasv == 1) {
-        int idcanxoa;
-        cout << "Vui long nhap ID SV can xoa: ";
-        cin >> idcanxoa;
-        dssv.xoasv(idcanxoa);
-    }
-
-    cout << "Ban co muon sua thong tin sv khong? co nhan phim 1, khong nhan phim 0: ";
-    cin >> suaThongTin;
-    if (suaThongTin == 1) {
-        int idcansua;
-        cout << "Vui long nhap ID SV can sua: ";
-        cin >> idcansua;
-        dssv.suaThongTinSV(idcansua);
-    }
-
-     
-   // dssv.sapXepTheoTen();
-    //cout << "Danh sach sinh vien sau khi sap xep theo ten:\n";
-   // dssv.inThongTinDanhSach();
-
-    dssv.sapXepTheoDiemTB();
-    cout << "Danh sach sinh vien sau khi sap xep theo diem trung binh:\n";
-    dssv.inThongTinDanhSach();
-
+    while (nhapkey!=6);
+ 
     return 0;
+
 }
