@@ -12,7 +12,7 @@
   <summary><h3>Lệnh điều kiện trong C</h3></summary>
 
   **_Câu lệnh If_**
-  - Đây là 1 câu lệnh điều kiện để kiểm tra 1 điều kiện nào có được thỏa mãn không. Nếu điều kiện được thỏa mãn thì sẽ thực thi đoạn code bên trong nó.
+  - Nếu điều kiện được thỏa mãn thì sẽ thực thi đoạn code bên trong nó.
   `if (điều kiện){
     Khối lệnh sẽ được thực hiện nếu <điều kiện> đúng.
 }`
@@ -388,24 +388,154 @@ int main()
 <details>
   <summary><h3>Quá trình biên dịch</h3></summary>
 	
-Quy trình biên dịch là quá trình chuyển đổi từ ngôn ngữ bậc cao (NNBC) (C/C++, Pascal, Java, C#…) sang ngôn ngữ đích (ngôn ngữ máy) để máy tính có thể hiểu và thực thi.
+Quy trình biên dịch là quá trình chuyển đổi từ ngôn ngữ bậc cao (NNBC) (C/C++, Pascal, Java, C#…) sang  ngôn ngữ máy , để máy tính có thể hiểu và thực thi.
 ### Quá trình biên dịch bao gồm 4 giai đoạn:
 	
-- **_Pre-processor (Giai đoạn tiền xử lý):_** Nhận mã nguồn và xóa bỏ các dòng comments, xử lý các chỉ thị tiền xử lý có bắt đầu bằng kí hiệu `#`. Như `#include` , `#define` .
-	- `#include` được sử dụng để chèn nội dung của một tệp (thường là một tệp tiêu đề), `ví dụ :header.h` vào trong mã nguồn.
-	-  Khi chương trình được biên dịch, nội dung của `header.h ` sẽ được chèn vào vị trí của `#include`.
-	-  Khi chương trình được biên dịch, các định nghĩa ` #define` sẽ thay bằng giá trị cụ thể  vào mã nguồn.Giống như việc bạn thay thế tất cả các thể hiện của PI bằng giá trị 3.14159 
-	-  Sau khi qua quá trình tiền xử lý thì file code lúc này sẽ có dạng `.i`.
-	-  Dùng lệnh `gcc -E filename.c -o filename.i` hoặc `gcc -E filename.c` để xem code sau khi qua quá trình preprocessor.
-- **_Compiler (Giai đoạn dịch NNBC sang ngôn ngữ Assembly):_** Kiểm tra các kiểu dữ liệu có lỗi hay không, phân tích cú pháp (syntax) của mã nguồn NNBC và tối ưu code.
-	-  Quá trình này sẽ biên dịch từ code `.i` sang ngôn ngữ assembly `.s`.
-	-  Dùng lệnh `gcc -S -o filename.s filename.c` để có thể xem code sau 	quá tình compiler.
-- **_Assembler (Giai đoạn dịch ngôn ngữ Assembly sang ngôn ngữ máy):_** Biên dịch ngôn ngữ Assembly sang ngôn ngữ máy (0 và 1). Và tạo ra tệp tin Object `.o` or `.obj`.
-	-  Dùng lệnh `gcc -c filename.c -o filename.o` để tạo ra file ".o" và dùng lệnh `objdump -d -Mintel filename.o` để xem code.
-- **_Linker (Giải đoạn liên kết):_** Trong giai đoạn này mã máy của một chương trình `.o` dịch từ nhiều nguồn (file .c hoặc file thư viện .lib) được liên kết lại với nhau để tạo thành chương trình đích nhất. Mã máy của các hàm thư viện gọi trong chương trình cũng được đưa vào chương trình cuối trong giai đoạn này. Chính vì vậy mà các lỗi liên quan đến việc gọi hàm hay sử dụng biến tổng thể mà không tồn tại sẽ bị phát hiện. Kể cả lỗi viết chương trình chính không có hàm main() cũng được phát hiện trong liên kết.
-	- File sau khi được gộp lại thì sẽ có đuôi mở rộng Executable `.exe`, còn trên Linux và MacOs thì có thể có đuối theo chỉ định hoặc không có đuôi mở rộng.
+**_Pre-processor (Giai đoạn tiền xử lý):_**
+- 1 Project có nhiều file:a.h, b.h, a.c, b.c và file main.c sau quá trình tiền xử lý thành 1 file duy nhất là file main.i.
+- Lệnh trong CMD là: `gcc -E main.c -o main.i`
 
-- Để chạy file code C trên `terminal` dùng lệnh `gcc -o filename filename.c` đẻ tạo ra tệp thực thi, sau đó dùng lệnh `./filename` để chạy tệp thực thi đó.
+**3 việc xảy ra trong quá trình tiền xử lý:**
+- `#include` file header, có nghĩa là nội dung file sẽ được chèn vào vị trí mà mình chỉ định.
+- Xóa bỏ comment.
+- Triển khai macro:
+	- Macro là từ dùng để chỉ những thông tin được xử lý ở tiền xử lý.
+	- `#define`:
+		- Macro được định nghĩa bằng cách sử dụng chỉ thị tiền xử lý #define.
+		- Nơi nào có tên Macro sẽ được thay thế bằng nội dung của macro đó.
+		- Giảm lặp lại mã ,dễ bảo trì.
+		- ví dụ:
+		```C
+		#define display_sum(a,b) \ // xuống dòng
+			printf("this is macro to sum 2 number \n");\
+			printf("result is:%d \n",a+b);// dòng cuối cùn không cần\
+
+		int main(){
+			display_sum(5,6);
+			return 0;
+		}
+		```
+	- `#undef`:
+		- Dùng để hủy định nghĩa 1 macro đã dc định nghĩa trước đó bằng `#define`.
+		- Lý do là có thể có nhiều file có macro trùng nhau khi include vào file main , nếu không #undef và #define
+		sẽ dẫn đến lỗi
+		- ví dụ:
+		```C
+		#include <stdio.h>
+		#include "nhietdo.c"
+		#include "doam.c"
+		// trong 2 file đều có macro lần lượt là:
+		//#define cam_bien 10(nhietdo.c)
+		//#define cam_bien 20(doam.c)
+
+		int main(){
+			#undef cam_bien
+			#define cam_bien 40
+			return 0;
+		}
+		```
+	- `#if`: Sử dụng để bắt đầu 1 điều kiện xử lý.Nếu đúng thì các dòng lệnh sau `#if` sẽ được biên dịch , sai sẽ bỏ qua đến khi gặp`#endif`.
+	- `#elif`: Để thêm 1 ĐK mới khi `#if` hoặc `#elif` sai.
+	- `#else`: Dùng khi không có ĐK nào đúng
+	- `#ifdef` : Dùng để kiểm tra 1 macro định nghĩa hay chưa.Nếu định nghĩa rồi thì mã sau ifdef sẽ được biên dịch.
+	- `#ifndef`: Dùng để kiểm tra 1 macro định nghĩa hay chưa.Nếu chưa định nghĩa thì mã sau ifndef sẽ được biên dịch.Thường dùng để kiểm tra macro đó đã dc định nghĩa trong file nào chưa, kết thúc thì `#endif`
+	- Ví dụ:
+	```C
+		#include <stdio.h>
+		#define DEBUG_MODE 1
+
+		int main() {
+			int x = 5;
+
+			#if DEBUG_MODE
+				printf("Debug mode is enabled.\n");
+			#endif
+
+			#if DEBUG_MODE
+				printf("The value of x is: %d\n", x);
+			#endif
+
+			printf("Program continues...\n");
+
+			return 0;
+		}
+	```
+	- 1 số toán tử trong Macro: 
+		- #define STRINGSIZE(x) #x
+		- Ví dụ:
+			```C
+			#define STRINGSIZE(x) #x
+			#define DATA 40
+
+			int main(){
+				prinf("the value: %s\n",STRINGSIZE(DATA));
+				return 0;
+			// sẽ in ra the value: DATA
+			}
+			```
+		- Variadic Macro: Là 1 macro cho phép nhận 1 số lượng biến tham số có thể thay đổi
+		<details>
+		<summary>Ví dụ:</summary>
+		
+		```C
+
+			#include <stdio.h>
+
+			#define print_menu_item(...) \
+				do { \
+					const char *items[] = {__VA_ARGS__}; \
+					int n = sizeof(items) / sizeof(items[0]); \
+					for (int i = 0; i < n; i++) { \
+						print_menu_item(i + 1, items[i]); \
+					} \
+				} while (0)
+
+			#define case_option(number, function) \
+				case number: \
+					function(); \
+					break;
+
+			#define handle_option(option, ...) \
+				switch (option) { \
+					__VA_ARGS__ \
+					default: \
+						printf("Invalid option!\n"); \
+				}
+
+			void print_menu_item(int number, const char *item) {
+					printf("%d. %s\n", number, item);
+				}
+
+			void feature1() { printf("Feature 1 selected\n"); }
+			void feature2() { printf("Feature 2 selected\n"); }
+			void feature3() { printf("Feature 3 selected\n"); }
+			void feature4() { printf("Feature 4 selected\n"); }
+
+			int main() {
+				print_menu_item("Option 1", "Option 2", "Option 3", "Option 4", "Exit");
+
+				int option;
+				scanf("%d", &option);
+
+				handle_option(option,
+							case_option(1, feature1)
+							case_option(2, feature2)
+							case_option(3, feature3)
+							case_option(4, feature4)
+				)
+
+				return 0;
+		```
+		</details>
+
+- **_Compiler (Giai đoạn dịch NNBC sang ngôn ngữ Assembly):_** 
+	-  Quá trình này sẽ biên dịch từ code `.i` sang file ngôn ngữ assembly `.s`.
+	-  Dùng lệnh `gcc -S main.i -o main.s`.
+- **_Assembler (Giai đoạn dịch ngôn ngữ Assembly sang ngôn ngữ máy):_** Biên dịch ngôn ngữ Assembly sang ngôn ngữ máy (0 và 1). Và tạo ra tệp tin Object `.o` 
+	-  Dùng lệnh `gcc -c main.s -o main.o` để tạo ra file ".o"  
+- **_Linker (Giải đoạn liên kết):_** :
+	- 1 hoặc nhiều file.o sẽ được liên kết lại 1 File  `.exe`.
+	- Dùng lệnh `gcc  main.o -o filename` đẻ tạo ra tệp thực thi .
 
 </details>
 <details>
@@ -672,6 +802,22 @@ Quy trình biên dịch là quá trình chuyển đổi từ ngôn ngữ bậc c
 <details>
   <summary><h3>Con trỏ(pointer)</h3></summary>
 
+**Con trỏ là gì** 
+- Là 1 biến ,không lưu giá trị bình thường, nó lưu địa chỉ.
+- Cách khai báo con trỏ:<kiểu dữ liệu> * <tên biến>
+- kiểu dữ liệu con trỏ phải trùng kiểu dữ liệu biến nó trỏ tới.
+- Ví dụ:
+```C
+ int main(){
+	int a =10;
+	int *ptr =&a;//&lấy địa chỉ
+	return 0;
+ }
+
+```
+
+
+
 - Nếu không dùng con trỏ thì giá trị a,btrong hàm cục bộ sẽ bị thu hồi ,
 và giá trị x,y không thay đổi được.
 - Ví dụ bài toán hoán vị:
@@ -706,6 +852,28 @@ và giá trị x,y không thay đổi được.
         - `Môi trường Windows 64 bit: 8 bytes`
 
 ### Các loại con trỏ:
+
+- ***Con trỏ hàm (Function Pointers):*** Dùng để lưu trữ và gọi các hàm thông qua con trỏ.
+	```c
+	void tong (int a, int b){
+		printf("tong %d va %d = %d\n",a,b,a+b);
+	}
+	void hieu (int a, int b){
+		printf("tong %d va %d = %d\n",a,b,a-b);
+	}
+
+	 
+
+	int main() {
+		void (*ptr)(int, int);
+		ptr =&tong;
+		ptr(8,6);
+	 
+
+		return 0;
+	}
+
+	```
 - ***Con trỏ NULL:*** Con trỏ NULL là con trỏ lưu địa chỉ 0x00000000. Tức địa chỉ bộ nhớ 0, có ý nghĩa đặc biệt, cho biết con trỏ không trỏ vào đâu cả.
 	```c
 	int *p2; //con trỏ chưa khởi tạo, vẫn trỏ đến một vùng nhớ nào đó không xác định
@@ -738,29 +906,7 @@ và giá trị x,y không thay đổi được.
 	ptr = &f;
 	printf("f = %f\n",(float*)ptr);
 	```
-- ***Con trỏ hàm (Function Pointers):*** Dùng để lưu trữ và gọi các hàm thông qua con trỏ.
-	```c
-	int add(int a, int b) {
-		return a + b;
-	}
-	int subtract(int a, int b) {
-		return a - b;
-	}
 
-	int main() {
-	
-		int (*operation)(int, int) = add;
-		int result = operation(5, 3);
-		printf("Result: %d\n", result);
-
-		operation = subtract;
-		result = operation(5, 3);
-		printf("Result: %d\n", result);
-
-		return 0;
-	}
-
-	```
 - ***Con trỏ vào hàm (Pointers to Functions):*** Lưu trữ địa chỉ của một hàm cụ thể để gọi hàm thông qua con trỏ.
 	```C
 	int add(int a, int b) {
