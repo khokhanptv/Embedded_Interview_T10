@@ -1,8 +1,8 @@
- <details>
-  <summary><h2>▶ C programming language</h2></summary>
+<details>
+<summary><h2>▶ C Basic</h2></summary>
 
 <details>
-  <summary><h3>Kiểu dữ liệu</h3></summary>
+<summary><h3>Kiểu dữ liệu</h3></summary>
 
   ![kieu du lieu](./Kieu_Dulieu(1).PNG)
   ![kieu du lieu](./Kieu_Dulieu(2).PNG)
@@ -382,161 +382,6 @@ int main()
 		return 0;
 	}
 ```
-
-
-</details>
-<details>
-  <summary><h3>Quá trình biên dịch</h3></summary>
-	
-Quy trình biên dịch là quá trình chuyển đổi từ ngôn ngữ bậc cao (NNBC) (C/C++, Pascal, Java, C#…) sang  ngôn ngữ máy , để máy tính có thể hiểu và thực thi.
-### Quá trình biên dịch bao gồm 4 giai đoạn:
-	
-**_Pre-processor (Giai đoạn tiền xử lý):_**
-- 1 Project có nhiều file:a.h, b.h, a.c, b.c và file main.c sau quá trình tiền xử lý thành 1 file duy nhất là file main.i.
-- Lệnh trong CMD là: `gcc -E main.c -o main.i`
-
-**3 việc xảy ra trong quá trình tiền xử lý:**
-- `#include` file header, có nghĩa là nội dung file sẽ được chèn vào vị trí mà mình chỉ định.
-- Xóa bỏ comment.
-- Triển khai macro:
-	- Macro là từ dùng để chỉ những thông tin được xử lý ở tiền xử lý.
-	- `#define`:
-		- Macro được định nghĩa bằng cách sử dụng chỉ thị tiền xử lý #define.
-		- Nơi nào có tên Macro sẽ được thay thế bằng nội dung của macro đó.
-		- Giảm lặp lại mã ,dễ bảo trì.
-		- ví dụ:
-		```C
-		#define display_sum(a,b) \ // xuống dòng
-			printf("this is macro to sum 2 number \n");\
-			printf("result is:%d \n",a+b);// dòng cuối cùn không cần\
-
-		int main(){
-			display_sum(5,6);
-			return 0;
-		}
-		```
-	- `#undef`:
-		- Dùng để hủy định nghĩa 1 macro đã dc định nghĩa trước đó bằng `#define`.
-		- Lý do là có thể có nhiều file có macro trùng nhau khi include vào file main , nếu không #undef và #define
-		sẽ dẫn đến lỗi
-		- ví dụ:
-		```C
-		#include <stdio.h>
-		#include "nhietdo.c"
-		#include "doam.c"
-		// trong 2 file đều có macro lần lượt là:
-		//#define cam_bien 10(nhietdo.c)
-		//#define cam_bien 20(doam.c)
-
-		int main(){
-			#undef cam_bien
-			#define cam_bien 40
-			return 0;
-		}
-		```
-	- `#if`: Sử dụng để bắt đầu 1 điều kiện xử lý.Nếu đúng thì các dòng lệnh sau `#if` sẽ được biên dịch , sai sẽ bỏ qua đến khi gặp`#endif`.
-	- `#elif`: Để thêm 1 ĐK mới khi `#if` hoặc `#elif` sai.
-	- `#else`: Dùng khi không có ĐK nào đúng
-	- `#ifdef` : Dùng để kiểm tra 1 macro định nghĩa hay chưa.Nếu định nghĩa rồi thì mã sau ifdef sẽ được biên dịch.
-	- `#ifndef`: Dùng để kiểm tra 1 macro định nghĩa hay chưa.Nếu chưa định nghĩa thì mã sau ifndef sẽ được biên dịch.Thường dùng để kiểm tra macro đó đã dc định nghĩa trong file nào chưa, kết thúc thì `#endif`
-	- Ví dụ:
-	```C
-		#include <stdio.h>
-		#define DEBUG_MODE 1
-
-		int main() {
-			int x = 5;
-
-			#if DEBUG_MODE
-				printf("Debug mode is enabled.\n");
-			#endif
-
-			#if DEBUG_MODE
-				printf("The value of x is: %d\n", x);
-			#endif
-
-			printf("Program continues...\n");
-
-			return 0;
-		}
-	```
-	- 1 số toán tử trong Macro: 
-		- #define STRINGSIZE(x) #x
-		- Ví dụ:
-			```C
-			#define STRINGSIZE(x) #x
-			#define DATA 40
-
-			int main(){
-				prinf("the value: %s\n",STRINGSIZE(DATA));
-				return 0;
-			// sẽ in ra the value: DATA
-			}
-			```
-		- Variadic Macro: Là 1 macro cho phép nhận 1 số lượng biến tham số có thể thay đổi
-		<details>
-		<summary>Ví dụ:</summary>
-		
-		```C
-
-			#include <stdio.h>
-
-			#define print_menu_item(...) \
-				do { \
-					const char *items[] = {__VA_ARGS__}; \
-					int n = sizeof(items) / sizeof(items[0]); \
-					for (int i = 0; i < n; i++) { \
-						print_menu_item(i + 1, items[i]); \
-					} \
-				} while (0)
-
-			#define case_option(number, function) \
-				case number: \
-					function(); \
-					break;
-
-			#define handle_option(option, ...) \
-				switch (option) { \
-					__VA_ARGS__ \
-					default: \
-						printf("Invalid option!\n"); \
-				}
-
-			void print_menu_item(int number, const char *item) {
-					printf("%d. %s\n", number, item);
-				}
-
-			void feature1() { printf("Feature 1 selected\n"); }
-			void feature2() { printf("Feature 2 selected\n"); }
-			void feature3() { printf("Feature 3 selected\n"); }
-			void feature4() { printf("Feature 4 selected\n"); }
-
-			int main() {
-				print_menu_item("Option 1", "Option 2", "Option 3", "Option 4", "Exit");
-
-				int option;
-				scanf("%d", &option);
-
-				handle_option(option,
-							case_option(1, feature1)
-							case_option(2, feature2)
-							case_option(3, feature3)
-							case_option(4, feature4)
-				)
-
-				return 0;
-		```
-		</details>
-
-- **_Compiler (Giai đoạn dịch NNBC sang ngôn ngữ Assembly):_** 
-	-  Quá trình này sẽ biên dịch từ code `.i` sang file ngôn ngữ assembly `.s`.
-	-  Dùng lệnh `gcc -S main.i -o main.s`.
-- **_Assembler (Giai đoạn dịch ngôn ngữ Assembly sang ngôn ngữ máy):_** Biên dịch ngôn ngữ Assembly sang ngôn ngữ máy (0 và 1). Và tạo ra tệp tin Object `.o` 
-	-  Dùng lệnh `gcc -c main.s -o main.o` để tạo ra file ".o"  
-- **_Linker (Giải đoạn liên kết):_** :
-	- 1 hoặc nhiều file.o sẽ được liên kết lại 1 File  `.exe`.
-	- Dùng lệnh `gcc  main.o -o filename` đẻ tạo ra tệp thực thi .
-
 </details>
 <details>
   <summary><h3>Phân vùng bộ nhớ trên RAM, cấp phát bộ nhớ động</h3></summary>
@@ -1029,6 +874,384 @@ char c[5] = "abcde"; // sai
 		return 0;
 	}
 ```
+
+
+
+
+</details>
+</details>
+
+<details>
+  <summary><h2>▶ C Advance </h2></summary>
+
+
+<details>
+  <summary><h3>Quá trình biên dịch</h3></summary>
+	
+Quy trình biên dịch là quá trình chuyển đổi từ ngôn ngữ bậc cao (NNBC) (C/C++, Pascal, Java, C#…) sang  ngôn ngữ máy , để máy tính có thể hiểu và thực thi.
+### Quá trình biên dịch bao gồm 4 giai đoạn:
+	
+**_Pre-processor (Giai đoạn tiền xử lý):_**
+- 1 Project có nhiều file:`a.h, b.h, a.c, b.c `và file `main.c` sau quá trình tiền xử lý thành 1 file duy nhất là file `main.i`.
+- Lệnh trong CMD là: `gcc -E main.c -o main.i`
+
+**3 việc xảy ra trong quá trình tiền xử lý:**
+- `#include` file header, có nghĩa là nội dung file sẽ được chèn vào vị trí mà mình chỉ định.
+- Xóa bỏ comment.
+- Triển khai macro:
+	- Macro là từ dùng để chỉ những thông tin được xử lý ở tiền xử lý.
+	- `#define`:
+		- Macro được định nghĩa bằng cách sử dụng chỉ thị tiền xử lý #define.
+		- Nơi nào có tên Macro sẽ được thay thế bằng nội dung của macro đó.
+		- Giảm lặp lại mã ,dễ bảo trì.
+		- ví dụ:
+		```C
+		#define display_sum(a,b) \ // xuống dòng
+			printf("this is macro to sum 2 number \n");\
+			printf("result is:%d \n",a+b);// dòng cuối cùn không cần\
+
+		int main(){
+			display_sum(5,6);
+			return 0;
+		}
+		```
+	- `#undef`:
+		- Dùng để hủy định nghĩa 1 macro đã dc định nghĩa trước đó bằng `#define`.
+		- Lý do là có thể có nhiều file có macro trùng nhau khi include vào file main , nếu không #undef và #define
+		sẽ dẫn đến lỗi
+		- ví dụ:
+		```C
+		#include <stdio.h>
+		#include "nhietdo.c"
+		#include "doam.c"
+		// trong 2 file đều có macro lần lượt là:
+		//#define cam_bien 10(nhietdo.c)
+		//#define cam_bien 20(doam.c)
+
+		int main(){
+			#undef cam_bien
+			#define cam_bien 40
+			return 0;
+		}
+		```
+	- `#if`: Sử dụng để bắt đầu 1 điều kiện xử lý.Nếu đúng thì các dòng lệnh sau `#if` sẽ được biên dịch , sai sẽ bỏ qua đến khi gặp`#endif`.
+	- `#elif`: Để thêm 1 ĐK mới khi `#if` hoặc `#elif` sai.
+	- `#else`: Dùng khi không có ĐK nào đúng
+	- `#ifdef` : Dùng để kiểm tra 1 macro định nghĩa hay chưa.Nếu định nghĩa rồi thì mã sau ifdef sẽ được biên dịch.
+	- `#ifndef`: Dùng để kiểm tra 1 macro định nghĩa hay chưa.Nếu chưa định nghĩa thì mã sau ifndef sẽ được biên dịch.Thường dùng để kiểm tra macro đó đã dc định nghĩa trong file nào chưa, kết thúc thì `#endif`
+	- Ví dụ:
+	```C
+		#include <stdio.h>
+		#define DEBUG_MODE 1
+
+		int main() {
+			int x = 5;
+
+			#if DEBUG_MODE
+				printf("Debug mode is enabled.\n");
+			#endif
+
+			#if DEBUG_MODE
+				printf("The value of x is: %d\n", x);
+			#endif
+
+			printf("Program continues...\n");
+
+			return 0;
+		}
+	```
+	- 1 số toán tử trong Macro: 
+		- #define STRINGSIZE(x) #x
+		- Ví dụ:
+			```C
+			#define STRINGSIZE(x) #x
+			#define DATA 40
+
+			int main(){
+				prinf("the value: %s\n",STRINGSIZE(DATA));
+				return 0;
+			// sẽ in ra the value: DATA
+			}
+			```
+		- Variadic Macro: Là 1 macro cho phép nhận 1 số lượng biến tham số có thể thay đổi
+		<details>
+		<summary>Ví dụ:</summary>
+		
+		```C
+
+			#include <stdio.h>
+
+			#define print_menu_item(...) \
+				do { \
+					const char *items[] = {__VA_ARGS__}; \
+					int n = sizeof(items) / sizeof(items[0]); \
+					for (int i = 0; i < n; i++) { \
+						print_menu_item(i + 1, items[i]); \
+					} \
+				} while (0)
+
+			#define case_option(number, function) \
+				case number: \
+					function(); \
+					break;
+
+			#define handle_option(option, ...) \
+				switch (option) { \
+					__VA_ARGS__ \
+					default: \
+						printf("Invalid option!\n"); \
+				}
+
+			void print_menu_item(int number, const char *item) {
+					printf("%d. %s\n", number, item);
+				}
+
+			void feature1() { printf("Feature 1 selected\n"); }
+			void feature2() { printf("Feature 2 selected\n"); }
+			void feature3() { printf("Feature 3 selected\n"); }
+			void feature4() { printf("Feature 4 selected\n"); }
+
+			int main() {
+				print_menu_item("Option 1", "Option 2", "Option 3", "Option 4", "Exit");
+
+				int option;
+				scanf("%d", &option);
+
+				handle_option(option,
+							case_option(1, feature1)
+							case_option(2, feature2)
+							case_option(3, feature3)
+							case_option(4, feature4)
+				)
+
+				return 0;
+		```
+		</details>
+
+- **_Compiler (Giai đoạn dịch NNBC sang ngôn ngữ Assembly):_** 
+	-  Quá trình này compiler sẽ biên dịch từ file `.i` sang file ngôn ngữ assembly là file `.s`.
+	-  Dùng lệnh `gcc -S main.i -o main.s`.
+- **_Assembler (Giai đoạn dịch ngôn ngữ Assembly sang ngôn ngữ máy):_** compiler sẽ Biên dịch ngôn ngữ Assembly sang ngôn ngữ máy (0 và 1). Và tạo ra tệp tin Object `.o` 
+	-  Dùng lệnh `gcc -c main.s -o main.o` để tạo ra file ".o"  
+- **_Linker (Giải đoạn liên kết):_** 
+	- 1 hoặc nhiều file.o sẽ được compiler liên kết lại 1 File  `.exe`.
+	- File này để hệ điều hành chạy
+	- Dùng lệnh `gcc  main.o -o filename` để tạo ra tệp thực thi .
+
+</details>
+<details>
+  <summary><h3>Stdargt - Assert</h3></summary>
+
+- **Stdargt:** 
+- Cú pháp: `#include<stdarg.h`
+- Mục đích:Dùng trong 1 hàm mà không cần biết chính xác có bao nhiêu tham số đầu vào.
+
+<details>
+<summary>Ví dụ:</summary>
+
+```C
+#include <stdio.h>
+#include <stdarg.h>
+
+int sum(int count, ...) {
+    va_list args;// đây là 1 kiểu dữ liệu ,để lưu 1 địa chỉ 
+    va_start(args, count);//count để xác định  giá trị ban đầu 
+	//trong trường hợp này là 4....
+
+    int result = 0;
+    for (int i = 0; i < count; i++) {
+        result += va_arg(args, int);// ép kiểu dữ liệu 
+    }	
+
+    va_end(args);
+
+    return result;
+}
+
+int main() {
+    printf("Sum: %d\n", sum(4, 1, 2, 3, 4));// sum:10 , vì cout =4>> truyền vào 4 tham số
+    return 0;
+}
+
+```
+
+</details>
+
+<details>
+<summary>Ví dụ 2:</summary>
+
+```C++
+#include <stdio.h>
+#include <stdarg.h>
+
+
+typedef struct Data
+{
+    int x;
+    double y;
+} Data;
+
+void display(int count, ...) {
+
+    va_list args;
+
+    va_start(args, count);
+
+    int result = 0;
+
+    for (int i = 0; i < count; i++)
+    {
+        Data tmp = va_arg(args,Data);
+        printf("Data.x at %d is: %d\n", i,tmp.x);
+        printf("Data.y at %d is: %f\n", i,tmp.y);
+    }
+   
+
+    va_end(args);
+
+
+}
+
+int main() {
+
+
+    display(3, (Data){2,5.0} , (Data){10,57.0}, (Data){29,36.0});
+    return 0;
+}
+
+```
+</details>
+<details>
+<summary>Ví dụ 3:</summary>
+
+- Bài toán thực tế, làm sao viết 1 hàm chung , để phù hợp với bất kỳ số lượng tham số đầu vào.
+- cảm biến độ ẩm 2 tham số , nhiệt độ 3 tham số >> cần 1 hàm phù hợp 
+
+```C
+#include <stdio.h>
+#include <stdarg.h>
+
+typedef enum {
+    TEMPERATURE_SENSOR,
+    PRESSURE_SENSOR
+} SensorType;// đầu tiên định nghĩa 1 enum
+
+void processSensorData(SensorType type, ...) {
+    va_list args;
+    va_start(args, type);
+
+    switch (type) {
+        case TEMPERATURE_SENSOR: {// khi có bài toán lựa chọn thì dùng switch..case
+            int numArgs = va_arg(args, int);
+            int sensorId = va_arg(args, int);
+            float temperature = va_arg(args, double); // float được promote thành double
+            printf("Temperature Sensor ID: %d, Reading: %.2f degrees\n", sensorId, temperature);
+            if (numArgs > 2) {
+                // Xử lý thêm tham số nếu có
+                char* additionalInfo = va_arg(args, char*);
+                printf("Additional Info: %s\n", additionalInfo);
+            }
+            break;
+        }
+        case PRESSURE_SENSOR: {
+            int numArgs = va_arg(args, int);
+            int sensorId = va_arg(args, int);
+            int pressure = va_arg(args, int);
+            printf("Pressure Sensor ID: %d, Reading: %d Pa\n", sensorId, pressure);
+            if (numArgs > 2) {
+                // Xử lý thêm tham số nếu có
+                char* unit = va_arg(args, char*);
+                printf("Unit: %s\n", unit);
+            }
+            break;
+        }
+    }
+
+    va_end(args);
+}
+
+int main() {
+    processSensorData(TEMPERATURE_SENSOR, 3, 1, 36.5, "Room Temperature");
+    processSensorData(PRESSURE_SENSOR, 2, 2, 101325);
+    return 0;
+}
+
+```
+</details>
+
+- **assert:** 
+	- Cung cấp macro assert. 
+	- Macro này được sử dụng để kiểm tra một điều kiện. 
+	- Nếu điều kiện đúng (true), không có gì xảy ra và chương trình tiếp tục thực thi.
+	- Nếu điều kiện sai (false), chương trình dừng lại và thông báo một thông điệp lỗi.
+	- Dùng trong debug, dùng #define NDEBUG để tắt debug
+- Ví dụ:
+```C
+#include <stdio.h>
+#include <assert.h>
+typedef struct{
+	int day;
+	int month;
+	int years;
+
+}date;
+int divde(int a,int b){
+	assert(b!=0&&"err:b khac 0"));
+	return a/b;
+
+
+}
+int main() 
+{    
+	int x = 56;  
+	int a,b;
+	date input_date(32,12,2023) ;
+	assert(input_date.day<32&&"err:ngay <32"));
+ // Chương trình sẽ tiếp tục thực thi nếu điều kiện là đúng.  
+ 	printf("X is: %d", x);
+	 
+	return 0;
+}
+```
+-Thông thường trong thực tế sẽ code:
+```c
+#define LOG(condition, cmd) assert(condition && #cmd);
+int main{
+	int x=0;
+	LOG(x>5,x phai lon hon 5);
+}
+```
+
+- Hoặc:
+```c
+#include <assert.h>
+
+#define ASSERT_IN_RANGE(val, min, max) assert((val) >= (min) && (val) <= (max))
+
+void setLevel(int level) {
+    ASSERT_IN_RANGE(level, 1, 31);
+    // Thiết lập cấp độ
+}
+int main(){
+	int x=45;
+	int day =5;
+	ASSERT_IN_RANGE	(day,0,31);// day <31 thì sẽ thực hiện code tiếp theo
+	//sai thì thông báo 
+	printf("day bang %d\n",day);
+
+}
+
+```
+
+
+
+
+
+
+
+
+
+
 
 </details>
 </details>
