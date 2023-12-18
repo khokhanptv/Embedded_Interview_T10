@@ -19,7 +19,7 @@
 }`
 
 <details>
-<summary>Ví dụ</summary>
+<summary>Ví dụ:</summary>
 
 ```C
 #include <stdio.h>
