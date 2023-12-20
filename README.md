@@ -1520,7 +1520,7 @@ int main() {
 
 </details>
 <details>
-  <summary><h3>▶ Từ khóa đặc biệt trong C </h2></summary>
+  <summary><h2>▶ Từ khóa đặc biệt trong C </h2></summary>
 
 - Biến cục bộ là biến tồn tại trong các hàm :Hàm main() , hàm con.Biến cục bộ sẽ được lưu vào vùng nhớ stack, thu hồi khi kết thúc hàm. 
 - Biến toàn cục là các biến được khai báo ở bên ngoài tất cả các hàm , Biến toàn cục tồn tại cho tới khi chương trình kết thúc.
@@ -1630,7 +1630,7 @@ int main()
 </details>
  
 <details>
-  <summary><h3>▶ Goto_setjmp</h2></summary>
+  <summary><h2>▶ Goto_setjmp</h2></summary>
 
 **Goto:**
 - goto là một từ khóa trong ngôn ngữ lập trình C, cho phép chương trình nhảy đến một nhãn (label) đã được đặt trước đó trong cùng một hàm.
@@ -1710,7 +1710,7 @@ int main() {
 </details>
 
 <details>
-  <summary><h3>▶ Bitmask </h2></summary>
+  <summary><h2>▶ Bitmask </h2></summary>
 
 **Khái niệm**:
 - Bitmask là một kỹ thuật sử dụng các bit để lưu trữ  trạng thái. Có thể sử dụng bitmask để đặt, xóa và kiểm tra trạng thái của các bit cụ thể trong một từ  
