@@ -1299,6 +1299,7 @@ int main()
 
 ```
 </details>
+
 **Con trỏ hàm**
 
 - Pointer to function (con trỏ hàm) là một biến giữ địa chỉ của một hàm.Có nghĩa nó trỏ đến vùng nhớ chứa mã máy của hàm được định nghĩa
@@ -1864,8 +1865,37 @@ int main() {
     return 0;
 }
 
+</details>
 
 
+</details>
+<details>
+  <summary><h3>▶Struct - Union </h2></summary>
+
+**Struct:**
+- Struct là một kiểu dữ liệu chứa nhiều kiểu dữ liệu khác trong nó , kích thước của struct bằng kích thước các thành viên bên trong + phần padding.
+- Ví dụ:
+![Struct](./Hinhanh/Struct.PNG)
+- Tổng Example là 8 byte , 7 byte dữ liệu + 1 byte trống 
+![Struct](./Hinhanh/Struct1.PNG)
+- Tổng Example là 12 byte ,  7 byte dữ liệu + 5 byte trống
+![Struct](./Hinhanh/Struct2.PNG)
+- Tổng Example là 24 byte ,cơ bản là tốn time tính
+
+##Mục đích tính toán struct,để tối ưu bộ nhớ,nếu sắp xếp các phần tử không hợp lý sẽ tốn bộ nhớ.
+
+
+**Union:**
+- Union là một kiểu dữ liệu chứa nhiều kiểu dữ liệu khác trong nó ,kích thước của struct bằng kích thước thành viên lớn nhất và cùng 1 vùng nhớ.
+![Union](./Hinhanh/Union.PNG)
+![Union](./Hinhanh/union1.jpg)
+- Tổng Example là 20 byte , thằng nào lớn nhất thì lấy thằng đó
+
+##Mục đích sử dụng  Union ,để tiết kiệm bộ nhớ ,vì 1 thời điểm chỉ có thể sử dụng 1 member. 
+- Ứng dụng đọc 1 cảm biến trong nhiều cảm biến.
+- Nếu cùng 1 mục đích mà sử dụng struct sẽ tốn nhiều dung lượng hơn.
+![Union](./Hinhanh/Union3.PNG)
+- Ví dụ trên nếu dùng struct thì 8 byte , trong khi union chỉ 4 byte
 
 
 </details>
@@ -1875,12 +1905,24 @@ int main() {
 
 
 
-</details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </details>
-
-</details>
-
 <details>
   <summary><h2>▶ C++ programming language</h2></summary>
 
