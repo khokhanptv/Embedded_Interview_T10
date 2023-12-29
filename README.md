@@ -1,4 +1,16 @@
 <details>
+<summary><h2>▶ Bài tập ứng dụng</h2></summary>
+
+
+
+
+
+
+</details>
+
+
+
+<details>
 <summary><h2>▶ C Basic</h2></summary>
 
 <details>
@@ -155,8 +167,8 @@ return 0;
 
 
 **_if và switch :_**
- - Đối với lệnh if else, biểu thức điều kiện là true hoặc false. Do vậy, một số trường hợp, bắt buộc phải sử dụng lệnh if else thay vì switch case.
- - Nên sử dụng if else trong bài toán ít trường hợp, các biểu thức điều kiện đơn giản
+ - if dùng để kiểm tra các điều kiện là toán tử so sánh (<, >, ==, !=, vv.) hoặc các toán tử logic (&&, ||, vv.).
+ - switch dùng để so sánh một biểu thức với các giá trị khác nhau. Nó sẽ kiểm tra giá trị và thực hiện các hành động tương ứng với giá trị đó.
  - Switch sẽ so sánh các tính năng khác nhau,mã sạch sẽ hơn và dễ đọc.
  - Nên sử dụng switch case trong bài toán mul-ti choice, biểu thức điều kiện tính toán phức tạp nhưng phải có giá trị nguyên.
 
@@ -387,7 +399,10 @@ int main()
 <details>
   <summary><h3>Phân vùng bộ nhớ trên RAM, cấp phát bộ nhớ động</h3></summary>
 	
-### Phân vùng bộ nhớ trên RAM(5 vùng)
+### Phân vùng bộ nhớ trên RAM(Memory layout)
+- Chương trình main.exe trên window  hoặc main.hex với VĐK (lưu ở bộ nhớ SSD hoặc FLASH). 
+- Khi nhấn run chương trình trên window hoặc cấp nguồn cho vi điều khiển thì những chương trình này sẽ được copy vào bộ nhớ RAM để thực thi.
+
 
 | Stack |
 |:-----:|
@@ -398,20 +413,27 @@ int main()
 |  Data(Initialized data)   |
 |  Text |
 - ***Text:*** Quyền truy cập chỉ có thể Read( không thay đổi)
-	- Chứa khai báo các hằng số(.rodata)
-	- Nó chưa lệnh thực thi nên tránh sửa đổi instruction
-	- Biến const được lưu vào text 
+	- Lưu các hằng số :`const int x =2` 
+	- Kích thước là cố định
+	- Nó chưa lệnh thực thi :Mã assembly...
 - ***Data:*** Quyền truy cập Read-Write
-	- Chứa biến toàn cục hoặc biến static khác 0
+	- Chứa biến toàn cục đã dc khởi tạo hoặc biến static khác 0:`int a=1, int b=2;`
 	- Được giải phóng khi kết thúc chương trình
+	- Kích thước có thể thay đổi
 - ***Bss:*** Quyền truy cập Read-Write
-	- Chứa biến toàn cục hoặc các biến static bằng 0 hoặc không khởi tạo
+	- Chứa biến toàn cục chưa khởi tạo, hoặc bằng 0:`int a=0, int b;`
+	- Các biến static bằng 0 hoặc chưa khởi tạo
 	- Được giải phóng khi kết thúc chương trình
+	- Kích thước có thể thay đổi
 - ***Stack:*** Quyền truy cập là Read-Write.
-	- Được sử dụng cấp phát cho biến local, input parameter của hàm,...
-	- Sẽ được giải phóng khi ra khỏi block code/hàm
+	- lưu trữ các biến cục bộ.
+	- Các tham số truyền vào và các giá trị trả về từ hàm.
+	- Hàm main cũng ở vùng stack
+	- Sẽ được giải phóng khi ra khỏi hàm
+	- Kích thước cố định: phụ thuộc vào hệ điều hành, đối với Windows thường là 1MB, Linux là 8MB.
 - ***Heap:*** Quyền truy cập là Read-Write.
 	- Được sử dụng để cấp phát bộ nhớ động như: Malloc, Calloc,...
+	- Kích thước không cố định.
 	- Sẽ được giải phóng khi gọi hàm free,...
 	### So sánh Stack và Heap?
 	- Bộ nhớ: Bộ nhớ Heap và bộ nhớ Stack bản chất đều cùng là vùng nhớ được tạo ra và lưu trữ trong RAM khi chương trình được thực thi.
@@ -420,43 +442,97 @@ int main()
 	- Kích thước vùng nhớ:
 		- Stack: kích thước của bộ nhớ Stack là cố định, tùy thuộc vào từng hệ điều hành, ví dụ hệ điều hành Windows là 1 MB, hệ điều hành Linux là 8 MB (lưu ý là con số có thể khác tùy thuộc vào kiến trúc hệ điều hành của bạn).
 		- Heap: kích thước của bộ nhớ Heap là không cố định, có thể tăng giảm do đó đáp ứng được nhu cầu lưu trữ dữ liệu của chương trình.
-	- Đặc điểm vùng nhớ
-		- Stack: vùng nhớ Stack được quản lý bởi hệ điều hành, dữ liệu được lưu trong Stack sẽ tự động hủy khi hàm thực hiện xong công việc của mình.
-		- Heap: Vùng nhớ Heap được quản lý bởi lập trình viên (trong C hoặc C++), dữ liệu trong Heap sẽ không bị hủy khi hàm thực hiện xong, điều đó có nghĩa bạn phải tự tay hủy vùng nhớ bằng câu lệnh free (trong C), và delete hoặc delete [] (trong C++), nếu không sẽ xảy ra hiện tượng rò rỉ bộ nhớ. 
-	### Lưu ý: 
-	- Việc tự động dọn vùng nhớ còn tùy thuộc vào trình biên dịch trung gian.
-	- Vấn đề lỗi xảy ra đối với vùng nhớ Stack: Bởi vì bộ nhớ Stack cố định nên nếu chương trình bạn sử dụng quá nhiều bộ nhớ vượt quá khả năng lưu trữ của Stack chắc chắn sẽ xảy ra tình trạng tràn bộ nhớ Stack (Stack overflow), các trường hợp xảy ra như bạn khởi tạo quá nhiều biến cục bộ, hàm đệ quy vô hạn,..
-		- Ví dụ về tràn bộ nhớ stack với hàm đệ quy vô hạn:
-		```C
-		int foo(int x){
-			printf("De quy khong gioi han\n");
-			return foo(x);
-		}
-		```
-	- Vấn đề lỗi xảy ra đối với vùng nhớ Heap: Nếu bạn liên tục cấp phát vùng nhớ mà không giải phóng thì sẽ bị lỗi tràn vùng nhớ Heap (Heap overflow). Nếu bạn khởi tạo một vùng nhớ quá lớn mà vùng nhớ Heap không thể lưu trữ một lần được sẽ bị lỗi khởi tạo vùng nhớ Heap thất bại.
-		- Ví dụ trường hợp khởi tạo vùng nhớ Heap quá lớn:
-		```C 
-		int *A = (int *)malloc(18446744073709551615); 
-		```
 	### Các cách sử dụng malloc, calloc, realloc, free:
-	- ***Malloc:*** Cấp phát bộ nhớ động chưa có giá trị khởi tạo cho mỗi phần tử, trả về con trỏ NULL khi cấp phát thành công
+	- ***Malloc:*** Cấp phát bộ nhớ động mỗi phần tử, không khởi tạo giá trị, trả về con trỏ NULL khi cấp phát thành công.
+	- ***Calloc:*** Cấp phát bộ nhớ động và khởi tạo cho các phần tử là 0, trả về con trỏ NULL khi cấp phát thành công.
+	- ***Realloc:*** Thay đổi kích thước bộ nhớ của bộ nhớ đã được cấp phát trước đó của Malloc và Calloc, trả về con trỏ NULL khi thay đổi thành công.
+	- Vậy `Malloc` sẽ nhanh hơn `Calloc`
+	- Ví dụ:
+
+	```C
+	int main() {
+    int *arr_malloc, *arr_calloc;
+    size_t size = 5;
+
+    // Sử dụng malloc
+    arr_malloc = (int*)malloc(size * sizeof(int));
+
+    // Sử dụng calloc
+    arr_calloc = (int*)calloc(size, sizeof(int));
+
+    // Sử dụng Realloc
+	arr_malloc = (int*)realloc(arr_malloc, sizeof(int) * 7); // size arr_malloc lúc này là 7
+
+
+    // Giải phóng bộ nhớ
+    free(arr_malloc);
+    free(arr_calloc);
+
+    return 0;
+	}
+	```
+<details>
+<summary>Ví dụ:</summary>
+
+```C
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char const *argv[])
+{  
+    int soluongkytu = 0;
+    char* ten = (char*) malloc(sizeof(char) * soluongkytu)
+    for (int i = 0; i < 3; i++)
+    {
+        printf("Nhap so luong ky tu trong ten: \n");
+        scanf("%d", &soluongkytu);
+        ten = realloc(ten, sizeof(char) * soluongkytu);
+        printf("Nhap ten cua ban: \n");
+        scanf("%s", ten);
+        printf("Hello %s\n", ten);
+    }
+
+}
+
+```
+
+</details>
+
+
+- Đặc điểm vùng nhớ
+	- Stack: 
+		- vùng nhớ Stack được quản lý bởi hệ điều hành, 
+		- Dữ liệu được lưu trong Stack sẽ tự động hủy khi hàm thực hiện xong công việc của mình.
+	- Heap: k
+		- Kích thước của bộ nhớ Heap là không cố định, có thể tăng giảm do đó đáp ứng được nhu cầu lưu trữ dữ liệu ,
+		- Dữ liệu trong Heap sẽ không bị hủy khi hàm thực hiện xong, điều đó có nghĩa bạn phải tự tay hủy vùng nhớ bằng câu lệnh free (trong C), và delete hoặc delete [] (trong C++), nếu không sẽ xảy ra hiện tượng rò rỉ bộ nhớ. 
+### Lưu ý: 
+- Việc tự động dọn vùng nhớ còn tùy thuộc vào trình biên dịch trung gian.
+- Vấn đề lỗi xảy ra đối với vùng nhớ Stack: Bởi vì bộ nhớ Stack cố định nên nếu chương trình bạn sử dụng quá nhiều bộ nhớ vượt quá khả năng lưu trữ của Stack chắc chắn sẽ xảy ra tình trạng tràn bộ nhớ Stack (Stack overflow), các trường hợp xảy ra như bạn khởi tạo quá nhiều biến cục bộ, hàm đệ quy vô hạn,..
+	- Ví dụ về tràn bộ nhớ stack với hàm đệ quy vô hạn:
+	```C
+	int foo(int x){
+		printf("De quy khong gioi han\n");
+		return foo(x);
+	}
+	```
+- Vấn đề lỗi xảy ra đối với vùng nhớ Heap: Nếu bạn liên tục cấp phát vùng nhớ mà không giải phóng thì sẽ bị lỗi tràn vùng nhớ Heap (Heap overflow). Nếu bạn khởi tạo một vùng nhớ quá lớn mà vùng nhớ Heap không thể lưu trữ một lần được sẽ bị lỗi khởi tạo vùng nhớ Heap thất bại.
+	- Ví dụ trường hợp khởi tạo vùng nhớ Heap quá lớn:
 	```C 
-	void* malloc(size_t size);
+	int *A = (int *)malloc(18446744073709551615); 
 	```
-	- ***Calloc:*** Cấp phát bộ nhớ động có giá trị khởi tạo ban đầu của mỗi phần tử đều là 0, trả về con trỏ NULL khi cấp phát thành công
-	```C
-	void* calloc(size_t num, size_t size);
-	```
-	- ***Realloc:*** Thay đổi kích thước bộ nhớ của bộ nhớ đã được cấp phát trước đó của Malloc và Calloc, trả về con trỏ NULL khi thay đổi thành công
-	```C
-	void* realloc(void* ptr, size_t size);
-	```
-	- ***Free:*** Giải phóng bộ nhớ đã được cấp phát bằng Malloc, Calloc, Realloc sau khi sử dụng xong, không có trả về
-	```C
-	void free(void* ptr);
-	```
-	### Khác nhau của static cục bộ và static toàn cục:
-- Biến static cục bộ: Khi 1 biến cục bộ được khai báo với từ khóa 		static. Biến sẽ chỉ được khởi tạo 1 lần duy nhất và tồn tại suốt thời gian chạy chương trình. Giá trị của nó không bị mất đi ngay cả khi kết thúc hàm. Tuy nhiên khác với biến toàn cục có thể gọi trong tất cả mọi nơi trong chương trình, thì biến cục bộ static chỉ có thể được gọi trong nội bộ hàm khởi tạo ra nó. Mỗi lần hàm được gọi, giá trị của biến chính bằng giá trị tại lần gần nhất hàm được gọi.Biến static sẽ lưu vào vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
+
+- ***Realloc:*** Thay đổi kích thước bộ nhớ của bộ nhớ đã được cấp phát trước đó của Malloc và Calloc, trả về con trỏ NULL khi thay đổi thành công
+```C
+void* realloc(void* ptr, size_t size);
+```
+- ***Free:*** Giải phóng bộ nhớ đã được cấp phát bằng Malloc, Calloc, Realloc sau khi sử dụng xong, không có trả về
+```C
+void free(void* ptr);
+```
+### Khác nhau của static cục bộ và static toàn cục:
+
+- Biến static cục bộ: Khi 1 biến cục bộ được khai báo với từ khóa static. Biến sẽ chỉ được khởi tạo 1 lần duy nhất và tồn tại suốt thời gian chạy chương trình. Giá trị của nó không bị mất đi ngay cả khi kết thúc hàm. Tuy nhiên khác với biến toàn cục có thể gọi trong tất cả mọi nơi trong chương trình, thì biến cục bộ static chỉ có thể được gọi trong nội bộ hàm khởi tạo ra nó. Mỗi lần hàm được gọi, giá trị của biến chính bằng giá trị tại lần gần nhất hàm được gọi.Biến static sẽ lưu vào vùng nhớ Data/ Bss, được giải phóng khi kết thúc chương trình.
 
 - Ví dụ:
 
@@ -2811,7 +2887,383 @@ cin >> tuoisv;
 - Nên dùng: Khi một lớp B được miêu tả là "B là một A". Ví dụ: một lớp hình tròn có thể kế thừa từ một lớp hình học.
 - Không nên:Mối quan hệ "has-a" (có một) diễn ra khi một lớp chứa một đối tượng của một lớp khác. ví dụ: danhsachSV chứa một đối tượng sinhvien, do đó chúng ta có thể nói danhsachSV "có" hoặc "bao gồm" danh sách các sinh viên.
 
- 
+</details>
+
+
 
 </details>
 
+
+<details>
+  <summary><h2>▶ Embedded</h2></summary>
+	
+<details>
+  <summary><h3>Các giao thức (Protocols)</h3></summary>
+
+<details>
+  <summary><h4>SPI protocol</h4></summary>
+
+- Các bit dữ liệu được truyền nối tiếp nhau và có xung clock đồng bộ.
+- Giao tiếp song công, có thể truyền và nhận cùng một thời điểm.
+- Khoảng cách truyền ngắn, được sử dụng để trao đổi dữ liệu với nhau giữa các chip trên cùng một bo mạch.
+- Giao tiếp 1 Master với nhiều Slave.
+- Tốc độ truyền khoảng vài Mb/s.
+- Các dòng vi điều khiển thường được tích hợp module giao tiếp SPI dùng để giao tiếp truyền dữ liệu với các vi điều khiển khác, hoặc giao tiếp với các ngoại vi bên ngoài như cảm biến, EEPROM, ADC, LCD, SD Card,…
+
+![Connect with orther](https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/SPI_single_slave.svg/800px-SPI_single_slave.svg.png)
+
+![Connect with orther](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/SPI_three_slaves.svg/350px-SPI_three_slaves.svg.png)
+- ***SCLK (Serial Clock):*** Xung clock phát ra từ master
+- ***MOSI (Master Out Slave In):*** Truyền data từ `master` đến `slave`. Chân `MOSI` ở `master` sẽ kết nối đến chân `MOSI` ở `slave`.
+- ***MISO (Master In Slave Out):*** Truyền data từ `slave` đến `master`. Chân `MISO` ở `master` sẽ kết nối đến chân `MISO` ở `slave`.
+- ***CS/SS (Chip/Slave Select):*** Chân CS được master sử dụng để lựa chọn slave cần giao tiếp. Master chỉnh chân SS xuống mức 0 để chọn slave truyền data.
+
+![Connect with orther](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/SPI_8-bit_circular_transfer.svg/500px-SPI_8-bit_circular_transfer.svg.png)
+Khung truyền SPI:
+- Mỗi chip Master hay Slave sẽ có một thanh ghi dữ liệu 8 bit chứa dữ liệu cần gửi hoặc dữ liệu nhận.
+- Bắt đầu quá trình, master sẽ kéo chân CS của slave muốn giao tiếp xuống 0 để báo hiệu muốn truyền nhận.
+- Mỗi xung clock, Master sẽ gửi đi 1 bit từ thanh ghi dịch (Shift Register) của nó đến thanh ghi dịch của Slave thông qua đường MOSI. Đồng thời Slave cũng gửi lại 1 bit đến cho Master qua đường MISO.Như vậy sau 8 chu kỳ clock thì hoàn tất việc truyền và nhận 1 byte dữ liệu.
+
+- Trong giao tiếp SPI, chỉ có thể có 1 Master nhưng có thể 1 hoặc nhiều Slave cùng lúc. Ở trạng thái nghỉ, chân SS của các Slave ở mức 1, muốn giao tiếp với Slave nào thì ta chỉ việc kéo chân SS của Slave đó xuống mức 0.
+
+
+![Connect with orther](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/SPI_timing_diagram2.svg/400px-SPI_timing_diagram2.svg.png)
+- Có 4 chế độ hoạt động:
+  	| Mode | CPOL | CPHA |
+  	|:---:|:---:|:---:|
+  	|0|0|0|
+  	|1|0|1|
+  	|2|1|0|
+  	|3|1|1|
+- CPOL = 0: Bắt đầu 1 chu kì là xung cạnh lên.
+- CPOL = 1: Bắt đầu 1 chu kì là xung cạnh xuống.
+- CPHA = 0: Bit dữ liệu đầu ra sẽ rơi vào cạnh xung đầu tiên của chu kì.
+- CPHA = 1: Bit dữ liệu đầu ra sẽ rơi vào cạnh xung thứ hai của chu kì.
+- CPOL = 0 , CPHA = 0 là mặc định.
+### Ưu, nhược điểm của chuẩn giao tiếp SPI.
+- Ưu điểm:
+  - Không có Start bit và Stop bit như trong giao tiếp I2C và giao tiếp UART. Vì vậy dữ liệu có thể được truyền liên tục mà không bị gián đoạn
+  - Không có hệ thống định địa chỉ slave phức tạp như I2C
+  - Tốc độ truyền dữ liệu cao hơn I2C (nhanh gần gấp đôi)
+  - Các dòng MISO và MOSI riêng biệt, vì vậy dữ liệu có thể được gửi và nhận cùng một lúc
+- Nhược điểm:
+  - Sử dụng bốn dây (I2C và UART sử dụng hai dây).
+  - Không xác nhận rằng dữ liệu đã được nhận thành công.
+  - Không có hình thức kiểm tra lỗi như bit chẵn lẻ (Parity bit) như trong UART.
+  - Chỉ cho phép một master duy nhất.
+
+### SPI trong STM32F407VET6.
+**SPI Software:**
+- Trên mỗi dòng vi điều khiển khác nhau module SPI khác nhau, đấy gọi là SPI cứng (hardware SPI). Như vậy bản chất chuẩn truyền thông SPI giống nhau trên mỗi chip nhưng lại được cài đặt và sử dụng không giống nhau. 
+- Để khắc phục nhược điểm trên, có 1 cách lập trình giả lập SPI cứng đó là “SPI mềm”. Thực chất SPI mềm là cách “mô phỏng” bằng cách tạo ra một giao thức truyền thông giống SPI.
+
+- Bước đầu, ta định nghĩa cho 4 chân sử dụng cho SPI và cấp xung CLK:
+<details>
+		<summary>Software:</summary>
+    
+```C
+// định nghĩa chân
+#define SPI_SCK GPIO_Pin_0	// output
+#define SPI_NSS GPIO_Pin_1	// ouput
+#define SPI_MOSI GPIO_Pin_2	// ouput
+#define SPI_MISO GPIO_Pin_3 // input
+#define SPI_GPIO GPIOA
+// cấp xung CK
+void RCC_Config(){
+	
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+	
+}
+// cấu hình chân
+void GPIO_Config(){
+	GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitStructure.GPIO_Pin = SPI_SCK| SPI_MOSI| SPI_NSS;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(SPI_GPIO, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = SPI_MISO;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(SPI_GPIO, &GPIO_InitStructure);
+
+}
+// cấu hình timer
+void TIM_Config(){
+TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStruct;
+RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+	TIM_TimeBaseInitStruct.TIM_Prescaler = 16800-1;
+	TIM_TimeBaseInitStruct.TIM_Period = 0xFFFF-1; 
+	TIM_TimeBaseInitStruct.TIM_ClockDivision = TIM_CKD_DIV1;
+	TIM_TimeBaseInitStruct.TIM_CounterMode = TIM_CounterMode_Up;
+	TIM_TimeBaseInit(TIM2, &TIM_TimeBaseInitStruct);
+	TIM_Cmd(TIM2, ENABLE);
+}
+// hàm delay
+void delay_ms(uint32_t time){
+	
+	TIM_SetCounter(TIM2,0);
+	while(TIM_GetCounter(TIM2) < time*10);
+}
+// Mode truyền 
+Void Clock(){
+	GPIO_WriteBit(SPI_GPIO, SPI_SCK, Bit_SET);
+	delay_ms(2);
+	GPIO_WriteBit(SPI_GPIO, SPI_SCK, Bit_RESET);
+	delay_ms(2);
+}
+//Hàm truyền ở master:
+void SPI_Master_Transmit(uint8_t u8Data){
+	uint8_t u8Mask = 0x80;
+	uint8_t tempData;
+	GPIO_WriteBit(SPI_GPIO, SPI_NSS, Bit_RESET);
+	delay_ms(1);
+	for(int i=0; i<8; i++){
+		tempData = u8Data & u8Mask;
+		if(tempData){
+			GPIO_WriteBit(SPI_GPIO, SPI_MOSI, Bit_SET);
+			delay_ms(1);
+		} else{
+			GPIO_WriteBit(SPI_GPIO, SPI_MOSI, Bit_RESET);
+			delay_ms(1);
+		}
+		u8Data=u8Data<<1;
+		Clock();
+	}
+	GPIO_WriteBit(SPI_GPIO, SPI_NSS, Bit_SET);
+	delay_ms(1);
+}
+uint8_t array[] = {7, 8, 4, 2};
+
+int main(){
+	RCC_Config();
+	GPIO_Config();
+	TIM_Config();
+	
+	while(1){
+		for(uint8_t i = 0; i< 8; i++){
+				SPI_Master_Transmit(array[i]);
+				delay_ms(1000);
+		}
+	}
+
+}
+```
+</details>
+
+**SPI Hardware:**
+- Dựa vào tài liệu nhà sản xuất ta cấu hình chân:
+// mai hỏi 
+<details>
+		<summary>Hardware</summary>
+
+```C
+// Slayer Hardware
+// DỰA VÀO PHẦN CỨNG STM32
+#define SPI1_NSS 	GPIO_Pin_4
+#define SPI1_SCK	GPIO_Pin_5
+#define SPI1_MISO 	GPIO_Pin_6
+#define SPI1_MOSI 	GPIO_Pin_7
+#define SPI1_GPIO 	GPIOA
+ 
+
+void RCC_Config(){
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1,ENABLE);
+}
+
+void delay (uint32_t time){
+	uint32_t i;
+	for (i = 0; i< time; i++){
+	}
+	
+}
+
+void GPIO_Config(){
+  // Cấu hình chân GPIO là chân AF (Alternate Function)
+	GPIO_InitTypeDef GPIO_InitStruct;
+	GPIO_InitStruct.GPIO_Pin = SPI1_NSS|SPI1_SCK|SPI1_MISO|SPI1_MOSI;
+	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
+	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
+	GPIO_Init(SPI1_GPIO,&GPIO_InitStruct); 
+   // Cấu hình Alternate Function cho các chân SPI
+	GPIO_PinAFConfig(GPIOA, GPIO_PinSource5, GPIO_AF_SPI1);
+  GPIO_PinAFConfig(GPIOA, GPIO_PinSource6, GPIO_AF_SPI1);
+  GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_SPI1);
+
+}
+void SPI_Config(){
+	SPI_InitTypeDef SPI_InitStruct;
+  // Cấu hình SPI ở chế độ Slave
+	SPI_InitStruct.SPI_Mode = SPI_Mode_Slave;
+	SPI_InitStruct.SPI_Direction = SPI_Direction_2Lines_FullDuplex; 
+	SPI_InitStruct.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2;
+	SPI_InitStruct.SPI_CPOL = SPI_CPOL_Low;//CPOL = 1
+	SPI_InitStruct.SPI_CPHA = SPI_CPHA_1Edge;//CPHA = 0
+	SPI_InitStruct.SPI_DataSize = SPI_DataSize_8b;
+	SPI_InitStruct.SPI_FirstBit = SPI_FirstBit_MSB;
+	SPI_InitStruct.SPI_CRCPolynomial = 7;
+	SPI_InitStruct.SPI_NSS = SPI_NSS_Soft;
+	SPI_Init(SPI1, &SPI_InitStruct);
+	SPI_Cmd(SPI1,ENABLE);
+	
+}
+uint8_t SPI_Receive1byte(void){
+	volatile uint8_t temp;
+   // Đợi SPI không bận và đọc dữ liệu
+	while(SPI_I2S_GetFlagStatus(SPI1,SPI_I2S_FLAG_BSY)==1);
+	temp = (uint8_t)SPI_I2S_ReceiveData(SPI1);
+	return temp;
+}
+uint8_t i = 0;
+uint8_t data[4];
+int main ()
+{
+		
+		RCC_Config();
+		GPIO_Config();
+		SPI_Config();
+		
+		while(1)
+		{	
+		 
+			while(SPI_I2S_GetFlagStatus(SPI1,SPI_I2S_FLAG_RXNE)== 0);//hỏi sau
+			if(GPIO_ReadInputDataBit(SPI1_GPIO, SPI1_NSS ) == 0){
+					data[i] = SPI_Receive1byte();
+					i++;
+					if(i > 3){ 
+						i = 0;
+					}
+			} 
+
+		}
+}
+
+```
+</details>
+
+
+
+
+
+
+
+
+</details>
+
+<details>
+  <summary><h4>I2C protocol</h4></summary>
+
+- I2C (Inter-Integrated Circuit) là một giao thức truyền thông nối tiếp đồng bộ. Nên các bit dữ liệu truyền đi được đồng bộ hóa với xung nhịp do Master điều khiển.
+- Hỗ trợ nhiều Master và Slave trên một đường truyền
+
+![Connect with orther](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/I2C.svg/220px-I2C.svg.png)
+
+- I2C chỉ sử dụng hai dây để truyền dữ liệu giữa các thiết bị:
+  - SDA (Serial Data) - đường truyền cho master và slave để gửi và nhận dữ liệu.
+  - SCL (Serial Clock) - đường mang tín hiệu xung nhịp.
+
+### Cách hoạt động:
+
+![Connect with orther](https://www.circuitbasics.com/wp-content/uploads/2016/01/Introduction-to-I2C-Message-Frame-and-Bit-2.png)
+
+- Dữ liệu được truyền trong các `Message`, mỗi `Message` có một `khung địa chỉ` nhị phân chứa địa chỉ của `Slave` và một hoặc nhiều `khung dữ liệu` chứa dữ liệu đang được truyền.
+- Trong mỗi thông điệp bao gồm điều kiện `Start` và `Stop`, các bit `Read/Write` và các bit `ACK/NACK` giữa mỗi `khung dữ liệu`.
+
+![Connect with orther](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTry4sV-ui_OqN3z3ioNBQlq25u2RSJ0i1ucA&usqp=CAU)
+
+- ***Điều kiện khởi động (1 bit):*** Chân `SDA` chuyển từ mức cao xuống mức thấp trước khi `SDL` chuyển từ cao xuống thấp.
+- ***Khung địa chỉ (7 hoặc 10 bit):*** Là một chuỗi 7 hoặc 10 bit duy nhất cho mỗi `Slave` để xác định `Slave` mà `Master` muốn liên lạc và bit `Read/Write` cũng được gửi cùng ngay sau `khung địa chỉ`.
+  	- `Master` sẽ gửi địa chỉ cho tất cả `Slave`, và những `Slave` sẽ so sánh địa chỉ đó với địa chỉ của nó.
+  	- Nếu phù hợp nó sẽ gửi lại một bit `ACK` mức thấp trở lại cho `Master`, và nếu không khớp thì không làm gì cả và `SDA` giữa hai thiết bị đó vẫn ở mức cao
+- ***Read/Write (1 bit):*** Sẽ cho `Slave` biết là `Master` muốn ghi dữ liệu vào nó hay nhận dữ liệu từ nó.
+	- Nếu `Write` thì `0`, còn `Read` thì `1`.
+- ***Data Frame (8 bit):*** Sau khi Master phát hiện bit `ACK` gửi từ `Slave`, thì `khung dữ liệu` bắt đầu gửi.
+	- Bit MSB được gửi trước.
+ 	- Theo sau mỗi khung dữ liệu sẽ có 1 bit `ACK/NACK` để xác nhận khung đã được nhận thành công(bit 0 chân `SDA`).
+  	- Bit `ACK` phải được nhận bởi `Master` hoặc `Slave` (tùy vào thiết bị gửi dữ liệu) trước khi khung dữ liệu tiếp theo được gửi.
+- ***Điều kiện dừng (1 bit):*** Sau khi tất cả khung dữ liệu đã được gửi đi, thì `Master` có thể gửi điều kiện dừng bằng cách:
+	- Chuyển `SCL` từ mức thấp lên mức cao trước khi chuyển `SDA` từ thấp lên cao.
+
+### Ưu, nhược điểm của chuẩn giao tiếp I2C
+
+- **Ưu điểm:**
+  - Chỉ sử dụng hai dây
+  - Hỗ trợ nhiều `master` và nhiều `slave`
+  - Bit `ACK / NACK` xác nhận rằng mỗi khung dữ liệu hay địa chỉ được gửi (hoặc nhận) thành công
+  - Phần cứng ít phức tạp hơn với giao tiếp `UART`
+  - Giao thức nổi tiếng và được sử dụng rộng rãi
+
+- **Nhược điểm:**
+  - Tốc độ truyền dữ liệu giao tiếp `I2C` chậm hơn so với giao tiếp `SPI`
+  - Kích thước của khung dữ liệu được giới hạn ở `8 bit`
+  - Cần phần cứng phức tạp hơn để triển khai so với giao tiếp `SPI`
+
+</details>
+
+<details>
+  <summary><h4>UART protocol</h4></summary>
+
+- `UART` (Universal Asynchronous Receiver / Transmitter) hoàn toàn khác biệt với chuẩn giao tiếp `SPI` hoặc `I2C`, những chuẩn này chỉ đơn tuần là giao tiếp phần mềm.
+- Mục đích chính của `UART` là truyền và nhận dữ liệu nối tiếp không đồng bộ vì không có chân `Clock`. Nên tốc độ truyền `Baudrate` rất quan trọng trong giao thức này.
+- Chuẩn giao tiếp `UART` sử dụng 2 dây để truyền và nhận dữ liệu giữa các thiết bị:
+ - `TX (Transmiter)` – Dây truyền dữ liệu
+ - `RX (Receiver)` – Dây nhận dữ liệu
+- Giao tiếp giữa 1 `Master` và 1 `Slave`.
+- Ngoài dữ liệu ra trong 1 lần truyền còn nhét thêm các Start bit, Stop bit, Parity bit. Các bit thêm vào này giúp cho Slave nhận biết, kiểm tra và nhận được đúng tín hiệu.
+
+### Cách truyền nhận dữ liệu:
+
+![Connect with orther](https://kysungheo.com/wp-content/uploads/2023/03/3-300x129.png)
+
+- UART sẽ truyền và nhận dữ liệu từ một Data Bus
+- Data Bus được sử dụng để gửi dữ liệu đến UART bởi một thiết bị khác như vi điều khiển.
+- Dữ liệu được gửi từ Data Bus sang UART ở dạng song song.
+- Sau khi UART nhận được dữ liệu từ Data Bus, nó sẽ thêm một bit Start, một bit Parity và một bit Stop.
+- Tạo ra gói dữ liệu và truyền đi nối tiếp từng bit qua chân TX.
+- Bên nhận sẽ chuyển đổi gói dữ liệu đó sang dạng song song và lược bỏ các bit Start, Parity, Stop và chuyển qua Data Bus.
+
+![Connect with orther](https://www.circuitbasics.com/wp-content/uploads/2016/01/Introduction-to-UART-Packet-Frame-and-Bits-2.png)
+
+- ***Start bit:*** Để bắt đầu truyền dữ liệu, UART truyền sẽ kéo đường truyền từ mức cao xuống mức thấp trong một chu kỳ đồng hồ. Khi UART bên nhận phát hiện sự chuyển đổi điện áp cao xuống thấp, nó bắt đầu đọc các bit trong khung dữ liệu ở tần số của tốc độ truyền (Baud rate).
+- ***Data Frame:***
+  - Nó có thể dài từ 5 bit đến 8 bit nếu sử dụng bit Parity (bit chẵn lẻ).
+  - Nếu không sử dụng bit Parity, khung dữ liệu có thể dài 9 bit.
+  - Trong hầu hết các trường hợp, dữ liệu được gửi với bit LSB (bit có trọng số thấp nhất) trước tiên.
+- ***Parity Bit*** bit Parity là một cách để UART bên nhận kiểm tra dữ liệu đã thay đổi trong quá trình truyền hay không. Bit có thể bị thay đổi bởi tốc độ truyền không khớp hoặc truyền dữ liệu khoảng cách xa,… Sau khi UART bên nhận đọc khung dữ liệu, nó sẽ đếm số bit có giá trị là 1 và kiểm tra xem tổng số là số chẵn hay lẻ.
+  - Nếu bit Parity là 0 (chẵn), thì tổng các bit 1 trong khung dữ liệu phải là một số chẵn.
+  - Nếu bit Parity là 1 (lẻ), thì tổng các bit 1 trong khung dữ liệu sẽ là một số lẻ. Do đó qua kiểm tra sẽ biết được quá trình truyền dữ liệu có chính xác.
+- ***Stop Bit:*** Để báo hiệu sự kết thúc của gói dữ liệu, UART gửi sẽ điều khiển đường truyền dữ liệu từ điện áp thấp đến điện áp cao trong ít nhất hai khoảng thời gian bit.
+
+### Ưu, nhược điểm của chuẩn giao tiếp UART
+
+Không có giao thức truyền thông nào là hoàn hảo, nhưng UART thực hiện khá tốt công việc của chúng. Dưới đây là một số ưu và nhược điểm của chuẩn giao tiếp UART. Mong rằng chúng có thể hỗ trợ cho dự án của bạn.
+- Ưu điểm:
+  - Chỉ sử dụng hai dây
+  - Không cần tín hiệu đồng hồ
+  - Có một bit chẵn lẻ để cho phép kiểm tra lỗi
+  - Cấu trúc của gói dữ liệu có thể được thay đổi
+  - Phương pháp được ghi chép rõ ràng và được sử dụng rộng rãi
+
+- Nhược điểm:
+  - Kích thước của khung dữ liệu được giới hạn tối đa là 9 bit
+  - Không hỗ trợ nhiều hệ thống phụ dây hoặc nhiều hệ thống chính
+  - Tốc độ truyền của mỗi UART phải nằm trong khoảng 10% của nhau
+
+</details>
+
+<details>
+  <summary><h4>CAN protocol</h4></summary>
+	
+### CAN là gì?
+- Controller Area Network (CAN Bus) là giao thức truyền thông nối tiếp, tốc độ cao. Gồm có hai dây (CAN-High và CAN-Low).
+  - 1 dây là CAN high: điện áp dao động từ 2.5 – 3.75 V
+  - 1 dây là CAN low: điện áp dao động từ 1.25 – 2.5 V
+
+</details>
+
+</details>
+</details>
