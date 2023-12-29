@@ -3053,8 +3053,9 @@ int main(){
 </details>
 
 **SPI Hardware:**
-- Dựa vào tài liệu nhà sản xuất ta cấu hình chân:
-// mai hỏi 
+- Dựa vào tài liệu nhà sản xuất ta cấu hình chân:\
+![STM43F4_AF](./Hinhanh/STM32F4_AF.PNG)
+ 
 <details>
 		<summary>Hardware</summary>
 
