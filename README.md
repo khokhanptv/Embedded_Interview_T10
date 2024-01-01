@@ -1630,7 +1630,7 @@ int main() {
 
 ```
 
-**Biến static toàn cục:**  B
+**Biến static toàn cục:**  
 - Biến toàn cục static sẽ chỉ có thể được truy cập và sử dụng trong File khai báo nó, các File khác không có cách nào truy cập được.Nghĩa là `extern` không dùng được
 - Ví dụ:globalStaticVar được khai báo là static và nằm trong file "File1.c". Do đó, bạn không thể trực tiếp truy cập nó từ file "File2.c", bằng extern int globalStaticVar; trong File2.c, chương trình sẽ không biên dịch được và thông báo lỗi.
 
@@ -2896,6 +2896,27 @@ cin >> tuoisv;
 
 <details>
   <summary><h2>▶ Embedded</h2></summary>
+
+<details>
+  <summary><h3>1 Số câu hỏi PV</h3></summary
+
+**sự khác biệt giữa vi điều khiển và vi xử lý**
+- Bộ vi điều khiển tích hợp CPU, bộ nhớ và các thiết bị ngoại vi trên một con chip duy nhất, được thiết kế riêng cho các tác vụ cụ thể.
+- Bộ vi xử lý tập trung vào tính toán đa năng, yêu cầu các thành phần bên ngoài để tạo nên một hệ thống hoàn chỉnh.
+**Giải thích các phần tử của vi điều khiển.**
+- Một bộ vi điều khiển thường bao gồm CPU (Bộ xử lý trung tâm), RAM (Bộ nhớ truy cập ngẫu nhiên), ROM (Bộ nhớ chỉ đọc), bộ hẹn giờ và các thiết bị ngoại vi như GPIO, UART, SPI, I2C, ADC, DAC, PWM, timers/counters...
+
+**Thư viện tĩnh so với thư viện động..**
+ - Thư viện tĩnh :Liên kết mã máy vào chương trình khi biên dịch. Hiệu suất tốt, không phụ thuộc vào thư mục khác khi chạy.Nhược điểm: Kích thước lớn, cần biên dịch lại toàn bộ khi thay đổi.
+- Dynamic Library: Liên kết vào chương trình khi chạy, không nằm trong chương trình chính.Tiết kiệm không gian lưu trữ, dễ cập nhật mà không cần biên dịch lại chương trình. Cần có thư viện động tương ứng, hiệu suất có thể thấp hơn một chút.
+
+**TTại sao không nên sử dụng đệ quy trong các hệ thống nhúng?**
+- Sử dụng đệ quy có thể dẫn đến tràn bộ nhớ stack (stack overflow) trong các hệ thống nhúng. Điều này có thể làm cho chương trình bị dừng đột ngột .
+- Đảm bảo có điều kiện dừng hợp lý, là quan trọng khi sử dụng đệ quy trong lập trình
+
+
+</details>
+
 	
 <details>
   <summary><h3>Các giao thức (Protocols)</h3></summary>
@@ -3102,7 +3123,7 @@ void SPI_Config(){
 	SPI_InitStruct.SPI_Mode = SPI_Mode_Slave;
 	SPI_InitStruct.SPI_Direction = SPI_Direction_2Lines_FullDuplex; 
 	SPI_InitStruct.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2;
-	SPI_InitStruct.SPI_CPOL = SPI_CPOL_Low;//CPOL = 1
+	SPI_InitStruct.SPI_CPOL = SPI_CPOL_Low;//CPOL = 0,  chưa truyền thì ở mức thấp
 	SPI_InitStruct.SPI_CPHA = SPI_CPHA_1Edge;//CPHA = 0
 	SPI_InitStruct.SPI_DataSize = SPI_DataSize_8b;
 	SPI_InitStruct.SPI_FirstBit = SPI_FirstBit_MSB;
@@ -3177,11 +3198,12 @@ int main ()
 ![Connect with orther](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTry4sV-ui_OqN3z3ioNBQlq25u2RSJ0i1ucA&usqp=CAU)
 
 - ***Điều kiện khởi động (1 bit):*** Chân `SDA` chuyển từ mức cao xuống mức thấp trước khi `SDL` chuyển từ cao xuống thấp.
-- ***Khung địa chỉ (7 hoặc 10 bit):*** Là một chuỗi 7 hoặc 10 bit duy nhất cho mỗi `Slave` để xác định `Slave` mà `Master` muốn liên lạc và bit `Read/Write` cũng được gửi cùng ngay sau `khung địa chỉ`.
-  	- `Master` sẽ gửi địa chỉ cho tất cả `Slave`, và những `Slave` sẽ so sánh địa chỉ đó với địa chỉ của nó.
+- ***Khung địa chỉ (7 hoặc 10 bit):*** Là một chuỗi 7 hoặc 10 bit duy nhất cho mỗi `Slave` để xác định `Slave` mà `Master` muốn liên lạc và bit `Read/Write` cũng được gửi cùng ngay sau `khung địa chỉ`. 
+
+  	-`Master` sẽ gửi địa chỉ cho tất cả `Slave`, và những `Slave` sẽ so sánh địa chỉ đó với địa chỉ của nó.
   	- Nếu phù hợp nó sẽ gửi lại một bit `ACK` mức thấp trở lại cho `Master`, và nếu không khớp thì không làm gì cả và `SDA` giữa hai thiết bị đó vẫn ở mức cao
 - ***Read/Write (1 bit):*** Sẽ cho `Slave` biết là `Master` muốn ghi dữ liệu vào nó hay nhận dữ liệu từ nó.
-	- Nếu `Write` thì `0`, còn `Read` thì `1`.
+	- Nếu `Write`(gửi) thì `0`, còn `Read` thì `1`.
 - ***Data Frame (8 bit):*** Sau khi Master phát hiện bit `ACK` gửi từ `Slave`, thì `khung dữ liệu` bắt đầu gửi.
 	- Bit MSB được gửi trước.
  	- Theo sau mỗi khung dữ liệu sẽ có 1 bit `ACK/NACK` để xác nhận khung đã được nhận thành công(bit 0 chân `SDA`).
@@ -3202,6 +3224,176 @@ int main ()
   - Tốc độ truyền dữ liệu giao tiếp `I2C` chậm hơn so với giao tiếp `SPI`
   - Kích thước của khung dữ liệu được giới hạn ở `8 bit`
   - Cần phần cứng phức tạp hơn để triển khai so với giao tiếp `SPI`
+### I2C trong STM32F407VET6.
+**I2C Software:**
+- Bước đầu, ta định nghĩa cho 2 chân sử dụng cho ic2 và cấp xung CLK:
+
+<details>
+		<summary>Software:</summary>
+
+```C
+#include "stm32f4xx.h"                  // Device header
+
+#define I2C_SCL 	GPIO_Pin_0
+#define I2C_SDA		GPIO_Pin_1
+#define I2C_GPIO 	GPIOA
+
+#define WRITE_SDA_0 	GPIO_ResetBits(I2C_GPIO, I2C_SDA)
+#define WRITE_SDA_1 	GPIO_SetBits(I2C_GPIO, I2C_SDA)
+#define WRITE_SCL_0 	GPIO_ResetBits(I2C_GPIO, I2C_SCL)
+#define WRITE_SCL_1 	GPIO_SetBits(I2C_GPIO, I2C_SCL)
+#define READ_SDA_VAL 	GPIO_ReadInputDataBit(I2C_GPIO, I2C_SDA)
+
+void RCC_Config() {
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+}
+
+void GPIO_Config() {
+    GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_InitStructure.GPIO_Pin = I2C_SDA | I2C_SCL;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+    GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(I2C_GPIO, &GPIO_InitStructure);
+}
+
+void TIM_Config() {
+    TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStruct;
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    TIM_TimeBaseInitStruct.TIM_Prescaler = 168 - 1;
+    TIM_TimeBaseInitStruct.TIM_Period = 0xFFFF - 1;
+    TIM_TimeBaseInitStruct.TIM_ClockDivision = TIM_CKD_DIV1;
+    TIM_TimeBaseInitStruct.TIM_CounterMode = TIM_CounterMode_Up;
+    TIM_TimeBaseInit(TIM2, &TIM_TimeBaseInitStruct);
+    TIM_Cmd(TIM2, ENABLE);
+}
+
+void delay_ms(uint32_t time) {
+    TIM_SetCounter(TIM2, 0);
+    while (TIM_GetCounter(TIM2) < time * 10);
+}
+
+void I2C_Start() {
+    WRITE_SDA_0;
+    delay_ms(3);
+    WRITE_SCL_0;
+    delay_ms(3);
+}
+
+void I2C_Stop() {
+    WRITE_SDA_0;
+    delay_ms(3);
+    WRITE_SCL_1;
+    delay_ms(3);
+    WRITE_SDA_1;
+    delay_ms(3);
+}
+
+void I2C_Write(uint8_t u8Data) {
+    uint8_t i;
+
+    for (i = 0; i < 8; i++) {
+        if (u8Data & 0x80) {
+            WRITE_SDA_1;
+						
+        } else {
+            WRITE_SDA_0;
+        }
+        WRITE_SCL_1;
+        delay_ms(1);
+        WRITE_SCL_0;
+        u8Data <<= 1;
+    }
+
+    WRITE_SDA_1;
+    delay_ms(1);
+    WRITE_SCL_1;
+    delay_ms(1);
+    WRITE_SCL_0;
+    delay_ms(1);
+}
+
+
+uint8_t array[] = {7, 8, 4, 2};
+void I2C_Write_Address() {
+    
+    I2C_Start();
+    I2C_Write(0x27<<1);  
+    I2C_Stop();
+}
+int main() {
+    RCC_Config();
+    GPIO_Config();
+    TIM_Config();
+
+	while (1) {
+		I2C_Write_Address(); 
+        for (uint8_t i = 0; i < sizeof(array) / sizeof(array[0]); i++) {
+            I2C_Start();        
+            I2C_Write(array[i]);
+            I2C_Stop();
+            delay_ms(10000);
+        }
+    }
+}
+
+
+
+
+```
+</details>
+
+**Tóm lại:**
+![I2C](./Hinhanh/I2C.PNG)
+- SDA,SCL nối trở kéo lên >> mức cao
+- Để bắt đầu truyền thì Master sẽ kéo đường SDA từ cao xuống thấp, sau đó SCL sẽ kéo từ cao xuống thấp.
+- Sau đó Master sẽ gửi 7 bit địa chỉ + 1 bit(read(1) hoặc write(0)) + nhận 1 bit ACK(0) hoặc NACK(1) từ slayer .
+	- Slayer nào trùng địa chỉ thì sẽ gửi 1 bit ACK cho Master.Có nghĩa là nếu SDA từ mức cao(nếu bit số 8 là 1) sẽ chuyển thành mức thấp do slayer kéo xuống.
+- Đồng thời cứ mỗi bit thì SCL sẽ được kéo từ mức thấp lên cao.(tổng cộng 9 xung CK )
+
+	- Nguyên nhân dịch trái 1 bit hoặc dịch trái 1 bít rồi or với bit 1.Mục đích để bit cuối là 0 hoặc 1
+	- Ví dụ 0x27:0010 0111 ,Nếu Master muốn gửi dữ liệu cho slayer chỉ cần dịch trái bit 1 `0x27<<1`
+	- Muốn nhận dữ liệu từ Slayer thì `(0x27 <<1)|0x01)` để biết cuối thành 1
+- Tiếp theo là truyền hoặc nhận khung dữ liệu 8 bit trên đường SDA + 1 bit ACK/NACK
+- SCL sẽ gửi 9 xung CK.
+- Điều kiện để kết thúc SCL sẽ kéo từ mức 0 lên mức 1 , rồi SDA từ mức 0 lên 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </details>
 
